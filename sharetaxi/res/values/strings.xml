@@ -5,4 +5,43 @@
     <string name="action_settings">Settings</string>
     <string name="app_api_key">AIzaSyDX6rqR6_hz9lzgt5wQmV3OqEPqFmIHIwg</string>
 
+    <string name="app_name">SHARE TAXI</string>
+    <string name="action_settings">Settings</string>
+    <string name="number_of_Taxi">#</string>
+    <string name="times_Line">לוח זמנים קו </string>
+    <string name="stations_Line">רשימת תחנות קו </string>
+    <string name="map_Line"> מסלול עדכני למונית מספר</string>
+    <string name="scheduleLine_KAV4">לוח זמנים לקו 4</string>
+    <string name="schedule_KAV4">7 ימים בשבוע תדירות כל 4 דקות</string>
+    <string name="stationsLine">מסלול הקו</string>
+    <string name="stations_KAV4">יציאה מתחנה מרכזית חדשה דרך תחנה ישנה   אלנבי בן יהודה עד חניון רידינג בחזרה על אותו מסלול עד לתחנה המרכזית החדשה</string>
+    <string name="map_stations">מפת מסלול</string>
+    
+    <string name="scheduleLine_KAV4_A">לוח זמנים לקו 4 א</string>
+    <string name="schedule_KAV4_A">ימים א עד ה משעה שש וחצי בבוקר ועד חצות ובשבת ממוצש עד חצות  תדירות בין 10 ל 15 דקות</string>
+    <string name="stations_KAV4_A">יציאה מתחנה מרכזית חדשה  דרך תחנה ישנה   אלנבי   בן יהודה   חניון רידינג   התערוכה   אבן גבירול    שי עגנון    לוי אשכול   אפטר    בורלא    האוזנר     איינשטיין     חיים לבנון    רקנאטי     אבא אחימאיר     בן יוסף    פרופס    קדושי השואה    אורי צבי גרינברג    וחזרה על אותו מסלול עד לתחנה המרכזית החדשה</string>
+    
+    
+    
+    
+    <string name="scheduleLine_KAV5">לוח זמנים לקו 5</string>
+    <string name="schedule_KAV5">7 ימים בשבוע משעה 6 בבוקר ועד 3 בלילה   תדירות כל 5 דקות</string>
+    <string name="stations_KAV5">יציאה   מתחנה המרכזית החדשה  דרך התחנה המרכזית הישנה   אלנבי    רוטשילד   דיזנגוף    שדרות נורדאו     רחוב פנקס     רחוב ויצמן     בני דן     רחוב קוסובסקי     סנהדרין     הרצוג     בבלי     קוסובסקי     קאנטרי דקל  
+חזרה   קאנטרי דקל      קוסובסקי     שטיימן     הכנסת הגדולה     תוספתא     ירושלמי     בבלי    הרצוג     סנהדרין     בני דן     ויצמן     יהודה מכבי     אבן גבירול     נורדאו     דיזינגוף     שדוב תרסט    הבימה     שדוב רוטשילד     בצלאל יפה     יהודה הלוי     מקווה ישראל     מנחם בגין     השומרון    שדוב הר ציון   לוינסקי   תחנה מרכזית חדשה  </string>
+    
+    
+    
+    <string name="share_Taxi">שתף נסיעה</string>
+    <string name="taxi_distance_line">המונית הקרובה ביותר ממך </string>
+    <string name="taxi_distance">##</string>
+    <string name="descriptionShareTaxiImage">press to share you location</string>
+    <string name="workDay_Line_textView">שעות פעילות בימים א ה </string>
+    <string name="holiday_Line_textView">שעות פעילות בימי שישי וערבי חג </string>
+    <string name="saturday_Line_textView">שעות פעילות בשבת וחג </string>
+    <string name="StationList_textView">רשימת התחנות </string>
+    <string name="title_activity_times">TimesActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_stations">StationsActivity</string>
+    <string name="title_activity_results">ResultsActivity</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>
