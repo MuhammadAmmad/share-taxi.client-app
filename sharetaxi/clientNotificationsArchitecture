@@ -1,0 +1,14 @@
+driver client sends request to server containing <driverID,latitude,longitude>
+server sends push notifications to all passenger clients
+
+1. passenger client sends polling of <id,ip> to GCM (done automatically)
+2. driver client sends <id,location> to server
+3. server sends notification or <id,location> (if<4KB) to to GCM
+4. GCM sends notification or <id,location> (if<4KB) to passenger clients
+
+if passengers got notifications (not in our scenario):
+5.  they send reques to server
+6. server sends data to passenger
+
+
+

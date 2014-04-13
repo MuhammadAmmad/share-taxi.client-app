@@ -1,0 +1,3 @@
+1. eclipse: right click project, android tools-> export signed applications
+2. zipalign: zipalign -v 4 ShareTaxi_.apk ShareTaxi.apk
+3. install: adb install -r ~/Desktop/ShareTaxi.apk 

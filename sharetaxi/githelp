@@ -1,0 +1,15 @@
+using git source control
+
+1. branchs
+	branch: a pointer to a diff state in the repository.
+	it holds a copy of the project.
+	current branch: where you write your local project.
+
+2. save a copy of the project 
+	commit message: a title to the changes you made.
+	commit: saves a copy of the project on your local branch.
+
+3. save a remote
+	push: send a copy of the current branch to it's remote
+	counter part.
+
