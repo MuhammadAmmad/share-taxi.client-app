@@ -13,6 +13,7 @@
     <permission
         android:name="com.panamana.sharetaxi.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -23,12 +24,12 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
+
     <!-- Features -->
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
-    
+        android:required="true" />
+
     <!-- Application -->
     <application
         android:allowBackup="true"
@@ -39,37 +40,42 @@
         <!-- Activities -->
         <activity
             android:name="com.panamana.sharetaxi.activities.MapActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
- 	<activity
+<!--         changed by @Naama-devel -->
+        <activity
             android:name="com.panamana.sharetaxi.activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat" >
         </activity>
-
+<!--         changed by @Naama-devel -->        
         <activity
             android:name="com.panamana.sharetaxi.activities.Kav5Activity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map" 
+            android:theme="@style/Theme.AppCompat" >
         </activity>
-
         <activity
             android:name="com.panamana.sharetaxi.activities.ResultsActivity"
             android:label="@string/title_activity_results" >
         </activity>
-
+<!-- changed by @Naama-devel 14/04/14 -->
         <activity
             android:name="com.panamana.sharetaxi.activities.Kav4_A_Activity"
-            android:label="@string/title_activity_stations" >
+            android:label="@string/title_activity_stations" 
+            android:theme="@style/Theme.AppCompat" >
         </activity>
-
+        
+<!-- changed by @Naama-devel 14/04/14 -->
         <activity
             android:name="com.panamana.sharetaxi.activities.Kav4Activity"
-            android:label="@string/title_activity_times" >
+            android:label="@string/title_activity_times"
+            android:theme="@style/Theme.AppCompat" >
         </activity>
 
         <!-- Meta-Data -->
