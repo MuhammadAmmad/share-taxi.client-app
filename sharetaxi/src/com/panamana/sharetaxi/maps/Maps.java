@@ -44,7 +44,7 @@ public class Maps {
 	 */
 	public static void positionMap(LatLng position) {
 		map.moveCamera(
-				CameraUpdateFactory.newLatLngZoom(position, 5)
+				CameraUpdateFactory.newLatLngZoom(position, 13)
 				);
 		//map.animateCamera(CameraUpdateFactory.zoomIn());
 	}

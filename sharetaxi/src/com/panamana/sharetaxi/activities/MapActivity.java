@@ -30,7 +30,7 @@ public class MapActivity extends ActionBarActivity {
 		// create map
 		Maps.createGoogleMap(this);
 		// set map position
-		Maps.positionMap();		
+		Maps.positionMap(Lines.line4.getStart());		
 		// draw route
 		Directions.drawRoute(Lines.line4);
 	}
