@@ -1,5 +1,8 @@
 package com.panamana.sharetaxi.directions;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -43,6 +46,7 @@ public class Directions {
 	
 	private static String buildDirectionRequest(String origin, String destination, String[]waypoints){
 
+		String out = null;
 		String result = "https://maps.googleapis.com/maps/api/directions/json?" +
 		"origin=" + origin + 
 		"&" +
@@ -55,8 +59,31 @@ public class Directions {
 				result += "|" + "via:" + waypoints[i];
 			}
 		}
-		return result;
+		// converting the string to UTF-8 encoding
+		out = convertToUTF8(result);
+		return out;
 	}
+	
+	public static String convertToUTF8 (String s) {
+		String out = null;
+		try {
+			out = URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException uee) {
+			uee.printStackTrace();
+		}
+		return out;
+	}
+	
+	
+	
+//	 // convert from internal Java String format -> UTF-8
+//    public static String convertToUTF8(String s) {
+//        String out = null;
+//        try {
+//            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
+//        } catch (Exception e) {}
+//        return out;
+//    }
 	
 	/**
 	 * 

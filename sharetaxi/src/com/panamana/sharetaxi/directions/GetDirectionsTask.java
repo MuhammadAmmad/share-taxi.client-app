@@ -2,6 +2,8 @@ package com.panamana.sharetaxi.directions;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,8 +24,19 @@ class GetDirectionsTask extends AsyncTask<String, Void, String> {
 	 */
 	@Override
 	protected String doInBackground(String... params) {
+		URI uri = null;
+		String url = params[0];
 		HttpClient client = new DefaultHttpClient();
-		HttpGet request = new HttpGet(params[0]);
+		Log.i("GetDirectionsTask","URL: "+url);
+		try {
+			uri = new URI(url);
+		} catch (URISyntaxException use) {
+			 Log.e("GetDirectionsTask","error URISyntaxException");
+			 return null;
+		} catch (RuntimeException rte) {
+			rte.printStackTrace();
+		}
+		HttpGet request = new HttpGet(uri);
 		HttpResponse response = null;
 		StringBuffer results = new StringBuffer();
 		String line = "";
@@ -53,3 +66,6 @@ class GetDirectionsTask extends AsyncTask<String, Void, String> {
 	}
 
 }
+
+
+//https://maps.googleapis.com/maps/api/directions/json?origin=32.0540052,34.7801726&destination=32.1050853,34.8032777&sensor=true&waypoints=via:32.0550017,34.7754579|via:32.056,34.7754579

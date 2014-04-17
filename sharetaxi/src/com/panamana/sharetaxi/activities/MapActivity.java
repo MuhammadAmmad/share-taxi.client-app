@@ -32,7 +32,7 @@ public class MapActivity extends ActionBarActivity {
 		// create points
 		LatLng pointA = new LatLng(32.0540052,34.7801726);
 		LatLng pointB = new LatLng(32.1050853,34.8032777);
-		LatLng[] waypoints = {new LatLng(32.0550017,34.7754579)};
+		LatLng[] waypoints = {new LatLng(32.0550017,34.7754579),new LatLng(32.056,34.7754579)};
 		// set map position
 		Maps.positionMap(pointB);		
 		// add point markers
