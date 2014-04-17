@@ -54,6 +54,7 @@ public class ResultsActivity extends TabActivity {
 		// FREE CODE
 
 		Intent intent = getIntent();
+		@SuppressWarnings("unused")
 		String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
 	}

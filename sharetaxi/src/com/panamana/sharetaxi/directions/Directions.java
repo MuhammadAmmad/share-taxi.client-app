@@ -1,8 +1,5 @@
 package com.panamana.sharetaxi.directions;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -33,9 +30,11 @@ public class Directions {
 	 * @param src
 	 * @param dst
 	 */
-	static public void drawRoute(LatLng src, LatLng dst, LatLng... waypoints) {
+	public static void drawRoute(Line line) {
 		new GetDirectionsTask().execute(buildDirectionRequest(
-				latlng2String(src),latlng2String(dst),latlng2String(waypoints)));
+				latlng2String(line.getStart()),
+				latlng2String(line.getEnd()),
+				latlng2String(line.getWaypoints())));
 	}
 
 	static public void parseJson(String json){
@@ -46,33 +45,35 @@ public class Directions {
 	
 	private static String buildDirectionRequest(String origin, String destination, String[]waypoints){
 
-		String out = null;
+//		String out = null;
 		String result = "https://maps.googleapis.com/maps/api/directions/json?" +
 		"origin=" + origin + 
 		"&" +
 		"destination=" + destination +
 		"&" +
-		"sensor=" + "true";
+		"sensor=" + "true" +
+		"&" + 
+		"mode=" + "walking";
 		if(waypoints.length>0) {
 			result += "&"+"waypoints=" + "via:" + waypoints[0]; 
 			for (int i=1; i<waypoints.length; i++) {
-				result += "|" + "via:" + waypoints[i];
+				result += "%7C" + "via:" + waypoints[i];
 			}
 		}
 		// converting the string to UTF-8 encoding
-		out = convertToUTF8(result);
-		return out;
+//		out = convertToUTF8(result);
+		return result;
 	}
 	
-	public static String convertToUTF8 (String s) {
-		String out = null;
-		try {
-			out = URLEncoder.encode(s, "UTF-8");
-		} catch (UnsupportedEncodingException uee) {
-			uee.printStackTrace();
-		}
-		return out;
-	}
+//	public static String convertToUTF8 (String s) {
+//		String out = null;
+//		try {
+//			out = URLEncoder.encode(s, "UTF-8");
+//		} catch (UnsupportedEncodingException uee) {
+//			uee.printStackTrace();
+//		}
+//		return out;
+//	}
 	
 	
 	
@@ -114,4 +115,5 @@ public class Directions {
 	public static void handleDirectionReponse(String json) {
 		parseJson(json);
 	}
+
 }

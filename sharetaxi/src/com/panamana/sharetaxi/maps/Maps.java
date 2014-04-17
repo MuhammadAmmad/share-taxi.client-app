@@ -3,6 +3,7 @@ package com.panamana.sharetaxi.maps;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.location.Location;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,7 +43,25 @@ public class Maps {
 	 * @param position
 	 */
 	public static void positionMap(LatLng position) {
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 13));
+		map.moveCamera(
+				CameraUpdateFactory.newLatLngZoom(position, 5)
+				);
+		//map.animateCamera(CameraUpdateFactory.zoomIn());
+	}
+	
+	/**
+	 * position on my location 
+	 */
+	public static void positionMap() {
+
+	    map.setMyLocationEnabled(true);
+
+	    Location location = map.getMyLocation();
+
+	    if (location != null) {
+	        positionMap(new LatLng(location.getLatitude(),
+	                location.getLongitude()));
+	    }
 	}
 
 	/**
@@ -77,5 +96,8 @@ public class Maps {
 	public static void drawPolyline(PolylineOptions lineOptions) {
 		map.addPolyline(lineOptions);
 	}
+	
+
+	
 	
 }
