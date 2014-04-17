@@ -33,6 +33,7 @@ public class MapActivity extends ActionBarActivity {
 		Maps.positionMap(Lines.line4.getStart());		
 		// draw route
 		Directions.drawRoute(Lines.line4);
+		Directions.drawRoute(Lines.line4a);
 	}
 	
 	/*
