@@ -17,8 +17,10 @@ import android.util.Log;
  * AsyncTask for Google Directions API HTTP GET request.
  * @author 
  */
-class GetDirectionsTask extends AsyncTask<String, Void, String> {
+public class GetDirectionsTask extends AsyncTask<String, Void, String> {
 	
+	private static final String TAG = GetDirectionsTask.class.getSimpleName();
+	private final boolean DEBUG = false;
 	/**
 	 * Background
 	 */
@@ -26,43 +28,40 @@ class GetDirectionsTask extends AsyncTask<String, Void, String> {
 	protected String doInBackground(String... params) {
 		URI uri = null;
 		String url = params[0];
-		HttpClient client = new DefaultHttpClient();
-		Log.i("GetDirectionsTask","URL: "+url);
+		if(DEBUG) Log.i(TAG ,"URL: "+url);
 		try {
 			uri = new URI(url);
 		} catch (URISyntaxException use) {
-			 Log.e("GetDirectionsTask","error URISyntaxException");
+			 Log.e(TAG,"error URISyntaxException");
 			 return null;
 		} catch (RuntimeException rte) {
 			rte.printStackTrace();
 		}
-		HttpGet request = new HttpGet(uri);
-		HttpResponse response = null;
-		StringBuffer results = new StringBuffer();
+		if(DEBUG) Log.i(TAG ,"URI: "+uri);
+		HttpClient client = new DefaultHttpClient();
+		HttpGet getRequest = new HttpGet(uri);
+		HttpResponse httpResponse = null;
+		StringBuffer sb = new StringBuffer();
 		String line = "";
+		String response = "";
 		try {
-			response = client.execute(request);
+			httpResponse = client.execute(getRequest);
 		} catch (Exception e) {
 			Log.e("get directions - doInBackground", e.toString());
 		}
 		try {
 			// Get the response
-			BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			BufferedReader rd = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
 			while ((line = rd.readLine()) != null) {
-				results.append(line);
+				sb.append(line);
 			}
+			response = new String(sb.toString());
+			rd.close();
 		} catch (Exception e) {
 			Log.e("get directions - onPostExecute", e.toString());
 		}
-		return new String(results);
-	}
-
-	/**
-	 * On finish
-	 */
-	@Override
-	protected void onPostExecute(String result) {
-		Directions.handleDirectionReponse(result);
+		if(DEBUG) Log.i(TAG ,"response: "+response);
+		return response;
 	}
 
 }

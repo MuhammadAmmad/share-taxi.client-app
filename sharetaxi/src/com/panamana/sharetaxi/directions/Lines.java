@@ -1,10 +1,14 @@
 package com.panamana.sharetaxi.directions;
 
+import android.graphics.Color;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class Lines {
 
 	public static Line line4 = new Line(
+			Color.BLUE,
+			5,
 			new LatLng(32.0538589,34.780081),
 			new LatLng(32.0985456, 34.7802936),
 			new LatLng[] {
@@ -16,6 +20,8 @@ public class Lines {
 			);
 	
 	public static Line line4a = new Line(
+			Color.GRAY,
+			5,
 			new LatLng(32.0985456, 34.7802936),
 			new LatLng(32.1294424,34.7926878),
 			new LatLng[] {
@@ -26,5 +32,23 @@ public class Lines {
 				new LatLng(32.1247177,34.802773),
 				new LatLng(32.1249721,34.7980952),
 				new LatLng(32.1223189,34.7974515)}
+			);
+	
+	public static Line line5 = new Line(
+			Color.GREEN,
+			5,
+			new LatLng(32.0562598,34.7810158),
+			new LatLng(32.0941057,34.798036),
+			new LatLng[] {
+				new LatLng(32.0590423,34.7779045),
+				new LatLng(32.0618400,34.7777057),
+				new LatLng(32.0624417,34.7744929),
+				new LatLng(32.0720304,34.7792675),
+				new LatLng(32.0741580,34.779006 ),
+				new LatLng(32.0923583,34.7764054),
+				new LatLng(32.0940017,34.7834732),
+//				new LatLng(32.0937948,34.7904164),
+				new LatLng(32.0965916,34.8040227)
+				}
 			);
 }

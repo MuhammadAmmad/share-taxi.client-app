@@ -43,7 +43,7 @@ public class Directions {
         parserTask.execute(json);
 	}
 	
-	private static String buildDirectionRequest(String origin, String destination, String[]waypoints){
+	public static String buildDirectionRequest(String origin, String destination, String[]waypoints){
 
 //		String out = null;
 		String result = "https://maps.googleapis.com/maps/api/directions/json?" +
@@ -91,7 +91,7 @@ public class Directions {
 	 * @param latlng
 	 * @return
 	 */
-	private static String latlng2String(LatLng latLng) {
+	public static String latlng2String(LatLng latLng) {
 		return latLng.latitude+","+latLng.longitude;
 	}
 	
@@ -100,7 +100,7 @@ public class Directions {
 	 * @param latLngs
 	 * @return
 	 */
-	private static String[] latlng2String(LatLng[] latLngs) {
+	public static String[] latlng2String(LatLng[] latLngs) {
 		String[] arr = new String[latLngs.length];
 		for (int i=0; i< latLngs.length; i++){
 			arr[i]=latlng2String(latLngs[i]);

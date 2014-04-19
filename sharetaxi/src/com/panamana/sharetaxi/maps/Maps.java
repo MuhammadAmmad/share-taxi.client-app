@@ -2,7 +2,6 @@ package com.panamana.sharetaxi.maps;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.location.Location;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -12,6 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
+import com.panamana.sharetaxi.directions.Line;
 
 /**
  * Google Maps API manager class.
@@ -19,6 +19,9 @@ import com.panamana.sharetaxi.R;
  */
 public class Maps {
 
+	@SuppressWarnings("unused")
+	private static final String TAG = Maps.class.getSimpleName();
+	
 	/*
 	 * Maps API Help:
 	 * https://developers.google.com/maps/documentation/android/start
@@ -80,12 +83,12 @@ public class Maps {
 	 * 
 	 * @param points
 	 */
-	public static void drawPolyline(LatLng points[]) {
+	public static void drawPolyline(PolylineOptions lineOptions, int color, LatLng points[]) {
 		for (int i = 0; i < points.length - 1; i++) {
 			map.addPolyline(
 					new PolylineOptions()
 					.add(points[i], points[i + 1])
-					.width(5).color(Color.RED));
+					.width(5).color(color));
 		}
 	}
 	
@@ -97,7 +100,8 @@ public class Maps {
 		map.addPolyline(lineOptions);
 	}
 	
-
-	
+	public static void drawLine(Line line,Context context) {
+		new LineWorker(line,context).start();
+	}
 	
 }
