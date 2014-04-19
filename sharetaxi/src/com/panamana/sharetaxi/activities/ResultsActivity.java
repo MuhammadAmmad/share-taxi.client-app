@@ -3,6 +3,9 @@ package com.panamana.sharetaxi.activities;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -58,4 +61,47 @@ public class ResultsActivity extends TabActivity {
 		String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
 	}
+	
+	/*
+	 * create the menu
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activity_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.action_map:
+	    	openMap();
+	    	return true;
+	    case R.id.action_info:
+	    	openInfo();
+	    	return true;
+		case R.id.action_settings:
+		    openSettings();
+		    return true;
+
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	private void openMap() {
+		startActivity(new Intent(this, MapActivity.class));
+	}
+	
+	private void openInfo() {
+		//Do nothing.
+	}
+	
+	private void openSettings() {
+		startActivity(new Intent(this,Kav5Activity.class));
+	}
+
 }

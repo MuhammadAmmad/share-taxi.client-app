@@ -42,8 +42,8 @@ public class MapActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.map_menu, menu);
-	    return true;
+	    inflater.inflate(R.menu.main_activity_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
 	}
 	
 	/**
@@ -60,6 +60,18 @@ public class MapActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
+	    case R.id.action_map:
+	    	openMap();
+	    	return true;
+	    case R.id.action_info:
+	    	openInfo();
+	    	return true;
+		case R.id.action_settings:
+		    openSettings();
+		    return true;
+	    /*
+	     * COMMENTED OUT BY Yahav.
+	     * CAN BE DELETED
         case R.id.map_menu_item0:
             item0Clicked();
 
@@ -75,31 +87,27 @@ public class MapActivity extends ActionBarActivity {
 	        case R.id.map_menu_item4:
 	            item4Clicked();
 	            return true;
-
+*/
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
 	
-	private void item0Clicked() {
-		startActivity(new Intent(this, MainActivity.class));
+	private void openMap() {
+		/* We're already on the Map activity, so do nothing. 
+		 No need to re-launch activity:
+		 startActivity(new Intent(this, MapActivity.class));
+		 to avoid flashing screen. */
 	}
-
-	private void item1Clicked() {
-		startActivity(new Intent(this, Kav4Activity.class));
+	
+	private void openInfo() {
+		startActivity(new Intent(this,ResultsActivity.class));
 	}
-
-	private void item2Clicked() {
-		startActivity(new Intent(this, Kav4_A_Activity.class));
-	}
-
-	private void item3Clicked() {
+	
+	private void openSettings() {
 		startActivity(new Intent(this,Kav5Activity.class));
 	}
 
-	private void item4Clicked() {
-		startActivity(new Intent(this, ResultsActivity.class));
-	}
 
 	
 }

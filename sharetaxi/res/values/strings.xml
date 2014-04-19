@@ -5,8 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="app_api_key">AIzaSyDX6rqR6_hz9lzgt5wQmV3OqEPqFmIHIwg</string>
 
-    <string name="app_name">SHARE TAXI</string>
-    <string name="action_settings">Settings</string>
     <string name="number_of_Taxi">#</string>
     <string name="times_Line">לוח זמנים קו </string>
     <string name="stations_Line">רשימת תחנות קו </string>
@@ -21,7 +19,8 @@
     <string name="schedule_KAV4_A">ימים א עד ה משעה שש וחצי בבוקר ועד חצות ובשבת ממוצש עד חצות  תדירות בין 10 ל 15 דקות</string>
     <string name="stations_KAV4_A">יציאה מתחנה מרכזית חדשה  דרך תחנה ישנה   אלנבי   בן יהודה   חניון רידינג   התערוכה   אבן גבירול    שי עגנון    לוי אשכול   אפטר    בורלא    האוזנר     איינשטיין     חיים לבנון    רקנאטי     אבא אחימאיר     בן יוסף    פרופס    קדושי השואה    אורי צבי גרינברג    וחזרה על אותו מסלול עד לתחנה המרכזית החדשה</string>
     
-    
+    <string name="action_map">See Map</string>
+    <string name="action_info">See Info</string>
     
     
     <string name="scheduleLine_KAV5">לוח זמנים לקו 5</string>
