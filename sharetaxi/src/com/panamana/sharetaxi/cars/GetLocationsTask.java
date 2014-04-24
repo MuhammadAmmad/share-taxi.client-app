@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.directions;
+package com.panamana.sharetaxi.cars;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,22 +13,19 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
 
-/**
- * AsyncTask for Google Directions API HTTP GET request.
- * @author 
- */
-public class GetDirectionsTask extends AsyncTask<String, Void, String> {
+public class GetLocationsTask extends AsyncTask<String, Void, String> {
+
+	private static final String TAG = GetLocationsTask.class.getSimpleName();
+
 	
-	private static final String TAG = GetDirectionsTask.class.getSimpleName();
-	private final boolean DEBUG = false;
 	/**
 	 * Background
 	 */
 	@Override
-	protected String doInBackground(String... params) {
+	protected String doInBackground(String...params) {
 		URI uri = null;
-		String url = params[0];
-		if(DEBUG) Log.i(TAG ,"URL: "+url);
+		String url= "http://sharetaxi6.appspot.com/getLocations";
+		Log.i(TAG ,"URL: "+url);
 		try {
 			uri = new URI(url);
 		} catch (URISyntaxException use) {
@@ -37,7 +34,7 @@ public class GetDirectionsTask extends AsyncTask<String, Void, String> {
 		} catch (RuntimeException rte) {
 			rte.printStackTrace();
 		}
-		if(DEBUG) Log.i(TAG ,"URI: "+uri);
+		Log.i(TAG ,"URI: "+uri);
 		HttpClient client = new DefaultHttpClient();
 		HttpGet getRequest = new HttpGet(uri);
 		HttpResponse httpResponse = null;
@@ -47,7 +44,7 @@ public class GetDirectionsTask extends AsyncTask<String, Void, String> {
 		try {
 			httpResponse = client.execute(getRequest);
 		} catch (Exception e) {
-			Log.e("get directions - doInBackground", e.toString());
+			Log.e("get locations - doInBackground", e.toString());
 		}
 		try {
 			// Get the response
@@ -58,13 +55,11 @@ public class GetDirectionsTask extends AsyncTask<String, Void, String> {
 			response = new String(sb.toString());
 			rd.close();
 		} catch (Exception e) {
-			Log.e("get directions - onPostExecute", e.toString());
+			Log.e("get locations - doInBackground", e.toString());
 		}
-		if(DEBUG) Log.i(TAG ,"response: "+response);
+		Log.i(TAG ,"response: "+response);
 		return response;
 	}
 
 }
 
-
-//https://maps.googleapis.com/maps/api/directions/json?origin=32.0540052,34.7801726&destination=32.1050853,34.8032777&sensor=true&waypoints=via:32.0550017,34.7754579|via:32.056,34.7754579

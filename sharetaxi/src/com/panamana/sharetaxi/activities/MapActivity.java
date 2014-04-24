@@ -1,16 +1,15 @@
 package com.panamana.sharetaxi.activities;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
-import com.panamana.sharetaxi.directions.Directions;
 import com.panamana.sharetaxi.directions.Lines;
 import com.panamana.sharetaxi.maps.Maps;
 
@@ -20,40 +19,32 @@ import com.panamana.sharetaxi.maps.Maps;
  */
 public class MapActivity extends ActionBarActivity {
 
-	/**
-	 * 
-	 */
+	private static final String TAG = MainActivity.class.getSimpleName();
+	public static Context context;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_layout);	
+		//
+		context=this;
 		// create map
 		Maps.createGoogleMap(this);
 		// set map position
 		Maps.positionMap(Lines.line4.getStart());		
+		Log.i(TAG ,"draw line");
 		// draw route
-		Directions.drawRoute(Lines.line4);
-		Directions.drawRoute(Lines.line4a);
+		Maps.drawLine(Lines.line4,context);
+		Maps.drawLine(Lines.line4a,context);
+		Maps.drawLine(Lines.line5,context);
+		Maps.drawCars(context);
 	}
 	
-	/*
-	 * create the menu
-	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main_activity_actions, menu);
 	    return super.onCreateOptionsMenu(menu);
-	}
-	
-	/**
-	 * 
-	 * @param lineOptions
-	 */
-	public static void drawPolyline(PolylineOptions lineOptions) {
-		lineOptions.color(Color.GREEN);
-		lineOptions.width(5);
-		Maps.drawPolyline(lineOptions);// TODO Auto-generated method stub
 	}
 	
 	@Override
