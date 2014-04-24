@@ -11,6 +11,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
+import com.panamana.sharetaxi.cars.CarsWorker;
+import com.panamana.sharetaxi.cars.GetLocationsTask;
 import com.panamana.sharetaxi.directions.Line;
 
 /**
@@ -102,6 +104,14 @@ public class Maps {
 	
 	public static void drawLine(Line line,Context context) {
 		new LineWorker(line,context).start();
+	}
+
+	
+	public static void drawCars(Context context) {
+		// TODO Auto-generated method stub
+		new CarsWorker(context).start();
+		
+		
 	}
 	
 }

@@ -37,6 +37,7 @@ public class MapActivity extends ActionBarActivity {
 		Maps.drawLine(Lines.line4,context);
 		Maps.drawLine(Lines.line4a,context);
 		Maps.drawLine(Lines.line5,context);
+		Maps.drawCars(context);
 	}
 	
 	@Override
