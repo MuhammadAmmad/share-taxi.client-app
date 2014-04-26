@@ -96,7 +96,7 @@ public class MapActivity extends ActionBarActivity {
 	}
 	
 	private void openSettings() {
-		startActivity(new Intent(this,Kav5Activity.class));
+		startActivity(new Intent(this,SettingsActivity.class));
 	}
 
 

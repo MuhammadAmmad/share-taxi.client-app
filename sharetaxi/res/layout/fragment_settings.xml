@@ -1,0 +1,154 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/egg_shell"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.panamana.sharetaxi.SettingsActivity$PlaceholderFragment" >
+	    
+    <CheckBox
+        android:id="@+id/checkBoxLineKav4North"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textViewShowLineKav4"
+        android:layout_marginRight="27dp"
+        android:checked="true"
+        android:onClick="checkBoxClicked"
+        android:text="@string/show_line_kav4_north"
+        android:textColor="@color/black"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />/>
+
+	<CheckBox
+	    android:id="@+id/checkBoxLineKav5North"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/checkBoxLineKav4South"
+	    android:layout_below="@+id/textViewShowLineKav5"
+	    android:button="@null"
+	    android:checked="true"
+	    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+	    android:onClick="checkBoxClicked"
+	    android:text="@string/show_line_kav5_north"
+	    android:textColor="@color/black" />
+ />
+
+	
+
+	<TextView
+	    android:id="@+id/textViewShowLineKav5"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/checkBoxLineKav4aNorth"
+	    android:layout_below="@+id/checkBoxLineKav4aSouth"
+	    android:gravity="right"
+	    android:padding="10sp"
+	    android:text="@string/show_line_kav5"
+	    android:textColor="@color/black"
+	    android:textSize="18dp"
+	    android:textStyle="bold" />
+
+	<CheckBox
+	    android:id="@+id/checkBoxLineKav4South"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/checkBoxLineKav4North"
+	    android:layout_below="@+id/checkBoxLineKav4North"
+	    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+	    android:checked="true"
+	    android:onClick="checkBoxClicked"
+	    android:text="@string/show_line_kav4_south"
+	    android:textColor="@color/black" 
+		android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />/>
+
+	/>
+
+	
+
+	<CheckBox
+	    android:id="@+id/checkBoxLineKav4aSouth"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/checkBoxLineKav5North"
+	    android:layout_below="@+id/checkBoxLineKav4aNorth"
+	    android:button="@null"
+	    android:checked="true"
+	    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+	    android:onClick="checkBoxClicked"
+	    android:text="@string/show_line_kav4a_south"
+	    android:textColor="@color/black" />
+
+	<TextView
+	    android:id="@+id/textViewShowLinesSettings"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/checkBoxLineKav4North"
+	    android:layout_alignParentTop="true"
+	    android:gravity="right"
+	    android:padding="10sp"
+	    android:text="@string/show_lines"
+	    android:textColor="@color/black"
+	    android:textSize="@dimen/title_line"
+	    android:textStyle="bold" />
+
+	<CheckBox
+	    android:id="@+id/checkBoxLineKav5South"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/textViewShowLineKav5"
+	    android:layout_below="@+id/checkBoxLineKav5North"
+	    android:button="@null"
+	    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+	    android:checked="true"
+	    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+	    android:onClick="checkBoxClicked"
+	    android:text="@string/show_line_kav5_south"
+	    android:textColor="@color/black" />
+
+	<TextView
+	    android:id="@+id/textViewShowLineKav4"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/checkBoxLineKav4North"
+	    android:layout_below="@+id/textViewShowLinesSettings"
+	    android:gravity="right"
+	    android:padding="10sp"
+	    android:text="@string/show_line_kav4"
+	    android:textColor="@color/black"
+	    android:textSize="18dp"
+	    android:textStyle="bold" />
+
+	<CheckBox
+	    android:id="@+id/checkBoxLineKav4aNorth"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/checkBoxLineKav4aSouth"
+	    android:layout_below="@+id/textViewShowLineKav4a"
+	    android:button="@null"
+	    android:checked="true"
+	    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+	    android:onClick="checkBoxClicked"
+	    android:text="@string/show_line_kav4a_north"
+	    android:textColor="@color/black" />
+
+	<TextView
+	    android:id="@+id/textViewShowLineKav4a"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@+id/checkBoxLineKav4South"
+	    android:layout_below="@+id/checkBoxLineKav4South"
+	    android:gravity="right"
+	    android:padding="10sp"
+	    android:text="@string/show_line_kav4a"
+	    android:textColor="@color/black"
+	    android:textSize="18dp"
+	    android:textStyle="bold" />
+
+/>
+
+</RelativeLayout>
