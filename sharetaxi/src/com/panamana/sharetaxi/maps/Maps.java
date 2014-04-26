@@ -7,7 +7,9 @@ import android.location.Location;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
@@ -75,12 +77,21 @@ public class Maps {
 	 * @param title
 	 * @param snippet
 	 */
-	public static void addMarker(LatLng position,String title,
+	public static Marker addMarker(LatLng position,String title,
 			String snippet) {
-		map.addMarker(new MarkerOptions().title(title).snippet(snippet)
+		return map.addMarker(new MarkerOptions().title(title).snippet(snippet)
 				.position(position));
 	}
+	
+	public static Marker addMarker(LatLng position,String title,
+			String snippet, BitmapDescriptor icon) {
+		return map.addMarker(new MarkerOptions().title(title).snippet(snippet)
+				.position(position).icon(icon));
+	}
+	
+/*
 
+ */
 	/**
 	 * 
 	 * @param points

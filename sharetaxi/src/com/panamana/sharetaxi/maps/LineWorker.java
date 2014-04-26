@@ -23,7 +23,7 @@ class LineWorker extends Thread{
 	
 	// Fields:
 	private static final String TAG = LineWorker.class.getSimpleName();
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	private Line line;
 	private String response = "";
 	List<List<LatLng>> routes = null;
