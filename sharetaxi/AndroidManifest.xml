@@ -34,8 +34,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:label="@string/app_name">
 
         <!-- Activities -->
         <activity
@@ -62,7 +61,23 @@
         </activity>
         <activity
             android:name="com.panamana.sharetaxi.activities.ResultsActivity"
-            android:label="@string/title_activity_results" >
+            android:label="@string/title_activity_results"
+            android:theme="@style/Theme.AppCompat"
+            android:parentActivityName="com.panamana.sharetaxi.activities.MapActivity" >
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.panamana.sharetaxi.activities.MapActivity" />
+        </activity>
+        <activity
+            android:name="com.panamana.sharetaxi.activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.AppCompat"
+            android:parentActivityName="com.panamana.sharetaxi.activities.MapActivity" >
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.panamana.sharetaxi.activities.MapActivity" />
         </activity>
 <!-- changed by @Naama-devel 14/04/14 -->
         <activity
