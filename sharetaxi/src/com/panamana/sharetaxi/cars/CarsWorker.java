@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.maps.Maps;
 import com.panamana.sharetaxi.utils.ResourceUtils;
@@ -21,6 +22,8 @@ import com.panamana.sharetaxi.utils.ResourceUtils;
 public class CarsWorker extends Thread{
 		
 		// Fields:
+		private static List<Car> lastCars;
+
 		private static final String TAG = CarsWorker.class.getSimpleName();
 		private final boolean DEBUG = true;
 		private String response = "";
@@ -32,8 +35,10 @@ public class CarsWorker extends Thread{
 		
 		public void run () {
 			if(DEBUG) Log.i(TAG ,"CarsWorker started");
-			
 			Map<String,Car> cars = null;
+			if (lastCars != null) {
+				removeCars(lastCars);	
+			}
 			// 1. get Directions API response from line waypoints
 			response = getLocations();
 			Log.i(TAG,"passed getLocations");
@@ -41,10 +46,22 @@ public class CarsWorker extends Thread{
 			cars = parseLocations(response);
 			Log.i(TAG,"passed parseLocations");
 	        // 3. draw
-	        drawCars(cars);
+	        lastCars = drawCars(cars);
 		}
 
-		private void drawCars(Map<String,Car> cars) {
+		
+		private void removeCars(List<Car> lastCars) {
+			for(Car car: lastCars) {
+				Marker marker = car.getMarker();
+				if (marker != null) {
+					try {
+						car.getMarker().remove();
+					} catch (IllegalStateException ils){ils.printStackTrace();}
+				}
+			}
+		}
+		
+		private List<Car> drawCars(Map<String,Car> cars) {
 			List <Car> carsList = new ArrayList<Car>(cars.values());
 			
 			for (final Car car : carsList) {
@@ -53,18 +70,21 @@ public class CarsWorker extends Thread{
 
 						@Override
 						public void run() {
-							Log.i(TAG,car.toString());
-							Maps.addMarker(
+							
+							car.setMarker(Maps.addMarker(
 									car.getLatLng(),
 									"Line"+car.getLine(),
 									"Direction"+car.getDirection(),
-									ResourceUtils.getImage(R.drawable.taxi_icon));
+									ResourceUtils.getImage(R.drawable.taxi_icon)) );
+							Log.i(TAG+ "AAAAAAAAAAAAAAAAAAAAAAAAAA",car.toString());
 						}
 					});
 				} catch (IllegalStateException ile) {
 					Log.e(TAG,ile.toString());
 				}
 			}
+			return carsList;
+		}
 			//			if (routes != null) {
 //				// 1. build lineOptions for the waypoints
 //				final PolylineOptions lineOptions = new PolylineOptions();
@@ -95,7 +115,6 @@ public class CarsWorker extends Thread{
 //					npe.printStackTrace();
 //				}
 //			}
-		}
 
 		private Map<String,Car> parseLocations(String res) {
 			LocationsJSONParserTask parserTask = new LocationsJSONParserTask();

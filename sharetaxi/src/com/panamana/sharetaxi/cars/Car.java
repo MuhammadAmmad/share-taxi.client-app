@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.cars.LocationsJSONParser.LocationsJsonTags;
 
 
@@ -15,6 +16,7 @@ public class Car {
 	private String mDirection;
 	private LatLng mLatLng;
 	private String mLine;
+	private Marker mMarker;
 	
 	public Car (String ID, String time, String line, String direction, LatLng latlng ) {
 		this.mID = ID;
@@ -22,6 +24,7 @@ public class Car {
 		this.mLine = line;
 		this.mDirection = direction;
 		this.mLatLng = latlng;
+		this.mMarker = null;
 	}
 	public Car (JSONObject jo) throws JSONException {
 		this(
@@ -34,6 +37,14 @@ public class Car {
 			);
 	}
 
+	public Marker getMarker() {
+		return mMarker;
+	}
+	
+	public void setMarker(Marker marker) {
+		this.mMarker = marker;
+	}
+	
 	public String getLine() {
 		return mLine;
 	}
@@ -61,7 +72,7 @@ public class Car {
 	@Override
 	public String toString() {
 		return "Car [mID=" + mID + ", mTime=" + mTime + ", mDirection="
-				+ mDirection + ", mLatLng=" + mLatLng + ", mLine=" + mLine
+				+ mDirection + ", mLatLng=" + mLatLng + ", mLine=" + mLine + ", mMarker=" + mMarker.toString() 
 				+ "]";
 	}
 

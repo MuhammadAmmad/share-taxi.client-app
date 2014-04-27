@@ -88,6 +88,10 @@ public class Maps {
 				.position(position).icon(icon));
 	}
 	
+
+	public static void removeMarker(Marker marker) {
+		marker.remove();
+	}
 /*
 
  */
