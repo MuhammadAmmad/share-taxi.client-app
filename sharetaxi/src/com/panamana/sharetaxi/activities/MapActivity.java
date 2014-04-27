@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.directions.Lines;
 import com.panamana.sharetaxi.maps.Maps;
+import com.panamana.sharetaxi.threads.LocationsUpdateThread;
 
 /**
  * Main Activity.
@@ -19,13 +20,20 @@ import com.panamana.sharetaxi.maps.Maps;
  */
 public class MapActivity extends ActionBarActivity {
 
+	//
 	private static final String TAG = MainActivity.class.getSimpleName();
+	
+	//
 	public static Context context;
+	LocationsUpdateThread updater;
+	
+	// Life Cycle //
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_layout);	
+		Log.i(TAG,"onCreate");
 		//
 		context=this;
 		// create map
@@ -37,8 +45,27 @@ public class MapActivity extends ActionBarActivity {
 		Maps.drawLine(Lines.line4,context);
 		Maps.drawLine(Lines.line4a,context);
 		Maps.drawLine(Lines.line5,context);
-		Maps.drawCars(context);
+		//Maps.drawCars(context);
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.i(TAG,"onResume");
+		updater = new LocationsUpdateThread(this);
+		updater.start();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(TAG,"onPause");
+		if(updater != null) {
+			updater.pause();
+		}
+	}
+	
+	// Menu //
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,6 +110,8 @@ public class MapActivity extends ActionBarActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	//
 	
 	private void openMap() {
 		/* We're already on the Map activity, so do nothing. 

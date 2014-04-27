@@ -1,8 +1,6 @@
 package com.panamana.sharetaxi.cars;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;

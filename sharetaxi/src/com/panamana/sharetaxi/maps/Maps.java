@@ -14,7 +14,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
-import com.panamana.sharetaxi.cars.GetLocationsTask;
 import com.panamana.sharetaxi.directions.Line;
 
 /**

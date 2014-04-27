@@ -6,17 +6,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 
-import org.json.JSONObject;
-
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.maps.Maps;
 import com.panamana.sharetaxi.utils.ResourceUtils;
-
-import android.content.Context;
-import android.util.Log;
 
 /**
  * Worker Thread: Draw cars over map.

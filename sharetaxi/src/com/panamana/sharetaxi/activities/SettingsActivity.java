@@ -1,19 +1,16 @@
 package com.panamana.sharetaxi.activities;
 
-import com.panamana.sharetaxi.R;
-
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
-import android.os.Build;
+
+import com.panamana.sharetaxi.R;
 
 public class SettingsActivity extends ActionBarActivity {
 
