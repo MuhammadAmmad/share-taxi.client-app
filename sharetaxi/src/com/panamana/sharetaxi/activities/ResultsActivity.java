@@ -1,76 +1,86 @@
 package com.panamana.sharetaxi.activities;
 
-import android.app.TabActivity;
+import java.util.Locale;
+
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.Window;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.panamana.sharetaxi.R;
 
-public class ResultsActivity extends TabActivity {
+public class ResultsActivity extends ActionBarActivity implements
+ActionBar.TabListener {
 	/** Called when the activity is first created. */
+	
+	SectionsPagerAdapter mSectionsPagerAdapter;
+	ViewPager mViewPager;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		setContentView(R.layout.activity_results);
+		
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		TabHost tabHost = getTabHost();
+		mSectionsPagerAdapter = new SectionsPagerAdapter(
+				getSupportFragmentManager());
 
-		String tab1 = "че 4";
-		String tab2 = "че 4 а";
-		String tab3 = "че 5";
+		// Set up the ViewPager with the sections adapter.
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		// Tab for KAV 4
-		TabSpec timesSpec = tabHost.newTabSpec(tab1);
-		timesSpec.setIndicator(tab1,
-				getResources().getDrawable(R.drawable.icon_times_tab));
-		Intent timesIntent = new Intent(this, Kav4Activity.class);
-		timesSpec.setContent(timesIntent);
+		// When swiping between different sections, select the corresponding
+		// tab. We can also use ActionBar.Tab#select() to do this if we have
+		// a reference to the Tab.
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
+						actionBar.setSelectedNavigationItem(position);
+					}
+				});
 
-		// Tab for KAV 4A
-		TabSpec stationsSpec = tabHost.newTabSpec(tab2);
-		// setting Title and Icon for the Tab
-		stationsSpec.setIndicator(tab2,
-				getResources().getDrawable(R.drawable.icon_stations_tab));
-		Intent stationsIntent = new Intent(this, Kav4_A_Activity.class);
-		stationsSpec.setContent(stationsIntent);
-
-		// Tab for KAV 5
-		TabSpec mapSpec = tabHost.newTabSpec(tab3);
-		mapSpec.setIndicator(tab3,
-				getResources().getDrawable(R.drawable.icon_map_tab));
-		Intent mapIntent = new Intent(this, Kav5Activity.class);
-		mapSpec.setContent(mapIntent);
-
-		// Adding all TabSpec to TabHost
-		tabHost.addTab(timesSpec); // Adding times tab
-		tabHost.addTab(stationsSpec); // Adding stations tab
-		tabHost.addTab(mapSpec); // Adding map tab
-
-		// FREE CODE
-
-		Intent intent = getIntent();
-		@SuppressWarnings("unused")
-		String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-
+		// For each of the sections in the app, add a tab to the action bar.
+		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+			// Create a tab with text corresponding to the page title defined by
+			// the adapter. Also specify this Activity object, which implements
+			// the TabListener interface, as the callback (listener) for when
+			// this tab is selected.
+			actionBar.addTab(actionBar.newTab()
+					.setText(mSectionsPagerAdapter.getPageTitle(i))
+					.setTabListener(this));
+		}
 	}
 	
 	/*
 	 * create the menu
 	 */
+
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main_activity_actions, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
+	
+	
 	
 	
 	@Override
@@ -101,7 +111,113 @@ public class ResultsActivity extends TabActivity {
 	}
 	
 	private void openSettings() {
-		startActivity(new Intent(this,Kav5Activity.class));
+		startActivity(new Intent(this,SettingsActivity.class));
+	}
+	
+	
+	
+	
+	
+	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+		public SectionsPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			// getItem is called to instantiate the fragment for the given page.
+			// Return a PlaceholderFragment (defined as a static inner class
+			// below).
+			return PlaceholderFragment.newInstance(position + 1);
+		}
+
+		@Override
+		public int getCount() {
+			// Show 3 total pages.
+			return 3;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			switch (position) {
+			case 0:
+				return "че 4";
+			case 1:
+				return "че 4 а";
+			case 2:
+				return "че 5";
+			}
+			return null;
+		}
+	}
+
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment {
+		/**
+		 * The fragment argument representing the section number for this
+		 * fragment.
+		 */
+		private static final String ARG_SECTION_NUMBER = "section_number";
+
+		/**
+		 * Returns a new instance of this fragment for the given section number.
+		 */
+		public static PlaceholderFragment newInstance(int sectionNumber) {
+			PlaceholderFragment fragment = new PlaceholderFragment();
+			Bundle args = new Bundle();
+			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		public PlaceholderFragment() {
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView;
+			int id =getArguments().getInt(ARG_SECTION_NUMBER);
+			switch (id) {
+			case 1:
+				 rootView = inflater.inflate(R.layout.fragment_kav4, container,false);
+				
+				break;
+			case 2:
+				 rootView = inflater.inflate(R.layout.fragment_kav4_a, container,
+						false);
+				break;	
+
+			default://3
+				 rootView = inflater.inflate(R.layout.fragment_kav5, container,
+						false);
+				break;
+			}
+			
+			return rootView;
+		}
+	}
+
+	@Override
+	public void onTabReselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+
+	@Override
+	public void onTabSelected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+		// When the given tab is selected, switch to the corresponding page in
+		// the ViewPager.
+		mViewPager.setCurrentItem(tab.getPosition());
+	}
+
+	@Override
+	public void onTabUnselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
 	}
 
 }

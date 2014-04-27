@@ -151,7 +151,7 @@
                         android:paddingRight="0dp"
                         android:paddingTop="0dp"
                         android:scaleType="fitXY"
-                        android:onClick="mapOnInternet"
+                        
                         android:src="@drawable/map_kav4" />
                 </TableRow>
                 

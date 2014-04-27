@@ -137,7 +137,7 @@
                         android:adjustViewBounds="true"
                         android:background="@android:color/transparent"
                         android:contentDescription="@string/descriptionShareTaxiImage"
-                        android:onClick="mapOnInternet"
+                     
                         android:paddingBottom="0dp"
                         android:paddingLeft="0dp"
                         android:paddingRight="0dp"
