@@ -1,14 +1,11 @@
 package com.panamana.sharetaxi.cars;
 
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
-
-import com.google.android.gms.maps.model.LatLng;
 
 public class LocationsJSONParserTask  extends AsyncTask<String, Integer, Map<String,Car> > {
 
