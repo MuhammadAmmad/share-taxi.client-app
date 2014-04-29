@@ -1,6 +1,7 @@
 package com.panamana.sharetaxi.cars;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,7 @@ import com.panamana.sharetaxi.utils.ResourceUtils;
 public class CarsWorker extends Thread{
 		
 		// Fields:
+		public static Map<String,Car> cars = new HashMap<String, Car>();
 		private static List<Car> lastCars;
 
 		private static final String TAG = CarsWorker.class.getSimpleName();
@@ -35,24 +37,21 @@ public class CarsWorker extends Thread{
 		
 		public void run () {
 			if(DEBUG) Log.i(TAG ,"CarsWorker started");
-			Map<String,Car> cars = null;
-			if (lastCars != null) {
-				if(DEBUG) Log.i(TAG, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB lastCars: "+lastCars.toString());
-				removeCars(lastCars);	
-			}
+			removeCars();	
 			// 1. get Directions API response from line waypoints
 			response = getLocations();
 			Log.i(TAG,"passed getLocations");
 			// 2. parse Directions API response to List<List<LatLng>> "routes"
-			cars = parseLocations(response);
+			parseLocations(response);
 			Log.i(TAG,"passed parseLocations");
 	        // 3. draw
 	        lastCars = drawCars(cars);
 		}
 
 		
-		private void removeCars(List<Car> lastCars) {
-			for(Car car: lastCars) {
+		private void removeCars() {
+			List <Car> carsList = new ArrayList<Car>(cars.values());
+			for(Car car: carsList) {
 				if(DEBUG) Log.i(TAG ,"Car to remove: "+car.toString());
 				final Marker marker = car.getMarker();
 				if (marker != null) {
@@ -62,8 +61,9 @@ public class CarsWorker extends Thread{
 
 							@Override
 							public void run() {
-								
 								marker.remove();
+								if(DEBUG) Log.i(TAG ,"cccccccccccccccc removed ");
+
 							}
 						});
 					} catch (IllegalStateException ils){ils.printStackTrace();}
@@ -126,19 +126,17 @@ public class CarsWorker extends Thread{
 //				}
 //			}
 
-		private Map<String,Car> parseLocations(String res) {
+		private void parseLocations(String res) {
 			LocationsJSONParserTask parserTask = new LocationsJSONParserTask();
-			Map<String,Car> cars = null;;
 	        // Invokes the thread for parsing the JSON data
 	        try {
 				// wait get result from task
 //	        	routes = 
-	        			cars = parserTask.execute(res).get(10,TimeUnit.SECONDS);
+	        			parserTask.execute(res).get(10,TimeUnit.SECONDS);
 	        			Log.i(TAG,"parseLocations response:"+ res);
 			} catch (Exception e) {
 				Log.e(TAG,e.toString());
 			}
-			return cars;
 		}
 
 		private String getLocations() {

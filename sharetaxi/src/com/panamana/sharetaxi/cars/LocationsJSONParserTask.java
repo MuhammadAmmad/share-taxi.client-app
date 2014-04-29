@@ -17,11 +17,10 @@ public class LocationsJSONParserTask  extends AsyncTask<String, Integer, Map<Str
 	 */
 	@Override
 	protected Map<String,Car> doInBackground(String... jsonData) {
-		Map<String,Car> cars = null;
 		try {
 			JSONObject jo = new JSONObject(jsonData[0]);
 			// Parse
-			cars = new LocationsJSONParser().parse(jo);
+			new LocationsJSONParser().parse(jo);
 		} catch (JSONException joe){
 			joe.printStackTrace();
 //			return null;
@@ -32,7 +31,7 @@ public class LocationsJSONParserTask  extends AsyncTask<String, Integer, Map<Str
 			ise.printStackTrace();
 //			return null;
 		}
-		return cars;
+		return null;
 	}
 	
 }

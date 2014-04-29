@@ -29,7 +29,6 @@ public class LocationsJSONParser {
 		// TODO Auto-generated method stub
 
 		JSONArray jPoints = null;
-		Map<String, Car> cars = new HashMap<String, Car>();
 
 		Log.i(TAG, "started parsing");
 		try {
@@ -47,15 +46,17 @@ public class LocationsJSONParser {
 				                      		jo.getDouble(LocationsJsonTags.LONGITUDE));
 				
 				Car car = new Car(jPoints.getJSONObject(i));
-				cars.put(car.getID(), car);
-				Log.i(TAG, car.toString());
+				CarsWorker.cars.put(car.getID(), car);
+				Log.i(TAG, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBcar entered Map: "+car.toString());
+				Log.i(TAG, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBcars updated: "+ CarsWorker.cars.toString());
+				
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return cars;
+		return null;
 	}
 
 	/**
