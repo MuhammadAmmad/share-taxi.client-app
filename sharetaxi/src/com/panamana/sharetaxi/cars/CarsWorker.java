@@ -37,6 +37,7 @@ public class CarsWorker extends Thread{
 			if(DEBUG) Log.i(TAG ,"CarsWorker started");
 			Map<String,Car> cars = null;
 			if (lastCars != null) {
+				if(DEBUG) Log.i(TAG, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB lastCars: "+lastCars.toString());
 				removeCars(lastCars);	
 			}
 			// 1. get Directions API response from line waypoints
@@ -52,10 +53,19 @@ public class CarsWorker extends Thread{
 		
 		private void removeCars(List<Car> lastCars) {
 			for(Car car: lastCars) {
-				Marker marker = car.getMarker();
+				if(DEBUG) Log.i(TAG ,"Car to remove: "+car.toString());
+				final Marker marker = car.getMarker();
 				if (marker != null) {
+					if(DEBUG) Log.i(TAG ,"marker to remove: "+marker.toString());
 					try {
-						car.getMarker().remove();
+						((Activity)context).runOnUiThread(new Runnable() {
+
+							@Override
+							public void run() {
+								
+								marker.remove();
+							}
+						});
 					} catch (IllegalStateException ils){ils.printStackTrace();}
 				}
 			}
@@ -76,7 +86,7 @@ public class CarsWorker extends Thread{
 									"Line"+car.getLine(),
 									"Direction"+car.getDirection(),
 									ResourceUtils.getImage(R.drawable.taxi_icon)) );
-							Log.i(TAG+ "AAAAAAAAAAAAAAAAAAAAAAAAAA",car.toString());
+							Log.i(TAG,car.toString());
 						}
 					});
 				} catch (IllegalStateException ile) {

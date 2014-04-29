@@ -72,7 +72,7 @@ public class Car {
 	@Override
 	public String toString() {
 		return "Car [mID=" + mID + ", mTime=" + mTime + ", mDirection="
-				+ mDirection + ", mLatLng=" + mLatLng + ", mLine=" + mLine + ", mMarker=" + mMarker.toString() 
+				+ mDirection + ", mLatLng=" + mLatLng + ", mLine=" + mLine + ", mMarker=" + mMarker 
 				+ "]";
 	}
 
