@@ -37,7 +37,7 @@ public class CarsWorker extends Thread{
 		
 		public void run () {
 			if(DEBUG) Log.i(TAG ,"CarsWorker started");
-			removeCars();	
+//			removeCars();	
 			// 1. get Directions API response from line waypoints
 			response = getLocations();
 			Log.i(TAG,"passed getLocations");
@@ -48,28 +48,28 @@ public class CarsWorker extends Thread{
 	        lastCars = drawCars(cars);
 		}
 
-		
-		private void removeCars() {
-			List <Car> carsList = new ArrayList<Car>(cars.values());
-			for(Car car: carsList) {
-				if(DEBUG) Log.i(TAG ,"Car to remove: "+car.toString());
-				final Marker marker = car.getMarker();
-				if (marker != null) {
-					if(DEBUG) Log.i(TAG ,"marker to remove: "+marker.toString());
-					try {
-						((Activity)context).runOnUiThread(new Runnable() {
-
-							@Override
-							public void run() {
-								marker.remove();
-								if(DEBUG) Log.i(TAG ,"cccccccccccccccc removed ");
-
-							}
-						});
-					} catch (IllegalStateException ils){ils.printStackTrace();}
-				}
-			}
-		}
+//		
+//		public void removeCars() {
+//			List <Car> carsList = new ArrayList<Car>(cars.values());
+//			for(Car car: carsList) {
+//				if(DEBUG) Log.i(TAG ,"Car to remove: "+car.toString());
+//				final Marker marker = car.getMarker();
+//				if (marker != null) {
+//					if(DEBUG) Log.i(TAG ,"marker to remove: "+marker.toString());
+//					try {
+//						((Activity)context).runOnUiThread(new Runnable() {
+//
+//							@Override
+//							public void run() {
+//								marker.remove();
+//								if(DEBUG) Log.i(TAG ,"cccccccccccccccc removed ");
+//
+//							}
+//						});
+//					} catch (IllegalStateException ils){ils.printStackTrace();}
+//				}
+//			}
+//		}
 		
 		private List<Car> drawCars(Map<String,Car> cars) {
 			List <Car> carsList = new ArrayList<Car>(cars.values());
@@ -81,11 +81,13 @@ public class CarsWorker extends Thread{
 						@Override
 						public void run() {
 							
-							car.setMarker(Maps.addMarker(
+							Marker marker = Maps.addMarker(
 									car.getLatLng(),
 									"Line"+car.getLine(),
 									"Direction"+car.getDirection(),
-									ResourceUtils.getImage(R.drawable.taxi_icon)) );
+									ResourceUtils.getImage(R.drawable.taxi_icon),
+									car.getID()) ;
+							car.setMarker(marker);
 							Log.i(TAG,car.toString());
 						}
 					});

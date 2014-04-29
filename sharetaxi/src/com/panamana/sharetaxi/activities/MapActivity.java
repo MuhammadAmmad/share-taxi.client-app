@@ -21,7 +21,7 @@ import com.panamana.sharetaxi.threads.LocationsUpdateThread;
 public class MapActivity extends ActionBarActivity {
 
 	//
-	private static final String TAG = MainActivity.class.getSimpleName();
+	private static final String TAG = MapActivity.class.getSimpleName();
 	
 	//
 	public static Context context;
@@ -31,6 +31,7 @@ public class MapActivity extends ActionBarActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.i(TAG,"onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map_layout);	
 		Log.i(TAG,"onCreate");
@@ -54,6 +55,7 @@ public class MapActivity extends ActionBarActivity {
 		Log.i(TAG,"onResume");
 		updater = new LocationsUpdateThread(this);
 		updater.start();
+//		Maps.removeCars();
 	}
 	
 	@Override
@@ -63,6 +65,7 @@ public class MapActivity extends ActionBarActivity {
 		if(updater != null) {
 			updater.pause();
 		}
+		Maps.removeCars();
 	}
 	
 	// Menu //
@@ -110,8 +113,6 @@ public class MapActivity extends ActionBarActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
-	//
 	
 	private void openMap() {
 		/* We're already on the Map activity, so do nothing. 
