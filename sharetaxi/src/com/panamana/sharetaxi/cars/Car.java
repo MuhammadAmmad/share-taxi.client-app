@@ -18,11 +18,10 @@ public class Car {
 	private String mLine;
 	private Marker mMarker;
 	
-	public Car (String ID, String time, String line, String direction, LatLng latlng ) {
+	public Car (String ID, String time, String line, LatLng latlng ) {
 		this.mID = ID;
 		this.mTime = time;
 		this.mLine = line;
-		this.mDirection = direction;
 		this.mLatLng = latlng;
 		this.mMarker = null;
 	}
@@ -31,7 +30,6 @@ public class Car {
 			jo.getString(LocationsJsonTags.ANDROIDID),           
 			jo.getString(LocationsJsonTags.DATE),               
 			jo.getString(LocationsJsonTags.LINENUM),          
-			jo.getString(LocationsJsonTags.DIRECTION),        
 			new LatLng( jo.getDouble(LocationsJsonTags.LATITUDE), 
 	                  	jo.getDouble(LocationsJsonTags.LONGITUDE))
 			);

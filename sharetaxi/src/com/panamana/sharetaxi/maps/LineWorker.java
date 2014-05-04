@@ -1,10 +1,10 @@
 package com.panamana.sharetaxi.maps;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -14,6 +14,7 @@ import com.panamana.sharetaxi.directions.DirectionJSONParserTask;
 import com.panamana.sharetaxi.directions.Directions;
 import com.panamana.sharetaxi.directions.GetDirectionsTask;
 import com.panamana.sharetaxi.directions.Line;
+import com.panamana.sharetaxi.directions.Lines;
 
 /**
  * Worker Thread: Draw route over map from Line object.
@@ -27,12 +28,14 @@ class LineWorker extends Thread{
 	private Line line;
 	private String response = "";
 	List<List<LatLng>> routes = null;
-	private Context context;
 	
-	public LineWorker(Line line, Context c){
+	// constructor:
+	
+	public LineWorker(Line line){
 		this.line=line;
-		this.context=c;
 	}
+	
+	// thread:
 	
 	public void run () {
 		if(DEBUG) Log.i(TAG ,"lineWorker started");
@@ -40,14 +43,23 @@ class LineWorker extends Thread{
 		getDirections();
 		// 2. parse Directions API response to List<List<LatLng>> "routes"
 		parseDirections();
-        // 3. draw
-        drawRoute();
+		//new
+		// 3. createPolylines
+		PolylineOptions polyline = createPolylines();
+		// 4. add polyline to list
+		if(Maps.polylineOptionsMap==null){
+			Maps.polylineOptionsMap = new HashMap<String, PolylineOptions>();
+		}
+		Maps.polylineOptionsMap.put(line.getName(), polyline);
+		Log.i(TAG,"polyline:"+ polyline.toString());
 	}
 
-	private void drawRoute() {
+	// methods:
+	
+	private PolylineOptions createPolylines() {
+		final PolylineOptions lineOptions = new PolylineOptions();
 		if (routes != null) {
 			// 1. build lineOptions for the waypoints
-			final PolylineOptions lineOptions = new PolylineOptions();
 			// Traversing through all the routes
 			for (List<LatLng> route : routes) {
 				// Adding all the points in the route to LineOptions
@@ -55,26 +67,15 @@ class LineWorker extends Thread{
 					lineOptions.addAll(getAllPiontsInRoute(route));	
 				} catch (NullPointerException npe) {
 					npe.printStackTrace();
-					return;
+					return null;
 				}
 			}
+			// set color and width
+			lineOptions.width(line.getWidth()).color(line.getColor());
 			Log.i(TAG,"lineOptions:"+lineOptions.toString());
 			
-			// 2. Drawing PolyLine in the Google Map for the i-th route
-			try {
-				// set color and width
-				lineOptions.width(line.getWidth()).color(line.getColor());
-				((Activity)context).runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						// draw lineOptions on the map
-						Maps.drawPolyline(lineOptions);
-					}
-				});
-			} catch (NullPointerException npe) {
-				npe.printStackTrace();
-			}
 		}
+		return lineOptions;
 	}
 
 	private void parseDirections() {
@@ -107,8 +108,7 @@ class LineWorker extends Thread{
 		}
 		if(DEBUG) Log.i(TAG,"response: "+response);
 	}
-	
-	// helper:
+
 	/**
 	 * Fetch points in route i
 	 * @param path
@@ -121,4 +121,8 @@ class LineWorker extends Thread{
 		}
 		return points;
 	}
+	
+
+
+		
 }

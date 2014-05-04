@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class LocationsJSONParser {
 
 	public interface LocationsJsonTags {
-		static final public String DIRECTION = "direction";
+//		static final public String DIRECTION = "direction";
 		static final public String LINENUM = "lineNum";
 		static final public String LONGITUDE = "longitude";
 		static final public String ANDROIDID = "androidID";
@@ -40,7 +40,7 @@ public class LocationsJSONParser {
 				String 	id        	=  jo.getString(LocationsJsonTags.ANDROIDID);           
 				String 	date     	=  jo.getString(LocationsJsonTags.DATE);               
 				String  line 		=  jo.getString(LocationsJsonTags.LINENUM);          
-				String 	direction 	=  jo.getString(LocationsJsonTags.DIRECTION);        
+//				String 	direction 	=  jo.getString(LocationsJsonTags.DIRECTION);        
 				LatLng  latlng    	=  new LatLng(                                       
 		                              		jo.getDouble(LocationsJsonTags.LATITUDE), 
 				                      		jo.getDouble(LocationsJsonTags.LONGITUDE));

@@ -14,7 +14,7 @@ public class LocationsUpdateThread extends Thread {
 	
 	
 	private static final String TAG = LocationsUpdateThread.class.getSimpleName();
-	private static final long INTERVAL = 2000;
+	private static final long INTERVAL = 20000;
 	private boolean isRunning = true;
 	private Context context;
 	

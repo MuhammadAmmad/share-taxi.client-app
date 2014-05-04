@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Lines {
 
 	public static Line line4 = new Line(
+			"line4",
 			Color.BLUE,
 			5,
 			new LatLng(32.0538589,34.780081),
@@ -20,6 +21,7 @@ public class Lines {
 			);
 	
 	public static Line line4a = new Line(
+			"line4a",
 			Color.GRAY,
 			5,
 			new LatLng(32.0985456, 34.7802936),
@@ -35,6 +37,7 @@ public class Lines {
 			);
 	
 	public static Line line5 = new Line(
+			"line5",
 			Color.GREEN,
 			5,
 			new LatLng(32.0562598,34.7810158),
@@ -50,5 +53,6 @@ public class Lines {
 //				new LatLng(32.0937948,34.7904164),
 				new LatLng(32.0965916,34.8040227)
 				}
+			
 			);
 }

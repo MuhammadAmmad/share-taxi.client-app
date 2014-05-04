@@ -11,125 +11,153 @@ import android.view.MenuItem;
 
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.directions.Lines;
+import com.panamana.sharetaxi.maps.LinesWorker;
 import com.panamana.sharetaxi.maps.Maps;
+import com.panamana.sharetaxi.persist.Persist;
 import com.panamana.sharetaxi.threads.LocationsUpdateThread;
 
 /**
  * Main Activity.
- * @author 
+ * 
+ * @author
  */
 public class MapActivity extends ActionBarActivity {
 
 	//
 	private static final String TAG = MapActivity.class.getSimpleName();
-	
+
+	private static final String FILENAME = "polylines.data";
+
 	//
 	public static Context context;
 	LocationsUpdateThread updater;
-	
+
 	// Life Cycle //
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG,"onCreate");
+		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map_layout);	
-		Log.i(TAG,"onCreate");
+		setContentView(R.layout.map_layout);
+		Log.i(TAG, "onCreate");
 		//
-		context=this;
+		context = this;
 		// create map
 		Maps.createGoogleMap(this);
 		// set map position
-		Maps.positionMap(Lines.line4.getStart());		
-		Log.i(TAG ,"draw line");
-		// draw route
-		Maps.drawLine(Lines.line4,context);
-		Maps.drawLine(Lines.line4a,context);
-		Maps.drawLine(Lines.line5,context);
-		//Maps.drawCars(context);
+		Maps.positionMap(Lines.line4.getStart());
+		Log.i(TAG, "draw line");
+
+		// Maps.drawLine(Lines.line4,context);
+		// Maps.drawLine(Lines.line4a,context);
+		// Maps.drawLine(Lines.line5,context);
+		// Maps.drawCars(context);
 	}
-	
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// restore data
+		// Maps.polylineOptionsMap = (new Persist()).restore(this, FILENAME);
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.i(TAG,"onResume");
+		Log.i(TAG, "onResume");
+		// draw route
+		if (Maps.polylineOptionsMap == null
+				|| Maps.polylineOptionsMap.isEmpty()) {
+			// no line data - request data from server
+			LinesWorker lw = new LinesWorker(this, Lines.line4, Lines.line4a, Lines.line5) {
+				@Override
+				public void onFinish() {
+					for(final String line : Maps.polylineOptionsMap.keySet()){
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Maps.addPolyline(line);
+							}
+						});
+					}
+				}
+			};
+			lw.start();
+
+		} else {
+			// got line data - add/draw
+			for(String line : Maps.polylineOptionsMap.keySet()){
+				Maps.addPolyline(line);
+			}
+		}
 		updater = new LocationsUpdateThread(this);
 		updater.start();
-//		Maps.removeCars();
+		// Maps.removeCars();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.i(TAG,"onPause");
-		if(updater != null) {
+		Log.i(TAG, "onPause");
+		if (updater != null) {
 			updater.pause();
 		}
 		Maps.removeCars();
 	}
-	
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		// save data
+		// new Persist().save(this, FILENAME, Maps.polylineOptionsMap);
+	}
+
 	// Menu //
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_activity_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	    case R.id.action_map:
-	    	openMap();
-	    	return true;
-	    case R.id.action_info:
-	    	openInfo();
-	    	return true;
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.action_map:
+			clickOpenMap();
+			return true;
+		case R.id.action_info:
+			clickOpenInfo();
+			return true;
 		case R.id.action_settings:
-		    openSettings();
-		    return true;
-	    /*
-	     * COMMENTED OUT BY Yahav.
-	     * CAN BE DELETED
-        case R.id.map_menu_item0:
-            item0Clicked();
-
-	    case R.id.map_menu_item1:
-	            item1Clicked();
-	            return true;
-	        case R.id.map_menu_item2:
-	            item2Clicked();
-	            return true;
-	        case R.id.map_menu_item3:
-	            item3Clicked();
-	            return true;
-	        case R.id.map_menu_item4:
-	            item4Clicked();
-	            return true;
-*/
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
-	
-	private void openMap() {
-		/* We're already on the Map activity, so do nothing. 
-		 No need to re-launch activity:
-		 startActivity(new Intent(this, MapActivity.class));
-		 to avoid flashing screen. */
-	}
-	
-	private void openInfo() {
-		startActivity(new Intent(this,ResultsActivity.class));
-	}
-	
-	private void openSettings() {
-		startActivity(new Intent(this,SettingsActivity.class));
+			clickOpenSettings();
+			return true;
+			/*
+			 * COMMENTED OUT BY Yahav. CAN BE DELETED case R.id.map_menu_item0:
+			 * item0Clicked();
+			 * 
+			 * case R.id.map_menu_item1: item1Clicked(); return true; case
+			 * R.id.map_menu_item2: item2Clicked(); return true; case
+			 * R.id.map_menu_item3: item3Clicked(); return true; case
+			 * R.id.map_menu_item4: item4Clicked(); return true;
+			 */
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
+	private void clickOpenMap() {
+		Maps.getPolyline("line4").setVisible(false);
+	}
 
-	
+	private void clickOpenInfo() {
+		startActivity(new Intent(this, ResultsActivity.class));
+	}
+
+	private void clickOpenSettings() {
+		startActivity(new Intent(this, SettingsActivity.class));
+	}
+
 }
-
