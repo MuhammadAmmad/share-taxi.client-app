@@ -21,37 +21,39 @@ import com.panamana.sharetaxi.cars.CarsWorker;
 
 /**
  * Google Maps API manager class.
- * 
+ * Maps API Help:
+ * https://developers.google.com/maps/documentation/android/start
  * @author
  */
-
 public class Maps {
 
-	public static Map<String, Marker> markersMap = null;
-	public static Map<String, PolylineOptions> polylineOptionsMap = null;
-	public static Map<String, Polyline> polylinesMap = null;
+	// Constants:
+	private static final String TAG = Maps.class.getSimpleName();
+	
+	// Fields:
+	// map //
+	private GoogleMap map;
+	// lists //
+	public Map<String, Marker> markersMap = null;
+	public Map<String, PolylineOptions> polylineOptionsMap = null;
+	public Map<String, Polyline> polylinesMap = null;
 
-	static {
+	// init:
+	public Maps(Context context) {
 		markersMap = new HashMap<String, Marker>();
 		polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		polylinesMap = new HashMap<String, Polyline>();
+		createGoogleMap(context);
 	}
 
-	@SuppressWarnings("unused")
-	private static final String TAG = Maps.class.getSimpleName();
-
-	/*
-	 * Maps API Help:
-	 * https://developers.google.com/maps/documentation/android/start
-	 */
-
-	private static GoogleMap map;
-
+	// Methods:
+	
+	// map //
 	/**
-	 * 
+	 * create map
 	 * @param context
 	 */
-	public static void createGoogleMap(Context context) {
+	private void createGoogleMap(Context context) {
 		// Get a handle to the Map Fragment
 		map = ((MapFragment) ((Activity) context).getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
@@ -63,7 +65,7 @@ public class Maps {
 	 * 
 	 * @param position
 	 */
-	public static void positionMap(LatLng position) {
+	public void positionMap(LatLng position) {
 		map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 13));
 		// map.animateCamera(CameraUpdateFactory.zoomIn());
 	}
@@ -71,7 +73,7 @@ public class Maps {
 	/**
 	 * position on my location
 	 */
-	public static void positionMap() {
+	public void positionMap() {
 
 		map.setMyLocationEnabled(true);
 
@@ -83,6 +85,8 @@ public class Maps {
 		}
 	}
 
+	// markers //
+	
 	/**
 	 * 
 	 * @param position
@@ -91,7 +95,7 @@ public class Maps {
 	 * @param carId
 	 * @param bitmapDescriptor
 	 */
-	public static Marker addMarker(LatLng position, String title,
+	public Marker addMarker(LatLng position, String title,
 			String snippet, BitmapDescriptor bitmapDescriptor) {
 
 		Marker marker = map.addMarker(new MarkerOptions().title(title)
@@ -100,7 +104,7 @@ public class Maps {
 		return marker;
 	}
 
-	public static Marker addMarker(LatLng position, String title,
+	public Marker addMarker(LatLng position, String title,
 			String snippet, BitmapDescriptor icon, String carId) {
 		Marker marker = map.addMarker(new MarkerOptions().title(title)
 				.snippet(snippet).position(position).icon(icon));
@@ -108,17 +112,13 @@ public class Maps {
 		return marker;
 	}
 
-	// public static void removeMarker(Marker marker) {
-	// marker.remove();
-	// }
-	/*
-
- */
+	// polyline - routes //
+	
 	/**
 	 * 
 	 * @param points
 	 */
-	public static void drawPolyline(PolylineOptions lineOptions, int color,
+	public void drawPolyline(PolylineOptions lineOptions, int color,
 			LatLng points[]) {
 		for (int i = 0; i < points.length - 1; i++) {
 			map.addPolyline(new PolylineOptions().add(points[i], points[i + 1])
@@ -126,14 +126,26 @@ public class Maps {
 		}
 	}
 
-	public static Marker drawCars(Context context) {
-		// TODO Auto-generated method stub
-		new CarsWorker(context).start();
+	public void addPolyline(String line) {
+		// add polyline to map
+		Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
+		polylinesMap.put(line, pol);
+	}
+
+	public Polyline getPolyline(String line) {
+		// get polyline from map
+		return polylinesMap.get(line);
+	}
+
+	// car markers //
+	
+	public Marker drawCars(Context context) {
+		new CarsWorker(context,this).start();
 		return null;
 
 	}
 
-	public static void removeCars() {
+	public void removeCars() {
 		// TODO Auto-generated method stub
 		for (Marker marker : markersMap.values()) {
 			marker.remove();
@@ -141,16 +153,4 @@ public class Maps {
 		markersMap.clear();
 
 	}
-
-	public static void addPolyline(String line) {
-		// add polyline to map
-		Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
-		polylinesMap.put(line, pol);
-	}
-
-	public static Polyline getPolyline(String line) {
-		// get polyline from map
-		return polylinesMap.get(line);
-	}
-	
 }

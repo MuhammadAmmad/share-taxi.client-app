@@ -30,9 +30,11 @@ public class CarsWorker extends Thread{
 		private final boolean DEBUG = true;
 		private String response = "";
 		private Context context;
+		Maps maps;
 		
-		public CarsWorker(Context c){
+		public CarsWorker(Context c, Maps maps){
 			this.context=c;
+			this.maps=maps;
 		}
 		
 		public void run () {
@@ -81,7 +83,7 @@ public class CarsWorker extends Thread{
 						@Override
 						public void run() {
 							
-							Marker marker = Maps.addMarker(
+							Marker marker = maps.addMarker(
 									car.getLatLng(),
 									"Line"+car.getLine(),
 									"Direction"+car.getDirection(),

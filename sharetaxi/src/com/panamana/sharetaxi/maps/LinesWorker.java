@@ -1,18 +1,19 @@
 package com.panamana.sharetaxi.maps;
 
-import com.panamana.sharetaxi.directions.Line;
-
-import android.app.Activity;
 import android.content.Context;
+
+import com.panamana.sharetaxi.directions.Line;
 
 public abstract class LinesWorker extends Thread {
 
 	Context context;
 	Line[] lines;
+	Maps maps;
 	
-	public LinesWorker(Context context, Line... lines) {
+	public LinesWorker(Context context, Maps maps, Line... lines) {
 		this.context = context;
 		this.lines = lines;
+		this.maps = maps;
 	}
 	
 	@Override
@@ -22,7 +23,7 @@ public abstract class LinesWorker extends Thread {
 		// 1. creates polylines
 		for(Line l : lines) {
 			// start new thread
-			LineWorker lw = new LineWorker(l);
+			LineWorker lw = new LineWorker(l,maps);
 			lw.start();
 			try {
 				// wait thread finish

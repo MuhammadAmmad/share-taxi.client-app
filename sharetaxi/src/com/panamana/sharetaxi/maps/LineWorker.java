@@ -28,11 +28,13 @@ class LineWorker extends Thread{
 	private Line line;
 	private String response = "";
 	List<List<LatLng>> routes = null;
+	private Maps maps;
 	
 	// constructor:
 	
-	public LineWorker(Line line){
+	public LineWorker(Line line, Maps maps){
 		this.line=line;
+		this.maps = maps;
 	}
 	
 	// thread:
@@ -47,10 +49,10 @@ class LineWorker extends Thread{
 		// 3. createPolylines
 		PolylineOptions polyline = createPolylines();
 		// 4. add polyline to list
-		if(Maps.polylineOptionsMap==null){
-			Maps.polylineOptionsMap = new HashMap<String, PolylineOptions>();
+		if(maps.polylineOptionsMap==null){
+			maps.polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		}
-		Maps.polylineOptionsMap.put(line.getName(), polyline);
+		maps.polylineOptionsMap.put(line.getName(), polyline);
 		Log.i(TAG,"polyline:"+ polyline.toString());
 	}
 

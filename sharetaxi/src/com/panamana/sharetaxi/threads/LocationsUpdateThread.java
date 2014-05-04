@@ -17,12 +17,14 @@ public class LocationsUpdateThread extends Thread {
 	private static final long INTERVAL = 20000;
 	private boolean isRunning = true;
 	private Context context;
+	Maps maps;
 	
 	
 	
-	public LocationsUpdateThread(Context context) {
+	public LocationsUpdateThread(Context context, Maps maps) {
 		super();
 		this.context = context;
+		this.maps=maps;
 	}
 
 	/**
@@ -42,7 +44,7 @@ public class LocationsUpdateThread extends Thread {
 	
 	private void backgroundTask() {
 		Log.i(TAG,"tik");
-		Maps.drawCars(context);
+		maps.drawCars(context);
 	}
 
 	public void pause(){
