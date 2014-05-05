@@ -8,13 +8,15 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Line {
 
-	String mName;
-	int mColor;
-	float mWidth;
-	LatLng mStart;
-	LatLng mEnd;
-	LatLng [] mWaypoints;
+	// Fields:
+	private String mName;
+	private int mColor;
+	private float mWidth;
+	private LatLng mStart;
+	private LatLng mEnd;
+	private LatLng [] mWaypoints;
 
+	// Constructor:
 	public Line(String name,int color,float width, LatLng start, LatLng end, LatLng[] waypoints) {
 		this.mName = name;
 		this.mColor = color;
@@ -24,6 +26,8 @@ public class Line {
 		this.mWaypoints = waypoints;
 	}
 
+	// getter/setter:
+	
 	public String getName() {
 		return mName;
 	}

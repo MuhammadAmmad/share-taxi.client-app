@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.R;
+import com.panamana.sharetaxi.activities.MapActivity;
 import com.panamana.sharetaxi.cars.locations.GetLocationsTask;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParserTask;
 import com.panamana.sharetaxi.cars.objects.Car;
@@ -27,8 +28,10 @@ public class CarsWorker extends Thread {
 
 	// Constant:
 	private static final String TAG = CarsWorker.class.getSimpleName();
+	protected static final String MARKER_TITLE_PREFIX = "Line";
 	private final boolean DEBUG = true;
-	
+	public static final String [] LinesToHide = {LINES.LINE4,LINES.LINE4a};
+
 	// Fields:
 	public static Map<String, Car> cars = new HashMap<String, Car>();
 	private String response = "";
@@ -73,9 +76,9 @@ public class CarsWorker extends Thread {
 					public void run() {
 
 						Marker marker = maps.addMarker(car.getLatLng(),
-								LINES.PREFIX + car.getLineName(),
+								MARKER_TITLE_PREFIX + car.getLineName(),
 								ResourceUtils.getImage(R.drawable.taxi_icon),
-								car.getID());
+								car.getID(), LinesToHide);
 						car.setMarker(marker);
 						Log.i(TAG, car.toString());
 					}

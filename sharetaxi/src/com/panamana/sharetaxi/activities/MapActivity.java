@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.locations.updater.LocationsUpdateThread;
 import com.panamana.sharetaxi.lines.LINES;
@@ -158,6 +159,7 @@ public class MapActivity extends ActionBarActivity {
 
 	private void clickOpenMap() {
 		mapManager.getPolyline(LINES.LINE4).setVisible(false);
+		Log.i(TAG,"clicked map");
 	}
 
 	private void clickOpenInfo() {

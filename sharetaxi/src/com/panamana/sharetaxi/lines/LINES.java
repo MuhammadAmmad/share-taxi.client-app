@@ -16,7 +16,6 @@ public class LINES {
 	public static final String LINE4 = "line4";
 	public static final String LINE4a = "line4a";
 	public static final String LINE5 = "line5";
-	public static final String PREFIX = "line";
 	
 	// Line way points
 	

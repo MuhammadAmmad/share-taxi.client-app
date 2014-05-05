@@ -1,7 +1,11 @@
 package com.panamana.sharetaxi.maps;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.collections4.map.MultiKeyMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +22,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
+import com.panamana.sharetaxi.cars.objects.Car;
 
 /**
  * Google Maps API manager class.
@@ -34,14 +39,12 @@ public class MapManager {
 	// map //
 	private GoogleMap map;
 	// lists //
-	public Map<Marker, String> markersToRemove = null;
 	public Map<String, Marker> markersMap = null;
 	public Map<String, PolylineOptions> polylineOptionsMap = null;
 	public Map<String, Polyline> polylinesMap = null;
 
 	// init:
 	public MapManager(Context context) {
-		markersToRemove = new HashMap<Marker, String>();
 		markersMap = new HashMap<String, Marker>();
 		polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		polylinesMap = new HashMap<String, Polyline>();
@@ -98,35 +101,39 @@ public class MapManager {
 	 * @param carId
 	 * @return
 	 */
-	public Marker addMarker(LatLng position, String title, String snippet, BitmapDescriptor icon, String carId) {
-		//
-		Marker marker = map.addMarker(new MarkerOptions().title(title)
-				.snippet(snippet).position(position).icon(icon));
-		//
-		Marker prevMarker = markersMap.get(title);
-		if ( prevMarker != null) {
-			prevMarker.remove();
-		}
-		markersMap.put(title, marker);
-		markersToRemove.put(marker, carId);
-		return marker;
-	}
+//	public Marker addMarker(LatLng position, String title, String snippet, BitmapDescriptor icon, String carId) {
+//		//
+//		Marker marker = map.addMarker(new MarkerOptions().title(title)
+//				.snippet(snippet).position(position).icon(icon));
+//		//
+//		Marker prevMarker = markersMap.get(carId);
+//		if ( prevMarker != null) {
+//			prevMarker.remove();
+//		}
+//		markersMap.put(carId, marker);
+//		return marker;
+//	}
 
-	public Marker addMarker(LatLng position, String title, BitmapDescriptor icon, String carId) {
+	public Marker addMarker(LatLng position, String title, BitmapDescriptor icon, String carId, String ...linesToHide) {
 		//
-		Marker marker = map.addMarker(
-				new MarkerOptions()
-				.title(title)
-				.position(position)
-				.icon(icon));
-		//
-		Marker prevMarker = markersMap.get(title);
-		if ( prevMarker != null) {
-			prevMarker.remove();
+		for (int i=0; i<linesToHide.length; i++) {
+			String lineNumber = linesToHide[i];
+			if (!title.equalsIgnoreCase(lineNumber)) {
+				Marker marker = map.addMarker(
+						new MarkerOptions()
+						.title(title)
+						.position(position)
+						.icon(icon));
+				//
+				Marker prevMarker = markersMap.get(carId);
+				if ( prevMarker != null) {
+					prevMarker.remove();
+				}
+				markersMap.put(carId, marker);
+				return marker;
+			}
 		}
-		markersMap.put(title, marker);
-		markersToRemove.put(marker, carId);
-		return marker;
+		return null;
 	}
 	// polyline - routes //
 	
@@ -142,16 +149,30 @@ public class MapManager {
 		}
 	}
 
-	public void addPolyline(String line) {
+	public void addPolyline(String line,String ...linesToHide) {
 		// add polyline to map
-		Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
-		polylinesMap.put(line, pol);
+		for (int i=0; i<linesToHide.length; i++) {
+			if (!line.equalsIgnoreCase(linesToHide[i])) {
+				Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
+				polylinesMap.put(line, pol);			
+			}
+		}
 	}
 
 	public Polyline getPolyline(String line) {
 		// get polyline from map
 		return polylinesMap.get(line);
 	}
+//	
+//	public List<Marker> getLineCars(String lineNum) {
+//		List<Marker> lineCars = new ArrayList<Marker>(); 
+//		for (Marker marker: markersMap.values()) {
+//			if (marker.getTitle().equals(lineNum)) {
+//				lineCars.add(marker);
+//			}
+//		}
+//		return lineCars;
+//	}
 
 	// car markers //
 	
@@ -163,10 +184,10 @@ public class MapManager {
 
 	public void removeCars() {
 		// TODO Auto-generated method stub
-		for (Marker marker : markersToRemove.keySet()) {
+		for (Marker marker : markersMap.values()) {
 			marker.remove();
 		}
-		markersToRemove.clear();
+		markersMap.clear();
 
 	}
 }
