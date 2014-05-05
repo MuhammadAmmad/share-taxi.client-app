@@ -1,7 +1,11 @@
-package com.panamana.sharetaxi.directions;
+package com.panamana.sharetaxi.lines.objects;
 
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Line object, contains line parameters (start, end, middle way points, and other parameters)
+ * @author naama
+ */
 public class Line {
 
 	String mName;

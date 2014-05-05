@@ -1,12 +1,15 @@
 package com.panamana.sharetaxi.directions;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
+import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
+import com.panamana.sharetaxi.lines.objects.Line;
 
 /**
  * Google Directions API manager class.
  * @author 
  */
-public class Directions {
+public class DirectionsManager {
 
 	/* 
 	 * Example Requests:
@@ -60,31 +63,9 @@ public class Directions {
 				result += "%7C" + "via:" + waypoints[i];
 			}
 		}
-		// converting the string to UTF-8 encoding
-//		out = convertToUTF8(result);
 		return result;
 	}
 	
-//	public static String convertToUTF8 (String s) {
-//		String out = null;
-//		try {
-//			out = URLEncoder.encode(s, "UTF-8");
-//		} catch (UnsupportedEncodingException uee) {
-//			uee.printStackTrace();
-//		}
-//		return out;
-//	}
-	
-	
-	
-//	 // convert from internal Java String format -> UTF-8
-//    public static String convertToUTF8(String s) {
-//        String out = null;
-//        try {
-//            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
-//        } catch (Exception e) {}
-//        return out;
-//    }
 	
 	/**
 	 * 

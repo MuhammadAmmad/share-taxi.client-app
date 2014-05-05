@@ -25,21 +25,23 @@ import com.panamana.sharetaxi.cars.CarsWorker;
  * https://developers.google.com/maps/documentation/android/start
  * @author
  */
-public class Maps {
+public class MapManager {
 
 	// Constants:
-	private static final String TAG = Maps.class.getSimpleName();
+	private static final String TAG = MapManager.class.getSimpleName();
 	
 	// Fields:
 	// map //
 	private GoogleMap map;
 	// lists //
+	public Map<Marker, String> markersToRemove = null;
 	public Map<String, Marker> markersMap = null;
 	public Map<String, PolylineOptions> polylineOptionsMap = null;
 	public Map<String, Polyline> polylinesMap = null;
 
 	// init:
-	public Maps(Context context) {
+	public MapManager(Context context) {
+		markersToRemove = new HashMap<Marker, String>();
 		markersMap = new HashMap<String, Marker>();
 		polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		polylinesMap = new HashMap<String, Polyline>();
@@ -86,32 +88,46 @@ public class Maps {
 	}
 
 	// markers //
-	
+
 	/**
-	 * 
+	 * adds cars markers to map
 	 * @param position
 	 * @param title
 	 * @param snippet
+	 * @param icon
 	 * @param carId
-	 * @param bitmapDescriptor
+	 * @return
 	 */
-	public Marker addMarker(LatLng position, String title,
-			String snippet, BitmapDescriptor bitmapDescriptor) {
-
-		Marker marker = map.addMarker(new MarkerOptions().title(title)
-				.snippet(snippet).position(position));
-		// put id,marker pair -> map
-		return marker;
-	}
-
-	public Marker addMarker(LatLng position, String title,
-			String snippet, BitmapDescriptor icon, String carId) {
+	public Marker addMarker(LatLng position, String title, String snippet, BitmapDescriptor icon, String carId) {
+		//
 		Marker marker = map.addMarker(new MarkerOptions().title(title)
 				.snippet(snippet).position(position).icon(icon));
-		markersMap.put(carId, marker);
+		//
+		Marker prevMarker = markersMap.get(title);
+		if ( prevMarker != null) {
+			prevMarker.remove();
+		}
+		markersMap.put(title, marker);
+		markersToRemove.put(marker, carId);
 		return marker;
 	}
 
+	public Marker addMarker(LatLng position, String title, BitmapDescriptor icon, String carId) {
+		//
+		Marker marker = map.addMarker(
+				new MarkerOptions()
+				.title(title)
+				.position(position)
+				.icon(icon));
+		//
+		Marker prevMarker = markersMap.get(title);
+		if ( prevMarker != null) {
+			prevMarker.remove();
+		}
+		markersMap.put(title, marker);
+		markersToRemove.put(marker, carId);
+		return marker;
+	}
 	// polyline - routes //
 	
 	/**
@@ -147,10 +163,10 @@ public class Maps {
 
 	public void removeCars() {
 		// TODO Auto-generated method stub
-		for (Marker marker : markersMap.values()) {
+		for (Marker marker : markersToRemove.keySet()) {
 			marker.remove();
 		}
-		markersMap.clear();
+		markersToRemove.clear();
 
 	}
 }

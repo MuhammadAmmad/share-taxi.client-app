@@ -1,9 +1,11 @@
-package com.panamana.sharetaxi.cars;
+package com.panamana.sharetaxi.cars.locations.parser;
 
 import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.panamana.sharetaxi.cars.objects.Car;
 
 import android.os.AsyncTask;
 

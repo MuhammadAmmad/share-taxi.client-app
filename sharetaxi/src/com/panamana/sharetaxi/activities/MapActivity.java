@@ -10,10 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.panamana.sharetaxi.R;
-import com.panamana.sharetaxi.directions.Lines;
-import com.panamana.sharetaxi.maps.LinesWorker;
-import com.panamana.sharetaxi.maps.Maps;
-import com.panamana.sharetaxi.threads.LocationsUpdateThread;
+import com.panamana.sharetaxi.cars.locations.updater.LocationsUpdateThread;
+import com.panamana.sharetaxi.lines.LINES;
+import com.panamana.sharetaxi.lines.workers.LinesWorker;
+import com.panamana.sharetaxi.maps.MapManager;
 
 /**
  * Main Activity.
@@ -27,7 +27,7 @@ public class MapActivity extends ActionBarActivity {
 	private static final String FILENAME = "polylines.data";
 	public static Context context;
 	LocationsUpdateThread updater;
-	public Maps maps;
+	public MapManager mapManager;
 
 	// Life Cycle //
 
@@ -40,9 +40,9 @@ public class MapActivity extends ActionBarActivity {
 		//
 		context = this;
 		// create map
-		maps = new Maps(this);
+		mapManager = new MapManager(this);
 		// set map position
-		maps.positionMap(Lines.line4.getStart());
+		mapManager.positionMap(LINES.LINE4_WAYPOINTS.getStart());
 		Log.i(TAG, "draw line");
 
 		// Maps.drawLine(Lines.line4,context);
@@ -63,19 +63,25 @@ public class MapActivity extends ActionBarActivity {
 		super.onResume();
 		Log.i(TAG, "onResume");
 		// draw route
-		if (maps.polylineOptionsMap == null
-				|| maps.polylineOptionsMap.isEmpty()) {
+		if (mapManager.polylineOptionsMap == null
+				|| mapManager.polylineOptionsMap.isEmpty()) {
 			// no line data - request data from server
-			LinesWorker lw = new LinesWorker(this, maps, Lines.line4, Lines.line4a, Lines.line5) {
+			LinesWorker lw = new LinesWorker(this, mapManager, LINES.LINE4_WAYPOINTS, LINES.LINE4A_WAYPOINTS, LINES.LINE5_WAYPOINTS) {
 				@Override
-				public void onFinish() {
-					for(final String line : maps.polylineOptionsMap.keySet()){
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								maps.addPolyline(line);
-							}
-						});
+				public void onLineWorkerComplete() {
+					if(!isFinishing() && mapManager!=null) {
+						// NOT onDestroy AND got MapManager
+						for(final String line : mapManager.polylineOptionsMap.keySet()){
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									if(!isFinishing() && mapManager!=null) {
+										// NOT onDestroy AND got MapManager
+										mapManager.addPolyline(line);
+									}
+								}
+							});
+						}
 					}
 				}
 			};
@@ -83,11 +89,11 @@ public class MapActivity extends ActionBarActivity {
 
 		} else {
 			// got line data - add/draw
-			for(String line : maps.polylineOptionsMap.keySet()){
-				maps.addPolyline(line);
+			for(String line : mapManager.polylineOptionsMap.keySet()){
+				mapManager.addPolyline(line);
 			}
 		}
-		updater = new LocationsUpdateThread(this,maps);
+		updater = new LocationsUpdateThread(this,mapManager);
 		updater.start();
 		// Maps.removeCars();
 	}
@@ -99,7 +105,7 @@ public class MapActivity extends ActionBarActivity {
 		if (updater != null) {
 			updater.pause();
 		}
-		maps.removeCars();
+		mapManager.removeCars();
 	}
 
 	@Override
@@ -109,6 +115,11 @@ public class MapActivity extends ActionBarActivity {
 		// new Persist().save(this, FILENAME, Maps.polylineOptionsMap);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mapManager = null;
+	}
 	// Menu //
 
 	@Override
@@ -146,7 +157,7 @@ public class MapActivity extends ActionBarActivity {
 	}
 
 	private void clickOpenMap() {
-		maps.getPolyline("line4").setVisible(false);
+		mapManager.getPolyline(LINES.LINE4).setVisible(false);
 	}
 
 	private void clickOpenInfo() {

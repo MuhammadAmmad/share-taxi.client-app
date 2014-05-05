@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.directions;
+package com.panamana.sharetaxi.directions.parser;
 
 import java.util.List;
 

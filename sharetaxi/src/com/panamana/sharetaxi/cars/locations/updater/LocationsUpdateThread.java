@@ -1,32 +1,34 @@
-package com.panamana.sharetaxi.threads;
+package com.panamana.sharetaxi.cars.locations.updater;
 
-import com.panamana.sharetaxi.maps.Maps;
+import com.panamana.sharetaxi.maps.MapManager;
 
 import android.content.Context;
 import android.util.Log;
 
 /**
- * 
+ * sample server for new taxi location data
  * @author naama
- *
  */
 public class LocationsUpdateThread extends Thread {
 	
-	
+	// Constants:
 	private static final String TAG = LocationsUpdateThread.class.getSimpleName();
-	private static final long INTERVAL = 20000;
+	private static final long INTERVAL = 1000;
+
+	// Fields:
 	private boolean isRunning = true;
 	private Context context;
-	Maps maps;
+	private MapManager maps;
 	
-	
-	
-	public LocationsUpdateThread(Context context, Maps maps) {
+	// Constructor:
+	public LocationsUpdateThread(Context context, MapManager maps) {
 		super();
 		this.context = context;
 		this.maps=maps;
 	}
 
+	// Methods:
+	
 	/**
 	 * 
 	 * @author naama

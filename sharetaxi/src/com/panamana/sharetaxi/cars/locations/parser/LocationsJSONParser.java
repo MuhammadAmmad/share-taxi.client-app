@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.cars;
+package com.panamana.sharetaxi.cars.locations.parser;
 
 import java.util.Map;
 
@@ -8,12 +8,22 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.panamana.sharetaxi.cars.CarsWorker;
+import com.panamana.sharetaxi.cars.objects.Car;
 
+/**
+ * handle Locatio¯n response -> Car object.
+ * @author naama
+ */
 public class LocationsJSONParser {
 
+	// Constants:
+	private static final String TAG = LocationsJSONParser.class.getSimpleName();
+	private static final String POINTS = "points";
+
+	// Interface:
 	public interface LocationsJsonTags {
-//		static final public String DIRECTION = "direction";
+
 		static final public String LINENUM = "lineNum";
 		static final public String LONGITUDE = "longitude";
 		static final public String ANDROIDID = "androidID";
@@ -21,9 +31,13 @@ public class LocationsJSONParser {
 		static final public String DATE = "date";
 	}
 
-	private static final String TAG = LocationsJSONParser.class.getSimpleName();
-	private static final String POINTS = "points";
-
+	// Methods:
+	
+	/**
+	 * create cars from location JSON response.
+	 * @param jObject
+	 * @return
+	 */
 	public Map<String, Car> parse(JSONObject jObject) {
 		// TODO Auto-generated method stub
 
@@ -32,23 +46,10 @@ public class LocationsJSONParser {
 		Log.i(TAG, "started parsing");
 		try {
 			jPoints = getPoints(jObject);
-			/** Traversing all routes */
 			for (int i = 0; i < jPoints.length(); i++) {
-				
-				JSONObject jo = jPoints.getJSONObject(i);
-				String 	id        	=  jo.getString(LocationsJsonTags.ANDROIDID);           
-				String 	date     	=  jo.getString(LocationsJsonTags.DATE);               
-				String  line 		=  jo.getString(LocationsJsonTags.LINENUM);          
-//				String 	direction 	=  jo.getString(LocationsJsonTags.DIRECTION);        
-				LatLng  latlng    	=  new LatLng(                                       
-		                              		jo.getDouble(LocationsJsonTags.LATITUDE), 
-				                      		jo.getDouble(LocationsJsonTags.LONGITUDE));
-				
+				// build car for each location JSON response
 				Car car = new Car(jPoints.getJSONObject(i));
 				CarsWorker.cars.put(car.getID(), car);
-				Log.i(TAG, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBcar entered Map: "+car.toString());
-				Log.i(TAG, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBcars updated: "+ CarsWorker.cars.toString());
-				
 			}
 		} catch (JSONException je) {
 			je.printStackTrace();

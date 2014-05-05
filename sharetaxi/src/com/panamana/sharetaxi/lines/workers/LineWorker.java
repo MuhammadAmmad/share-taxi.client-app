@@ -1,20 +1,19 @@
-package com.panamana.sharetaxi.maps;
+package com.panamana.sharetaxi.lines.workers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.panamana.sharetaxi.directions.DirectionJSONParserTask;
-import com.panamana.sharetaxi.directions.Directions;
-import com.panamana.sharetaxi.directions.GetDirectionsTask;
-import com.panamana.sharetaxi.directions.Line;
-import com.panamana.sharetaxi.directions.Lines;
+import com.panamana.sharetaxi.directions.DirectionsManager;
+import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
+import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
+import com.panamana.sharetaxi.lines.objects.Line;
+import com.panamana.sharetaxi.maps.MapManager;
 
 /**
  * Worker Thread: Draw route over map from Line object.
@@ -28,11 +27,11 @@ class LineWorker extends Thread{
 	private Line line;
 	private String response = "";
 	List<List<LatLng>> routes = null;
-	private Maps maps;
+	private MapManager maps;
 	
 	// constructor:
 	
-	public LineWorker(Line line, Maps maps){
+	public LineWorker(Line line, MapManager maps){
 		this.line=line;
 		this.maps = maps;
 	}
@@ -95,10 +94,10 @@ class LineWorker extends Thread{
 
 	private void getDirections() {
 		GetDirectionsTask gdt = new GetDirectionsTask();
-		String request = Directions.buildDirectionRequest(
-				Directions.latlng2String(line.getStart()),
-				Directions.latlng2String(line.getEnd()),
-				Directions.latlng2String(line.getWaypoints()));
+		String request = DirectionsManager.buildDirectionRequest(
+				DirectionsManager.latlng2String(line.getStart()),
+				DirectionsManager.latlng2String(line.getEnd()),
+				DirectionsManager.latlng2String(line.getWaypoints()));
 		if(DEBUG) Log.i(TAG,"request:"+request);
 		if(DEBUG) Log.i(TAG,"GetDirectionsTask started");
 		try {

@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.cars;
+package com.panamana.sharetaxi.cars.locations;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

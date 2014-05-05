@@ -1,13 +1,27 @@
-package com.panamana.sharetaxi.directions;
+package com.panamana.sharetaxi.lines;
 
 import android.graphics.Color;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.panamana.sharetaxi.lines.objects.Line;
 
-public class Lines {
+/**
+ * static data class for Line (and car) objects.
+ * @author naama
+ */
+public class LINES {
 
-	public static Line line4 = new Line(
-			"line4",
+	// Line names
+	
+	public static final String LINE4 = "line4";
+	public static final String LINE4a = "line4a";
+	public static final String LINE5 = "line5";
+	public static final String PREFIX = "line";
+	
+	// Line way points
+	
+	public static Line LINE4_WAYPOINTS = new Line(
+			LINES.LINE4,
 			Color.BLUE,
 			5,
 			new LatLng(32.0538589,34.780081),
@@ -20,8 +34,8 @@ public class Lines {
 				new LatLng(32.0958599, 34.7760255) }
 			);
 	
-	public static Line line4a = new Line(
-			"line4a",
+	public static Line LINE4A_WAYPOINTS = new Line(
+			LINES.LINE4a,
 			Color.GRAY,
 			5,
 			new LatLng(32.0985456, 34.7802936),
@@ -36,8 +50,8 @@ public class Lines {
 				new LatLng(32.1223189,34.7974515)}
 			);
 	
-	public static Line line5 = new Line(
-			"line5",
+	public static Line LINE5_WAYPOINTS = new Line(
+			LINES.LINE5,
 			Color.GREEN,
 			5,
 			new LatLng(32.0562598,34.7810158),
@@ -53,6 +67,5 @@ public class Lines {
 //				new LatLng(32.0937948,34.7904164),
 				new LatLng(32.0965916,34.8040227)
 				}
-			
 			);
 }
