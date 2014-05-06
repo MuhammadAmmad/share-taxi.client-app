@@ -10,6 +10,7 @@ import org.apache.commons.collections4.map.MultiKeyMap;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.objects.Car;
+import com.panamana.sharetaxi.lines.LINES;
 
 /**
  * Google Maps API manager class.
@@ -34,6 +36,8 @@ public class MapManager {
 
 	// Constants:
 	private static final String TAG = MapManager.class.getSimpleName();
+	public static final String [] LinesToHide = {LINES.LINE4,LINES.LINE4a};
+
 	
 	// Fields:
 	// map //
@@ -118,7 +122,10 @@ public class MapManager {
 		//
 		for (int i=0; i<linesToHide.length; i++) {
 			String lineNumber = linesToHide[i];
-			if (!title.equalsIgnoreCase(lineNumber)) {
+			if (title.equalsIgnoreCase(lineNumber)) {
+				return null;
+			}
+		}
 				Marker marker = map.addMarker(
 						new MarkerOptions()
 						.title(title)
@@ -131,9 +138,6 @@ public class MapManager {
 				}
 				markersMap.put(carId, marker);
 				return marker;
-			}
-		}
-		return null;
 	}
 	// polyline - routes //
 	
@@ -141,22 +145,24 @@ public class MapManager {
 	 * 
 	 * @param points
 	 */
-	public void drawPolyline(PolylineOptions lineOptions, int color,
-			LatLng points[]) {
-		for (int i = 0; i < points.length - 1; i++) {
-			map.addPolyline(new PolylineOptions().add(points[i], points[i + 1])
-					.width(5).color(color));
-		}
-	}
+//	public void drawPolyline(PolylineOptions lineOptions, int color,
+//			LatLng points[]) {
+//		for (int i = 0; i < points.length - 1; i++) {
+//			map.addPolyline(new PolylineOptions().add(points[i], points[i + 1])
+//					.width(5).color(color));
+//		}
+//	}
 
 	public void addPolyline(String line,String ...linesToHide) {
 		// add polyline to map
 		for (int i=0; i<linesToHide.length; i++) {
-			if (!line.equalsIgnoreCase(linesToHide[i])) {
-				Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
-				polylinesMap.put(line, pol);			
+			Log.i(TAG+"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", "linesToHide[i]="+linesToHide[i]+" line="+line);
+			if (line.equals(linesToHide[i])) {
+				return;
 			}
 		}
+		Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
+		polylinesMap.put(line, pol);			
 	}
 
 	public Polyline getPolyline(String line) {

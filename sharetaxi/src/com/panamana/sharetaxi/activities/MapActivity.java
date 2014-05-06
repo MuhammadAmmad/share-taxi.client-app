@@ -29,6 +29,8 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
+	public static final String [] linesToHide = {LINES.LINE4,LINES.LINE4a};
+
 
 	// Life Cycle //
 
@@ -78,7 +80,7 @@ public class MapActivity extends ActionBarActivity {
 								public void run() {
 									if(!isFinishing() && mapManager!=null) {
 										// NOT onDestroy AND got MapManager
-										mapManager.addPolyline(line);
+										mapManager.addPolyline(line,linesToHide);
 									}
 								}
 							});
