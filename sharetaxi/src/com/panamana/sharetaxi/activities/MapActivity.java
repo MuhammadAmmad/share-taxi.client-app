@@ -93,7 +93,7 @@ public class MapActivity extends ActionBarActivity {
 		} else {
 			// got line data - add/draw
 			for(String line : mapManager.polylineOptionsMap.keySet()){
-				mapManager.addPolyline(line);
+				mapManager.addPolyline(line,linesToHide);
 			}
 		}
 		updater = new LocationsUpdateThread(this,mapManager);
