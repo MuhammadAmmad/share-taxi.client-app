@@ -44,7 +44,7 @@ public class MapManager {
 	private GoogleMap map;
 	// lists //
 	public Map<String, Marker> markersMap = null;
-	public Map<String, PolylineOptions> polylineOptionsMap = null;
+	public static Map<String, PolylineOptions> polylineOptionsMap = null;
 	public Map<String, Polyline> polylinesMap = null;
 
 	// init:
