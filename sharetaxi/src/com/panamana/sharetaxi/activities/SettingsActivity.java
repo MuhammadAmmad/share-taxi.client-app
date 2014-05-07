@@ -13,6 +13,17 @@ import android.widget.CheckBox;
 import com.panamana.sharetaxi.R;
 
 public class SettingsActivity extends ActionBarActivity {
+	
+	public static boolean settingVisited = false;
+	public static CheckBox b1 = null;
+	public static CheckBox b2 = null;
+	public static CheckBox b3 = null;
+	public static CheckBox b4 = null;
+	public static CheckBox b5 = null;
+	public static CheckBox b6 = null;
+	
+//	public static boolean[] booleans = new boolean[] {true,true,true,true,true,true};
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +34,16 @@ public class SettingsActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		final LayoutInflater factory = getLayoutInflater();
+		final View checkBoxView = factory.inflate(R.layout.fragment_settings, null);
+		
+		b1 = (CheckBox)checkBoxView.findViewById(R.id.checkBoxLineKav4North);
+		b2 = (CheckBox)checkBoxView.findViewById(R.id.checkBoxLineKav4South);
+		b3 = (CheckBox)checkBoxView.findViewById(R.id.checkBoxLineKav4aNorth);
+		b4 = (CheckBox)checkBoxView.findViewById(R.id.checkBoxLineKav4aSouth);
+		b5 = (CheckBox)checkBoxView.findViewById(R.id.checkBoxLineKav5North);
+		b6 = (CheckBox)checkBoxView.findViewById(R.id.checkBoxLineKav5South);
 	}
 
 	@Override
@@ -43,6 +64,51 @@ public class SettingsActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	/*
+	@Override
+    protected void onResume() {
+      super.onResume();
+      // update checkboxes values
+      b1.setChecked(booleans[0]);
+      b2.setChecked(booleans[1]);
+      b3.setChecked(booleans[2]);
+      b4.setChecked(booleans[3]);
+      b5.setChecked(booleans[4]);
+      b6.setChecked(booleans[5]);
+    }
+	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		
+		super.onSaveInstanceState(savedInstanceState);
+		
+		boolean[] checkBoxesValues = {b1.isChecked(),b2.isChecked(),b3.isChecked(),
+										b4.isChecked(),b5.isChecked(),b6.isChecked()};
+		//save checkboxes values
+		savedInstanceState.putBooleanArray("checkBoxesVals", checkBoxesValues);
+	}
+	
+	@Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		
+		// restore checkboxes values
+		booleans = savedInstanceState.getBooleanArray("checkBoxesVals");
+        super.onRestoreInstanceState(savedInstanceState);
+    }*/
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+	/*	booleans[0] = b1.isChecked();
+		booleans[1] = b2.isChecked();
+		booleans[2] = b3.isChecked();
+		booleans[3] = b4.isChecked();
+		booleans[4] = b5.isChecked();
+		booleans[5] = b6.isChecked();*/
+		
+		settingVisited = true;
 	}
 				
 	public void checkBoxClicked(View view) {
