@@ -36,7 +36,6 @@ public class MapManager {
 
 	// Constants:
 	private static final String TAG = MapManager.class.getSimpleName();
-	public static final String [] LinesToHide = {LINES.LINE4,LINES.LINE4a};
 
 	
 	// Fields:
@@ -156,7 +155,6 @@ public class MapManager {
 	public void addPolyline(String line,String ...linesToHide) {
 		// add polyline to map
 		for (int i=0; i<linesToHide.length; i++) {
-			Log.i(TAG+"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", "linesToHide[i]="+linesToHide[i]+" line="+line);
 			if (line.equals(linesToHide[i])) {
 				return;
 			}

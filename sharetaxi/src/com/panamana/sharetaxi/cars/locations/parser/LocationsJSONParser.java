@@ -39,8 +39,6 @@ public class LocationsJSONParser {
 	 * @return
 	 */
 	public Map<String, Car> parse(JSONObject jObject) {
-		// TODO Auto-generated method stub
-
 		JSONArray jPoints = null;
 
 		Log.i(TAG, "started parsing");
@@ -49,6 +47,11 @@ public class LocationsJSONParser {
 			for (int i = 0; i < jPoints.length(); i++) {
 				// build car for each location JSON response
 				Car car = new Car(jPoints.getJSONObject(i));
+				car.updateCarDirection();
+				if (car.getDirection() != null) {
+					String direction = car.getDirection();
+					Log.i(TAG+"YYYYYYYYYYYYYYYYYYYYYYYYYYYYY",car.getDirection());
+				}
 				CarsWorker.cars.put(car.getID(), car);
 			}
 		} catch (JSONException je) {

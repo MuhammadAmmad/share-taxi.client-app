@@ -1,11 +1,20 @@
 package com.panamana.sharetaxi.cars.objects;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.LocationsJsonTags;
+import com.panamana.sharetaxi.maps.MapManager;
+import com.panamana.sharetaxi.utils.DirectionalVector;
+import com.panamana.sharetaxi.utils.Position;
 
 /**
  * this is the Car object that gets the JSON data from the locations server
@@ -15,6 +24,7 @@ import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.Location
  */
 public class Car {
 
+	private static final String TAG = Car.class.getSimpleName();
 	// Fields:
 	private String mID;
 	private String mTime;
@@ -22,6 +32,8 @@ public class Car {
 	private LatLng mLatLng;
 	private String mLineName;
 	private Marker mMarker;
+	private int mIRootLocation;
+	private float mDistanceFromI;
 	
 	// Constructor:
 	public Car (String ID, String time, String line, LatLng latlng ) {
@@ -30,6 +42,28 @@ public class Car {
 		this.mLineName = line;
 		this.mLatLng = latlng;
 		this.mMarker = null;
+		this.mIRootLocation = 10000;
+		this.mDistanceFromI = 10000;
+		this.mDirection = null;
+		
+	}
+	public String getDirection() {
+		return mDirection;
+	}
+	public void setDirection(String mDirection) {
+		this.mDirection = mDirection;
+	}
+	public int getIRootLocation() {
+		return mIRootLocation;
+	}
+	public void setIRootLocation(int mIRootLocation) {
+		this.mIRootLocation = mIRootLocation;
+	}
+	public float getDistanceFromI() {
+		return mDistanceFromI;
+	}
+	public void setDistanceFromI(float mDistanceFromI) {
+		this.mDistanceFromI = mDistanceFromI;
 	}
 	public Car (JSONObject jo) throws JSONException {
 		this(
@@ -78,9 +112,6 @@ public class Car {
 		return mTime;
 	}
 
-	public String getDirection() {
-		return mDirection;
-	}
 
 	public LatLng getLatLng() {
 		return mLatLng;
@@ -92,5 +123,82 @@ public class Car {
 				+ mDirection + ", mLatLng=" + mLatLng + ", mLine=" + mLineName + ", mMarker=" + mMarker 
 				+ "]";
 	}
+	
+	/**
+	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
+	 */
+	public void calcIRootLocationAndDistance() {
+		int iTHLocation = 0;
+		LatLng carLatLngLocation = this.getLatLng();
+		Position carXYZPoint = LatLng2XYZ(carLatLngLocation);
+		String lineName = this.getLineName();
+		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+lineName);
+		if (linePolylineOptions == null) {
+			return;
+		}
+		List<LatLng> linePoints = linePolylineOptions.getPoints(); 
+		float distanceFromLine = 10000;
+		float distanceFromIpoint = 10000;
+		for (int i = 0; i<linePoints.size()-1; i++) {
+			Position aXYZPoint = LatLng2XYZ(linePoints.get(i));
+			Position bXYZPoint = LatLng2XYZ(linePoints.get(i+1));
+			float distanceFromThisLine = Position.distancePfromVectorAB(carXYZPoint, aXYZPoint, bXYZPoint);
+			// if the car is closer to this line than to the last one, update distance
+			if (distanceFromLine < distanceFromLine) {
+				distanceFromLine = distanceFromThisLine;
+				iTHLocation =i;
+			}
+			// if the car was closer to the last line than to this one, we can stop iterate over the lines points
+			if (distanceFromThisLine > distanceFromLine) {
+				break;
+			}
+		}
+		this.setIRootLocation(iTHLocation);
+		Position iXYZPoint = LatLng2XYZ(linePoints.get(iTHLocation));
+		distanceFromIpoint = DirectionalVector.calcDirection(iXYZPoint, carXYZPoint).getVectorSize();
+		this.setDistanceFromI(distanceFromIpoint);
+	}
+	
+	
+	public void updateCarDirection() {
+		// the prev object of the same car in CarsWorker.cars
+		Car carByID = CarsWorker.cars.get(this.getID());
+		if (carByID == null) {
+			carByID = this;
+		}
+		// if car was just initialized
+		if (carByID.getIRootLocation() == 10000) {
+			this.calcIRootLocationAndDistance();
+		} else {
+			int prevIRootLocation = carByID.getIRootLocation();
+			float prevDistanceFromI = carByID.getDistanceFromI();
+			this.calcIRootLocationAndDistance();
+			// if car is still on the same I-th polyline of the root
+			if (prevIRootLocation == this.getIRootLocation()) {
+				if (prevDistanceFromI < this.getDistanceFromI()) {
+					this.setDirection("North");
+				} else {
+					this.setDirection("South");
+				}
+			} else {
+				if (prevIRootLocation < this.getIRootLocation()) {
+					this.setDirection("North");
+					;
+				} else {
+					this.setDirection("South");
+				}
+			}
+		}
+	}		
+
+	
+	private Position LatLng2XYZ(LatLng latlng) {
+		// TODO Auto-generated method stub
+		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);
+		float yPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.sin(latlng.longitude);
+		float zPos = (float) 6371000 * (float)Math.sin(latlng.latitude);
+		Position position = new Position(xPos, yPos, zPos);
+		return position;
+	}		
 	
 }
