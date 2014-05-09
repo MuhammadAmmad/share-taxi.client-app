@@ -117,7 +117,7 @@ public class MapManager {
 //		return marker;
 //	}
 
-	public Marker addMarker(LatLng position, String title, BitmapDescriptor icon, String carId, String ...linesToHide) {
+	public Marker addMarker(LatLng position, String title, String snippet, BitmapDescriptor icon, String carId, String ...linesToHide) {
 		//
 		for (int i=0; i<linesToHide.length; i++) {
 			String lineNumber = linesToHide[i];
@@ -128,6 +128,7 @@ public class MapManager {
 				Marker marker = map.addMarker(
 						new MarkerOptions()
 						.title(title)
+						.snippet(snippet)
 						.position(position)
 						.icon(icon));
 				//

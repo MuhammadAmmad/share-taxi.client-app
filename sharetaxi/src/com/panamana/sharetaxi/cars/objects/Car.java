@@ -128,35 +128,34 @@ public class Car {
 	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
 	 */
 	public void calcIRootLocationAndDistance() {
-		int iTHLocation = 0;
-		LatLng carLatLngLocation = this.getLatLng();
-		Position carXYZPoint = LatLng2XYZ(carLatLngLocation);
-		String lineName = this.getLineName();
-		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+lineName);
-		if (linePolylineOptions == null) {
-			return;
-		}
-		List<LatLng> linePoints = linePolylineOptions.getPoints(); 
-		float distanceFromLine = 10000;
-		float distanceFromIpoint = 10000;
-		for (int i = 0; i<linePoints.size()-1; i++) {
-			Position aXYZPoint = LatLng2XYZ(linePoints.get(i));
-			Position bXYZPoint = LatLng2XYZ(linePoints.get(i+1));
-			float distanceFromThisLine = Position.distancePfromVectorAB(carXYZPoint, aXYZPoint, bXYZPoint);
-			// if the car is closer to this line than to the last one, update distance
-			if (distanceFromLine < distanceFromLine) {
-				distanceFromLine = distanceFromThisLine;
-				iTHLocation =i;
+		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
+		if (linePolylineOptions != null) {
+			// valid poly line
+			int iTHLocation = 0;
+			Position carXYZPoint = LatLng2XYZ(mLatLng);
+			List<LatLng> linePoints = linePolylineOptions.getPoints(); 
+			float distanceFromLine = 10000;
+			for (int i = 0; i<linePoints.size()-1; i++) {
+				float distanceFromThisLine = 
+						Position.distancePfromVectorAB(
+								carXYZPoint,
+								LatLng2XYZ(linePoints.get(i)),
+								LatLng2XYZ(linePoints.get(i+1)));
+				if (distanceFromLine < distanceFromLine) {
+					// car is closer to this line than to the last one
+					distanceFromLine = distanceFromThisLine;
+					iTHLocation =i;
+				}
+				// if the car was closer to the last line than to this one, we can stop iterate over the lines points
+				if (distanceFromThisLine > distanceFromLine) {
+					break;
+				}
 			}
-			// if the car was closer to the last line than to this one, we can stop iterate over the lines points
-			if (distanceFromThisLine > distanceFromLine) {
-				break;
-			}
+			mIRootLocation=iTHLocation;
+			mDistanceFromI=DirectionalVector.calcDirection(
+					LatLng2XYZ(linePoints.get(iTHLocation)),
+					carXYZPoint).getVectorSize();
 		}
-		this.setIRootLocation(iTHLocation);
-		Position iXYZPoint = LatLng2XYZ(linePoints.get(iTHLocation));
-		distanceFromIpoint = DirectionalVector.calcDirection(iXYZPoint, carXYZPoint).getVectorSize();
-		this.setDistanceFromI(distanceFromIpoint);
 	}
 	
 	
@@ -177,16 +176,16 @@ public class Car {
 			// if car is still on the same I-th polyline of the root
 			if (prevIRootLocation == this.getIRootLocation()) {
 				if (prevDistanceFromI < this.getDistanceFromI()) {
-					this.setDirection("North");
-				} else {
 					this.setDirection("South");
+				} else {
+					this.setDirection("North");
 				}
 			} else {
 				if (prevIRootLocation < this.getIRootLocation()) {
-					this.setDirection("North");
+					this.setDirection("South");
 					;
 				} else {
-					this.setDirection("South");
+					this.setDirection("North");
 				}
 			}
 		}
