@@ -166,7 +166,8 @@ public class Car {
 		if (carByID == null) {
 			carByID = this;
 		}
-		// if car was just initialized
+		// if car was just initialized 
+		// I root location - the I'th segment of the route
 		if (carByID.getIRootLocation() == 10000) {
 			this.calcIRootLocationAndDistance();
 		} else {
