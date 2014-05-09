@@ -22,6 +22,14 @@ public class SettingsActivity extends ActionBarActivity {
 	public static CheckBox b5 = null;
 	public static CheckBox b6 = null;
 	
+	public static boolean b1_isChecked = true;
+	public static boolean b2_isChecked = true;
+	public static boolean b3_isChecked = true;
+	public static boolean b4_isChecked = true;
+	public static boolean b5_isChecked = true;
+	public static boolean b6_isChecked = true;
+	
+	
 //	public static boolean[] booleans = new boolean[] {true,true,true,true,true,true};
 
 
@@ -117,14 +125,27 @@ public class SettingsActivity extends ActionBarActivity {
 	    
 	    ((CheckBox) view).setChecked(checked);
 	    
-	 // Check which checkbox was clicked
+	    // Check which checkbox was clicked
 	    switch(view.getId()) {
 	    case R.id.checkBoxLineKav4North:
+	 
+	    	b1_isChecked = checked;
+	    	break;
 	    case R.id.checkBoxLineKav4South:
+	    	b2_isChecked = checked;
+	    	break;
 	    case R.id.checkBoxLineKav4aNorth:
+	    	b3_isChecked = checked;
+	    	break;
 	    case R.id.checkBoxLineKav4aSouth:
+	    	b4_isChecked = checked;
+	    	break;
 	    case R.id.checkBoxLineKav5North:
+	    	b5_isChecked = checked;
+	    	break;
 	    case R.id.checkBoxLineKav5South:
+	    	b6_isChecked = checked;
+	    	break;
 	    default:
 	    	break;
 	    
@@ -147,6 +168,22 @@ public class SettingsActivity extends ActionBarActivity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_settings,
 					container, false);
+			
+			/* Update the checkboxes  */
+			b1 = (CheckBox)rootView.findViewById(R.id.checkBoxLineKav4North);
+			b2 = (CheckBox)rootView.findViewById(R.id.checkBoxLineKav4South);
+			b3 = (CheckBox)rootView.findViewById(R.id.checkBoxLineKav4aNorth);
+			b4 = (CheckBox)rootView.findViewById(R.id.checkBoxLineKav4aSouth);
+			b5 = (CheckBox)rootView.findViewById(R.id.checkBoxLineKav5North);
+			b6 = (CheckBox)rootView.findViewById(R.id.checkBoxLineKav5South);
+			
+			b1.setChecked(b1_isChecked);
+			b2.setChecked(b2_isChecked);
+			b3.setChecked(b3_isChecked);
+			b4.setChecked(b4_isChecked);
+			b5.setChecked(b5_isChecked);
+			b6.setChecked(b6_isChecked);
+			
 			return rootView;
 		}
 	}

@@ -93,11 +93,21 @@ ActionBar.TabListener {
 		case R.id.action_settings:
 		    openSettings();
 		    return true;
-
+		/*	FOR ASSAF:
+		 	case R.id.action_viral_us:
+				openAbout();
+				return true;*/
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+
+	/*
+	 * FOR ASSAF:
+	 * private void openAbout() {
+		startActivity(new Intent(this, AboutActivity.class));
+	}*/
 	
 	private void openMap() {
 		startActivity(new Intent(this, MapActivity.class));

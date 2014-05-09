@@ -14,6 +14,9 @@
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
           sharetaxi:showAsAction="never" />
+    <item android:id="@+id/action_viral_us"
+          android:title="@string/viral_us"
+          sharetaxi:showAsAction="never" />
         
         
     </menu>
