@@ -1,9 +1,6 @@
 package com.panamana.sharetaxi.activities;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> origin/livnat
 import java.util.List;
 
 import android.content.Context;
@@ -41,11 +38,7 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-<<<<<<< HEAD
-	public static final String [] linesToHide = {LINES.LINE5_S,LINES.LINE4_N,LINES.LINE4_S};
-=======
-	public static String [] linesToHide = {LINES.LINE4,LINES.LINE4a};
->>>>>>> origin/livnat
+	public static String [] linesToHide = {};
 
 
 	// Life Cycle //
@@ -203,22 +196,22 @@ public class MapActivity extends ActionBarActivity {
 		List<String> temp = new ArrayList<String>();
 		
 		if (!SettingsActivity.b1_isChecked) {
-			temp.add(LINES.LINE4);
+			temp.add(LINES.LINE4_N);
 		}
 		if (!SettingsActivity.b2_isChecked) {
-			temp.add(LINES.LINE4);
+			temp.add(LINES.LINE4_S);
 		}
 		if (!SettingsActivity.b3_isChecked) {
-			temp.add(LINES.LINE4a);
+			temp.add(LINES.LINE4a_N);
 		}
 		if (!SettingsActivity.b4_isChecked) {
-			temp.add(LINES.LINE4a);
+			temp.add(LINES.LINE4a_S);
 		}
 		if (!SettingsActivity.b5_isChecked) {
-			temp.add(LINES.LINE5);
+			temp.add(LINES.LINE5_N);
 		}
 		if (!SettingsActivity.b6_isChecked) {
-			temp.add(LINES.LINE5);
+			temp.add(LINES.LINE5_S);
 		}
 		
 		linesToHide = temp.toArray(new String[temp.size()]);
