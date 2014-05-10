@@ -155,10 +155,26 @@ public class MapManager {
 
 	public void addPolyline(String line,String ...linesToHide) {
 		// add polyline to map
+		// if both directions are in linesToHide then hide
+		int hideIf2 = 0;
 		for (int i=0; i<linesToHide.length; i++) {
-			if (line.equals(linesToHide[i])) {
-				return;
+			String direction = "";
+			String [] lineNameParts;
+			String lineName;
+			if (line.contains("South")) {
+				direction = "South";
 			}
+			if (line.contains("North")) {
+				direction = "North";
+			}
+			lineNameParts = line.split(direction);
+			lineName = lineNameParts[0];
+			if (linesToHide[i].contains(lineName)) {
+				hideIf2 ++;
+			}
+		}
+		if (hideIf2 == 2) {
+			return;
 		}
 		Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
 		polylinesMap.put(line, pol);			

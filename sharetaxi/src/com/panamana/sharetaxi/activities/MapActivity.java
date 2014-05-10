@@ -29,7 +29,7 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-	public static final String [] linesToHide = {};
+	public static final String [] linesToHide = {LINES.LINE5_S};
 
 
 	// Life Cycle //

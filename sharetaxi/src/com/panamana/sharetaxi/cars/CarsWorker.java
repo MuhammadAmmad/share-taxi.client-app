@@ -30,7 +30,7 @@ public class CarsWorker extends Thread {
 	private static final String TAG = CarsWorker.class.getSimpleName();
 	protected static final String MARKER_TITLE_PREFIX = "Line";
 	private final boolean DEBUG = true;
-	public static final String [] linesToHide = {};
+	public static final String [] linesToHide = {LINES.LINE5_S};
 
 	// Fields:
 	public static Map<String, Car> cars = new HashMap<String, Car>();
