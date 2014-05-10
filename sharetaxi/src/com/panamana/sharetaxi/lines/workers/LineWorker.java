@@ -45,6 +45,9 @@ class LineWorker extends Thread{
 		// 2. parse Directions API response to List<List<LatLng>> "routes"
 		parseDirections();
 		//new
+		if (this.line.getName().contains("line4a")) {
+			
+		}
 		// 3. createPolylines
 		PolylineOptions polyline = createPolylines();
 		// 4. add polyline to list

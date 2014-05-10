@@ -1,5 +1,7 @@
 package com.panamana.sharetaxi.activities;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +11,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.locations.updater.LocationsUpdateThread;
 import com.panamana.sharetaxi.lines.LINES;
+import com.panamana.sharetaxi.lines.objects.Line;
 import com.panamana.sharetaxi.lines.workers.LinesWorker;
 import com.panamana.sharetaxi.maps.MapManager;
 
@@ -29,7 +34,7 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-	public static final String [] linesToHide = {LINES.LINE5_S};
+	public static final String [] linesToHide = {LINES.LINE5_S,LINES.LINE4_N,LINES.LINE4_S};
 
 
 	// Life Cycle //
@@ -73,6 +78,13 @@ public class MapActivity extends ActionBarActivity {
 				@Override
 				public void onLineWorkerComplete() {
 					if(!isFinishing() && mapManager!=null) {
+						List<LatLng> line4 = mapManager.polylineOptionsMap.get(LINES.LINE4_N).getPoints();
+						List<LatLng> line4a = mapManager.polylineOptionsMap.get(LINES.LINE4a_N).getPoints();
+						PolylineOptions line4aPolyline = new PolylineOptions();
+						line4aPolyline.addAll(line4).addAll(line4a)
+						.color(LINES.LINE4A_WAYPOINTS.getColor())
+						.width(LINES.LINE4A_WAYPOINTS.getWidth());
+						MapManager.polylineOptionsMap.put(LINES.LINE4a_N, line4aPolyline);
 						// NOT onDestroy AND got MapManager
 						for(final String line : mapManager.polylineOptionsMap.keySet()){
 							runOnUiThread(new Runnable() {
