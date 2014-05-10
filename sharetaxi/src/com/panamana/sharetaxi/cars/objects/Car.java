@@ -5,16 +5,19 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.LocationsJsonTags;
 import com.panamana.sharetaxi.maps.MapManager;
 import com.panamana.sharetaxi.utils.DirectionalVector;
 import com.panamana.sharetaxi.utils.Position;
+import com.panamana.sharetaxi.utils.ResourceUtils;
 
 /**
  * this is the Car object that gets the JSON data from the locations server
@@ -32,8 +35,17 @@ public class Car {
 	private LatLng mLatLng;
 	private String mLineName;
 	private Marker mMarker;
+	public int getIcon() {
+		return icon;
+	}
+	public void setIcon(int icon) {
+		this.icon = icon;
+	}
+
+
 	private int mIRouteLocation;
 	private float mDistanceFromI;
+	private int icon;
 	
 	// Constructor:
 	public Car (String ID, String time, String line, LatLng latlng ) {
@@ -45,6 +57,7 @@ public class Car {
 		this.mIRouteLocation = 10000;
 		this.mDistanceFromI = 10000;
 		this.mDirection = "";
+		this.icon = R.drawable.taxi_icon;
 	}
 	public String getDirection() {
 		return mDirection;

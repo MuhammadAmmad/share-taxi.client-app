@@ -77,7 +77,7 @@ public class CarsWorker extends Thread {
 
 						Marker marker = maps.addMarker(car.getLatLng(),
 								MARKER_TITLE_PREFIX + car.getLineName() + car.getDirection(),
-								"Direction: "+car.getDirection(), ResourceUtils.getImage(R.drawable.taxi_icon),
+								"Direction: "+car.getDirection(), ResourceUtils.getImage(car.getIcon()),
 								car.getID(), linesToHide);
 						car.setMarker(marker);
 						Log.i(TAG, car.toString());
