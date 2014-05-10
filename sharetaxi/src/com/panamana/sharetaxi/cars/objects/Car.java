@@ -32,7 +32,7 @@ public class Car {
 	private LatLng mLatLng;
 	private String mLineName;
 	private Marker mMarker;
-	private int mIRootLocation;
+	private int mIRouteLocation;
 	private float mDistanceFromI;
 	
 	// Constructor:
@@ -42,7 +42,7 @@ public class Car {
 		this.mLineName = line;
 		this.mLatLng = latlng;
 		this.mMarker = null;
-		this.mIRootLocation = 10000;
+		this.mIRouteLocation = 10000;
 		this.mDistanceFromI = 10000;
 		this.mDirection = "";
 	}
@@ -52,11 +52,11 @@ public class Car {
 	public void setDirection(String mDirection) {
 		this.mDirection = mDirection;
 	}
-	public int getIRootLocation() {
-		return mIRootLocation;
+	public int getIRouteLocation() {
+		return mIRouteLocation;
 	}
 	public void setIRootLocation(int mIRootLocation) {
-		this.mIRootLocation = mIRootLocation;
+		this.mIRouteLocation = mIRootLocation;
 	}
 	public float getDistanceFromI() {
 		return mDistanceFromI;
@@ -126,8 +126,9 @@ public class Car {
 	/**
 	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
 	 */
-	public void calcIRootLocationAndDistance() {
-		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
+	public void calcIRouteLocationAndDistance() {
+		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName+"North");
+		
 		if (linePolylineOptions != null) {
 			// valid poly line
 			int iTHLocation = 0;
@@ -150,10 +151,12 @@ public class Car {
 					break;
 				}
 			}
-			mIRootLocation=iTHLocation;
+			Log.i(TAG,"11routeLocation"+Integer.toString(this.getIRouteLocation()));
+			mIRouteLocation=iTHLocation;
 			mDistanceFromI=DirectionalVector.calcDirection(
 					LatLng2XYZ(linePoints.get(iTHLocation)),
 					carXYZPoint).getVectorSize();
+			Log.i(TAG,"12routeLocation"+Integer.toString(this.getIRouteLocation()));
 		}
 	}
 	
@@ -166,29 +169,33 @@ public class Car {
 		}
 		// if car was just initialized 
 		// I root location - the I'th segment of the route
-		if (carByID.getIRootLocation() == 10000) {
-			this.calcIRootLocationAndDistance();
+		if (carByID.getIRouteLocation() == 10000) {
+			Log.i(TAG,"no prev location");
+			this.calcIRouteLocationAndDistance();
 		} else {
-			int prevIRootLocation = carByID.getIRootLocation();
+			Log.i(TAG,"save prev location");
+			int prevIRouteLocation = carByID.getIRouteLocation();
 			float prevDistanceFromI = carByID.getDistanceFromI();
-			this.calcIRootLocationAndDistance();
+			this.calcIRouteLocationAndDistance();
 			// if car is still on the same I-th polyline of the root
-			if (prevIRootLocation == this.getIRootLocation()) {
+			if (prevIRouteLocation == this.getIRouteLocation()) {
 				if (prevDistanceFromI < this.getDistanceFromI()) {
-					mDirection = "South";
-				} else {
 					mDirection = "North";
+				} else {
+					mDirection = "South";
 				}
 			} else {
-				if (prevIRootLocation < this.getIRootLocation()) {
-					mDirection = "South";
+				if (prevIRouteLocation < this.getIRouteLocation()) {
+					mDirection = "North";
 					;
 				} else {
-					mDirection = "North";
+					mDirection = "South";
 				}
 			}
 		}
 		CarsWorker.cars.put(mID, carByID);
+		Log.i(TAG,carByID.getDirection());
+
 	}		
 
 	

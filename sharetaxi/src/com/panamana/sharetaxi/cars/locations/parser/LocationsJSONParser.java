@@ -46,16 +46,15 @@ public class LocationsJSONParser {
 			jPoints = getPoints(jObject);
 			for (int i = 0; i < jPoints.length(); i++) {
 				// build car for each location JSON response
-				Car newCar = new Car(jPoints.getJSONObject(i));
-				Car car = CarsWorker.cars.get(newCar.getID());
-				if (car == null) {
-					car = newCar;
-				}
+				Car car = new Car(jPoints.getJSONObject(i));
+				Log.i(TAG,"1routeLocation"+Integer.toString(car.getIRouteLocation()));
 				car.updateCarDirection();
-				if (car.getDirection() != null) {
+				Log.i(TAG,"2routeLocation"+Integer.toString(car.getIRouteLocation()));
+				if (car.getDirection() != "") {
 					String direction = car.getDirection();
 					Log.i(TAG+"YYYYYYYYYYYYYYYYYYYYYYYYYYYYY",car.getDirection());
 				}
+				Log.i(TAG,"3routeLocation"+Integer.toString(car.getIRouteLocation()));
 				CarsWorker.cars.put(car.getID(), car);
 			}
 		} catch (JSONException je) {
