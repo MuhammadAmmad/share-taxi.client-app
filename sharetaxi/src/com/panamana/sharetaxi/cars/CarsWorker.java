@@ -30,7 +30,7 @@ public class CarsWorker extends Thread {
 	private static final String TAG = CarsWorker.class.getSimpleName();
 	protected static final String MARKER_TITLE_PREFIX = "Line";
 	private final boolean DEBUG = true;
-	public static final String [] linesToHide = {LINES.LINE4,LINES.LINE4a};
+	public static final String [] linesToHide = {LINES.LINE4_N,LINES.LINE4a_N};
 
 	// Fields:
 	public static Map<String, Car> cars = new HashMap<String, Car>();
@@ -76,7 +76,7 @@ public class CarsWorker extends Thread {
 					public void run() {
 
 						Marker marker = maps.addMarker(car.getLatLng(),
-								MARKER_TITLE_PREFIX + car.getLineName(),
+								MARKER_TITLE_PREFIX + car.getLineName() + car.getDirection(),
 								"Direction: "+car.getDirection(), ResourceUtils.getImage(R.drawable.taxi_icon),
 								car.getID(), linesToHide);
 						car.setMarker(marker);

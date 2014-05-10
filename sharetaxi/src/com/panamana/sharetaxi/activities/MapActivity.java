@@ -29,7 +29,7 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-	public static final String [] linesToHide = {LINES.LINE4,LINES.LINE4a};
+	public static final String [] linesToHide = {LINES.LINE4_N,LINES.LINE4a_N};
 
 
 	// Life Cycle //
@@ -160,8 +160,6 @@ public class MapActivity extends ActionBarActivity {
 	}
 
 	private void clickOpenMap() {
-		mapManager.getPolyline(LINES.LINE4).setVisible(false);
-		Log.i(TAG,"clicked map");
 	}
 
 	private void clickOpenInfo() {

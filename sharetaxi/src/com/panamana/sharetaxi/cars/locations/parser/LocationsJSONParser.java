@@ -46,7 +46,11 @@ public class LocationsJSONParser {
 			jPoints = getPoints(jObject);
 			for (int i = 0; i < jPoints.length(); i++) {
 				// build car for each location JSON response
-				Car car = new Car(jPoints.getJSONObject(i));
+				Car newCar = new Car(jPoints.getJSONObject(i));
+				Car car = CarsWorker.cars.get(newCar.getID());
+				if (car == null) {
+					car = newCar;
+				}
 				car.updateCarDirection();
 				if (car.getDirection() != null) {
 					String direction = car.getDirection();

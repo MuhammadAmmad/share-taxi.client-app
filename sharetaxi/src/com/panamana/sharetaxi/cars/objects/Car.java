@@ -44,8 +44,7 @@ public class Car {
 		this.mMarker = null;
 		this.mIRootLocation = 10000;
 		this.mDistanceFromI = 10000;
-		this.mDirection = null;
-		
+		this.mDirection = "";
 	}
 	public String getDirection() {
 		return mDirection;
@@ -161,7 +160,7 @@ public class Car {
 	
 	public void updateCarDirection() {
 		// the prev object of the same car in CarsWorker.cars
-		Car carByID = CarsWorker.cars.get(this.getID());
+		Car carByID = CarsWorker.cars.get(mID);
 		if (carByID == null) {
 			carByID = this;
 		}
@@ -176,19 +175,20 @@ public class Car {
 			// if car is still on the same I-th polyline of the root
 			if (prevIRootLocation == this.getIRootLocation()) {
 				if (prevDistanceFromI < this.getDistanceFromI()) {
-					this.setDirection("South");
+					mDirection = "South";
 				} else {
-					this.setDirection("North");
+					mDirection = "North";
 				}
 			} else {
 				if (prevIRootLocation < this.getIRootLocation()) {
-					this.setDirection("South");
+					mDirection = "South";
 					;
 				} else {
-					this.setDirection("North");
+					mDirection = "North";
 				}
 			}
 		}
+		CarsWorker.cars.put(mID, carByID);
 	}		
 
 	
