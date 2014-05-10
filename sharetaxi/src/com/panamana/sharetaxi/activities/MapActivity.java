@@ -187,23 +187,22 @@ public class MapActivity extends ActionBarActivity {
 		
 		List<String> temp = new ArrayList<String>();
 		
-		
-		if (!SettingsActivity.b1.isChecked()) {
+		if (!SettingsActivity.b1_isChecked) {
 			temp.add(LINES.LINE4);
 		}
-		if (!SettingsActivity.b2.isChecked()) {
+		if (!SettingsActivity.b2_isChecked) {
 			temp.add(LINES.LINE4);
 		}
-		if (!SettingsActivity.b3.isChecked()) {
+		if (!SettingsActivity.b3_isChecked) {
 			temp.add(LINES.LINE4a);
 		}
-		if (!SettingsActivity.b4.isChecked()) {
+		if (!SettingsActivity.b4_isChecked) {
 			temp.add(LINES.LINE4a);
 		}
-		if (!SettingsActivity.b5.isChecked()) {
+		if (!SettingsActivity.b5_isChecked) {
 			temp.add(LINES.LINE5);
 		}
-		if (!SettingsActivity.b6.isChecked()) {
+		if (!SettingsActivity.b6_isChecked) {
 			temp.add(LINES.LINE5);
 		}
 		
