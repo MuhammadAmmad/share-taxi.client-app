@@ -13,14 +13,18 @@ public class LINES {
 
 	// Line names
 	
-	public static final String LINE4 = "line4";
-	public static final String LINE4a = "line4a";
-	public static final String LINE5 = "line5";
+	public static final String LINE4_N = "line4North";
+	public static final String LINE4_S = "line4South";
+	public static final String LINE4a_N = "line4aNorth";
+	public static final String LINE4a_S = "line4aSouth";
+	public static final String LINE5_N = "line5North";
+	public static final String LINE5_S = "line5South";
+	
 	
 	// Line way points
 	
 	public static Line LINE4_WAYPOINTS = new Line(
-			LINES.LINE4,
+			LINES.LINE4_N,
 			Color.BLUE,
 			5,
 			new LatLng(32.0538589,34.780081),
@@ -34,7 +38,7 @@ public class LINES {
 			);
 	
 	public static Line LINE4A_WAYPOINTS = new Line(
-			LINES.LINE4a,
+			LINES.LINE4a_N,
 			Color.GRAY,
 			5,
 			new LatLng(32.0985456, 34.7802936),
@@ -50,11 +54,11 @@ public class LINES {
 			);
 	
 	public static Line LINE5_WAYPOINTS = new Line(
-			LINES.LINE5,
+			LINES.LINE5_N,
 			Color.GREEN,
 			5,
 			new LatLng(32.0562598,34.7810158),
-			new LatLng(32.0941057,34.798036),
+			new LatLng(32.0965916,34.8040227),
 			new LatLng[] {
 				new LatLng(32.0590423,34.7779045),
 				new LatLng(32.0618400,34.7777057),
@@ -63,8 +67,7 @@ public class LINES {
 				new LatLng(32.0741580,34.779006 ),
 				new LatLng(32.0923583,34.7764054),
 				new LatLng(32.0940017,34.7834732),
-//				new LatLng(32.0937948,34.7904164),
-				new LatLng(32.0965916,34.8040227)
+				new LatLng(32.0937948,34.7904164),
 				}
 			);
 }
