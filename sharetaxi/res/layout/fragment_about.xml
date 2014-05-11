@@ -1,0 +1,241 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/egg_shell"
+   tools:context="com.example.about_sharetaxi.About$PlaceholderFragment" 
+   android:stretchColumns="yes"
+   >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/send_App_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="shareAPP"
+            android:text="שתף את האפליקציה" />
+
+         <Button
+        android:id="@+id/facebookButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="goToFacebookWeb"
+        android:text="facebook" />
+        
+    </LinearLayout>
+   
+ <TableRow
+        android:id="@+id/tableRow_onAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/egg_shell" >
+
+        <ScrollView
+            android:id="@+id/stockScrollView_onAbout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp" >
+
+            <!--
+            android:stretchColumns Defines that you want 
+            this component to expand in width to fit any extra 
+            space
+            -->
+
+            <TableLayout
+                android:id="@+id/TableScrollView_onAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:stretchColumns="yes" >
+
+                <TableRow
+                    android:id="@+id/tableRow0_onAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/aboutTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10sp"
+                        android:text="אודות המפתחים"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/title_line"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow4_onAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent" >
+
+                    <TextView
+                        android:id="@+id/tableRow5_onAbout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:padding="10dp"
+                        android:text="@string/about_the_project"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow0_onAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/developers_name_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10sp"
+                        android:text="שמות מפתחי הפרויקט"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/title_line"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/name_list1_TableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                   <TextView
+                       android:id="@+id/name1_TextView"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="3000"
+                       android:gravity="right"
+                       android:padding="5dp"
+                       android:text="@string/devel_name1"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/text" />
+
+                </TableRow>
+                
+                    <TableRow
+                    android:id="@+id/name_list2_TableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                   <TextView
+                       android:id="@+id/name2_TextView"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="3000"
+                       android:gravity="right"
+                       android:padding="5dp"
+                       android:text="@string/devel_name2"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/text" />
+
+                </TableRow>
+                
+                        <TableRow
+                    android:id="@+id/name_list3_TableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                   <TextView
+                       android:id="@+id/name3_TextView"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="3000"
+                       android:gravity="right"
+                       android:padding="5dp"
+                       android:text="@string/devel_name3"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/text" />
+
+                </TableRow>
+                
+                            <TableRow
+                    android:id="@+id/name_list4_TableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                   <TextView
+                       android:id="@+id/name4_TextView"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="3000"
+                       android:gravity="right"
+                       android:padding="5dp"
+                       android:text="@string/devel_name4"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/text" />
+
+                </TableRow>
+                
+                                <TableRow
+                    android:id="@+id/name_list5_TableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                   <TextView
+                       android:id="@+id/name5_TextView"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="3000"
+                       android:gravity="right"
+                       android:padding="5dp"
+                       android:text="@string/devel_name5"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/text" />
+
+                </TableRow>
+                
+                                    <TableRow
+                    android:id="@+id/name_list6_TableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                   <TextView
+                       android:id="@+id/name6_TextView"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="3000"
+                       android:gravity="right"
+                       android:padding="5dp"
+                       android:text="@string/devel_name6"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/text" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow0_onTimesActivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+		<Button
+		    android:id="@+id/send_Mail_Button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:onClick="sendEmail"
+		    android:text="שלח מייל למפתחים" />
+
+                </TableRow>
+
+               
+            </TableLayout>
+        </ScrollView>
+    </TableRow>
+
+</TableLayout>

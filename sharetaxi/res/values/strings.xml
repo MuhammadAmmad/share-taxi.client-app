@@ -39,6 +39,7 @@
     <string name="saturday_Line_textView">שעות פעילות בשבת וחג </string>
     <string name="StationList_textView">רשימת התחנות </string>
     <string name="title_activity_times">TimesActivity</string>
+    <string name="title_activity_about">aboutActivity</string>
     <string name="title_activity_stations">StationsActivity</string>
     <string name="title_activity_results">ResultsActivity</string>
     <string name="title_activity_map">MapActivity</string>
@@ -53,5 +54,32 @@
     <string name="show_line_kav5_north">קו 5 צפון</string>
     <string name="show_line_kav5_south">קו 5 דרום</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="viral_us">Viral us</string>
+    <string name="viral_us">About</string>
+    
+    
+    
+    
+    <string name="send_SMS_to">לשלוח מסרון שיתוף ל</string>
+    <string name="share">שתף</string>
+    <string name="cancel_share">ביטול</string>
+    <string name="bad_number">לא קיים מספר טלפון לאיש קשר זה, אנא נסה איש קשר אחר</string>
+    <string name="share_msg">היי מה שלומך? אני רוצה לשתף איתך תוכנה מומלצת למעקב ותזמון קוי מוניות שירות מספר 4 5 באזור תא, הורד בחינם מהקישור הבא</string>
+    <string name="thanks_for_share"> תודה על שיתוף האפליקציה</string>
+    <string name="Url_for_download">https://www.dropbox.com/s/08l7xnk4a4v2wvp/about_shareTaxi.apk</string>
+    <string name="devel_name1">פנדי הפנדה</string>
+    <string name="devel_name2">ישראל הגדול</string>
+    <string name="devel_name3">החתול במגפיים</string>
+    <string name="devel_name4">משה אופניק</string>
+    <string name="devel_name5">עוגי פלצת</string>
+    <string name="devel_name6">יוסי בכינור</string>
+    <string name="about_the_project">אודות הפרויקט איפה ולמה עשינו אותו ועוד קצת טקסט</string>
+    <string name="thanks_for_email">אנו מודים לך אל האימייל נחזור אליך בהקדם האפשרי</string>
+    <string name="email_first_line">צוות sharetaxi שלום רב</string>
+    <string name="email">sharetaxi@googlegroups.com</string>
+    <string name="facebookWebPage">http://www.facebook.com</string>
+    
+    
+    
+    
+    
 </resources>
