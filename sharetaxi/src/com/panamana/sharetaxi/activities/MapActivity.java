@@ -40,6 +40,7 @@ public class MapActivity extends ActionBarActivity {
 	public MapManager mapManager;
 	public static String [] polylinesToHide = {};
 	public static String [] linesToHide = {};
+	public static String [] carsToHide = {};
 
 
 	// Life Cycle //
@@ -195,28 +196,40 @@ public class MapActivity extends ActionBarActivity {
 	
 	private void updateLinesToHide() {
 		
-		List<String> temp = new ArrayList<String>();
+		List<String> tempCars = new ArrayList<String>();
+		List<String> tempLines = new ArrayList<String>();
 		
 		if (!SettingsActivity.b1_isChecked) {
-			temp.add(LINES.LINE4_N);
+			tempCars.add(LINES.LINE4_N);
 		}
 		if (!SettingsActivity.b2_isChecked) {
-			temp.add(LINES.LINE4_S);
+			tempCars.add(LINES.LINE4_S);
 		}
 		if (!SettingsActivity.b3_isChecked) {
-			temp.add(LINES.LINE4a_N);
+			tempCars.add(LINES.LINE4a_N);
 		}
 		if (!SettingsActivity.b4_isChecked) {
-			temp.add(LINES.LINE4a_S);
+			tempCars.add(LINES.LINE4a_S);
 		}
 		if (!SettingsActivity.b5_isChecked) {
-			temp.add(LINES.LINE5_N);
+			tempCars.add(LINES.LINE5_N);
 		}
 		if (!SettingsActivity.b6_isChecked) {
-			temp.add(LINES.LINE5_S);
+			tempCars.add(LINES.LINE5_S);
 		}
 		
-		linesToHide = temp.toArray(new String[temp.size()]);
+		if (tempCars.contains(LINES.LINE4_N) && tempCars.contains(LINES.LINE4_S)) {
+			tempLines.add(LINES.LINE4_N);
+		}
+		if (tempCars.contains(LINES.LINE4a_N) && tempCars.contains(LINES.LINE4a_S)) {
+			tempLines.add(LINES.LINE4a_N);
+		}
+		if (tempCars.contains(LINES.LINE5_N) && tempCars.contains(LINES.LINE5_S)) {
+			tempLines.add(LINES.LINE5_N);
+		}
+		
+		carsToHide = tempCars.toArray(new String[tempCars.size()]);
+		linesToHide = tempLines.toArray(new String[tempLines.size()]);
 	}
 
 }
