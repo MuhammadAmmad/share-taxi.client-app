@@ -158,9 +158,19 @@ public class MapManager {
 		// if both directions are in linesToHide then hide
 		int hideIf2 = 0;
 		for (int i=0; i<linesToHide.length; i++) {
-			String direction = "";
+			String [] lineToHideParts;
+			String lineToHide;
 			String [] lineNameParts;
 			String lineName;
+			String direction = "";
+			if (linesToHide[i].contains("South")) {
+				direction = "South";
+			}
+			if (linesToHide[i].contains("North")) {
+				direction = "North";
+			}
+			lineToHideParts = linesToHide[i].split(direction);
+			lineToHide = lineToHideParts[0];
 			if (line.contains("South")) {
 				direction = "South";
 			}
@@ -169,7 +179,8 @@ public class MapManager {
 			}
 			lineNameParts = line.split(direction);
 			lineName = lineNameParts[0];
-			if (linesToHide[i].contains(lineName)) {
+			if (lineToHide.equalsIgnoreCase(lineName)) {
+				Log.i(TAG,"hide");
 				hideIf2 ++;
 			}
 		}
