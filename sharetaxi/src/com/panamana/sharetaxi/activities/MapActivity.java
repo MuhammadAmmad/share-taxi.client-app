@@ -38,11 +38,9 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-<<<<<<< HEAD
-	public static final String [] linesToHide = {LINES.LINE4a_S,LINES.LINE4a_N};
-=======
+
+
 	public static String [] linesToHide = {};
->>>>>>> origin/naama-devel
 
 
 	// Life Cycle //
@@ -83,6 +81,7 @@ public class MapActivity extends ActionBarActivity {
 			updateLinesToHide();
 			SettingsActivity.settingVisited = false;
 		}
+		mapManager.HidePolylines(polylinesToHide);
 		// draw route
 		if (mapManager.polylineOptionsMap == null
 				|| mapManager.polylineOptionsMap.isEmpty()) {
@@ -105,7 +104,7 @@ public class MapActivity extends ActionBarActivity {
 								public void run() {
 									if(!isFinishing() && mapManager!=null) {
 										// NOT onDestroy AND got MapManager
-										mapManager.addPolyline(line,linesToHide);
+										mapManager.addPolyline(line);
 									}
 								}
 							});
@@ -118,7 +117,7 @@ public class MapActivity extends ActionBarActivity {
 		} else {
 			// got line data - add/draw
 			for(String line : mapManager.polylineOptionsMap.keySet()){
-				mapManager.addPolyline(line,linesToHide);
+				mapManager.addPolyline(line);
 			}
 		}
 		updater = new LocationsUpdateThread(this,mapManager);

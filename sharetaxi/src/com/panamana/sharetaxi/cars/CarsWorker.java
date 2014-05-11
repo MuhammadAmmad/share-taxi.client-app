@@ -17,6 +17,7 @@ import com.panamana.sharetaxi.cars.locations.GetLocationsTask;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParserTask;
 import com.panamana.sharetaxi.cars.objects.Car;
 import com.panamana.sharetaxi.lines.LINES;
+import com.panamana.sharetaxi.lines.workers.LinesWorker;
 import com.panamana.sharetaxi.maps.MapManager;
 import com.panamana.sharetaxi.utils.ResourceUtils;
 
@@ -30,7 +31,7 @@ public class CarsWorker extends Thread {
 	private static final String TAG = CarsWorker.class.getSimpleName();
 	protected static final String MARKER_TITLE_PREFIX = "Line";
 	private final boolean DEBUG = true;
-	public static final String [] linesToHide = {LINES.LINE4a_N,LINES.LINE4a_S};
+//	public static final String [] linesToHide = {};
 
 	// Fields:
 	public static Map<String, Car> cars = new HashMap<String, Car>();
@@ -78,7 +79,7 @@ public class CarsWorker extends Thread {
 						Marker marker = maps.addMarker(car.getLatLng(),
 								MARKER_TITLE_PREFIX + car.getLineName() + car.getDirection(),
 								"Direction: "+car.getDirection(), ResourceUtils.getImage(car.getIcon()),
-								car.getID(), linesToHide);
+								car.getID(), MapActivity.linesToHide);
 						car.setMarker(marker);
 						Log.i(TAG, car.toString());
 					}

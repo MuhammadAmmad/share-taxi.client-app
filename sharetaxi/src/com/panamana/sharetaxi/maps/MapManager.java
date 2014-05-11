@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
+import com.panamana.sharetaxi.activities.MapActivity;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.objects.Car;
 import com.panamana.sharetaxi.lines.LINES;
@@ -153,23 +154,30 @@ public class MapManager {
 //		}
 //	}
 
-	public void addPolyline(String line,String ...linesToHide) {
+	public void addPolyline(String line) {
 		// add polyline to map
 		// if both directions are in linesToHide then hide
 		int hideIf2 = 0;
-		for (int i=0; i<linesToHide.length; i++) {
+		for (int i=0; i<MapActivity.linesToHide.length; i++) {
+			String string= "";
+			for (int j=0; j<MapActivity.linesToHide.length; j++){
+				string += MapActivity.linesToHide[j] ;
+			}
+			
+			Log.i(TAG, "linesToHide"+ string);
+
 			String [] lineToHideParts;
 			String lineToHide;
 			String [] lineNameParts;
 			String lineName;
 			String direction = "";
-			if (linesToHide[i].contains("South")) {
+			if (MapActivity.linesToHide[i].contains("South")) {
 				direction = "South";
 			}
-			if (linesToHide[i].contains("North")) {
+			if (MapActivity.linesToHide[i].contains("North")) {
 				direction = "North";
 			}
-			lineToHideParts = linesToHide[i].split(direction);
+			lineToHideParts = MapActivity.linesToHide[i].split(direction);
 			lineToHide = lineToHideParts[0];
 			if (line.contains("South")) {
 				direction = "South";
@@ -222,4 +230,13 @@ public class MapManager {
 		markersMap.clear();
 
 	}
+
+	public void HidePolylines(String [] polylinesToHide) {
+		// TODO Auto-generated method stub
+		for (String line: polylinesToHide) {
+			MapManager.polylineOptionsMap.get(polylinesToHide).visible(false);
+		}
+		
+	}
+
 }
