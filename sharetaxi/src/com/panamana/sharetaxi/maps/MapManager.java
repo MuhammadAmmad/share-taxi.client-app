@@ -45,7 +45,7 @@ public class MapManager {
 	// lists //
 	public Map<String, Marker> markersMap = null;
 	public static Map<String, PolylineOptions> polylineOptionsMap = null;
-	public Map<String, Polyline> polylinesMap = null;
+	public static Map<String, Polyline> polylinesMap = null;
 
 	// init:
 	public MapManager(Context context) {
@@ -235,7 +235,9 @@ public class MapManager {
 	public void HidePolylines(String [] polylinesToHide) {
 		// TODO Auto-generated method stub
 		for (String line: polylinesToHide) {
-			MapManager.polylineOptionsMap.get(polylinesToHide).visible(false);
+			if (line != null) {
+				MapManager.polylinesMap.get(line).setVisible(false);
+			}
 		}
 		
 	}

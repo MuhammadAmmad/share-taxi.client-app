@@ -40,7 +40,6 @@ public class MapActivity extends ActionBarActivity {
 	public MapManager mapManager;
 	public static String [] polylinesToHide = {};
 	public static String [] linesToHide = {};
-	public static String [] carsToHide = {};
 
 
 	// Life Cycle //
@@ -228,8 +227,8 @@ public class MapActivity extends ActionBarActivity {
 			tempLines.add(LINES.LINE5_N);
 		}
 		
-		carsToHide = tempCars.toArray(new String[tempCars.size()]);
-		linesToHide = tempLines.toArray(new String[tempLines.size()]);
+		linesToHide = tempCars.toArray(new String[tempCars.size()]);
+		polylinesToHide = tempLines.toArray(new String[tempLines.size()]);
 	}
 
 }
