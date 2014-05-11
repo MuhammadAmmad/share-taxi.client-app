@@ -25,8 +25,8 @@ public class LINES {
 	
 	public static Line LINE4_WAYPOINTS = new Line(
 			LINES.LINE4_N,
-			Color.BLUE,
-			5,
+			Color.rgb(180,159,217),
+			7,
 			new LatLng(32.0538589,34.780081),
 			new LatLng(32.0985456, 34.7802936),
 			new LatLng[] {
@@ -39,8 +39,8 @@ public class LINES {
 	
 	public static Line LINE4A_WAYPOINTS = new Line(
 			LINES.LINE4a_N,
-			Color.GRAY,
-			5,
+			Color.rgb(106,171,232),
+			4,
 			new LatLng(32.0985456, 34.7802936),
 			new LatLng(32.1294424,34.7926878),
 			new LatLng[] {
@@ -55,8 +55,8 @@ public class LINES {
 	
 	public static Line LINE5_WAYPOINTS = new Line(
 			LINES.LINE5_N,
-			Color.GREEN,
-			5,
+			Color.rgb(14, 23, 219),
+			4,
 			new LatLng(32.0562598,34.7810158),
 			new LatLng(32.0965916,34.8040227),
 			new LatLng[] {

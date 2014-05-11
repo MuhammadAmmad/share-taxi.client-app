@@ -126,6 +126,7 @@ public class MapManager {
 				return null;
 			}
 		}
+		
 				Marker marker = map.addMarker(
 						new MarkerOptions()
 						.title(title)

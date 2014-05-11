@@ -11,13 +11,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.Marker;
-import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.activities.MapActivity;
 import com.panamana.sharetaxi.cars.locations.GetLocationsTask;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParserTask;
 import com.panamana.sharetaxi.cars.objects.Car;
-import com.panamana.sharetaxi.lines.LINES;
-import com.panamana.sharetaxi.lines.workers.LinesWorker;
 import com.panamana.sharetaxi.maps.MapManager;
 import com.panamana.sharetaxi.utils.ResourceUtils;
 

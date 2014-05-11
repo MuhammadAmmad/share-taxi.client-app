@@ -35,17 +35,9 @@ public class Car {
 	private LatLng mLatLng;
 	private String mLineName;
 	private Marker mMarker;
-	public int getIcon() {
-		return icon;
-	}
-	public void setIcon(int icon) {
-		this.icon = icon;
-	}
-
-
 	private int mIRouteLocation;
 	private float mDistanceFromI;
-	private int icon;
+	private int mIcon;
 	
 	// Constructor:
 	public Car (String ID, String time, String line, LatLng latlng ) {
@@ -57,8 +49,9 @@ public class Car {
 		this.mIRouteLocation = 10000;
 		this.mDistanceFromI = 10000;
 		this.mDirection = "";
-		this.icon = R.drawable.taxi_icon;
+		this.mIcon = R.drawable.l5northblue;
 	}
+
 	public String getDirection() {
 		return mDirection;
 	}
@@ -219,6 +212,32 @@ public class Car {
 		float zPos = (float) 6371000 * (float)Math.sin(latlng.latitude);
 		Position position = new Position(xPos, yPos, zPos);
 		return position;
+	}
+
+	public int getIcon() {
+		// TODO Auto-generated method stub
+		if (mLineName.equals("4") && mDirection.equals("North")) {
+			mIcon = R.drawable.l5northblue;
+		}
+		if (mLineName.equals("4") && mDirection.equals("South")) {
+			mIcon = R.drawable.l5northblue;
+		}
+
+		if (mLineName.equals("4a") && mDirection.equals("South")) {
+			mIcon = R.drawable.l5northblue;
+		}
+		if (mLineName.equals("4a") && mDirection.equals("North")) {
+			mIcon = R.drawable.l5northblue;
+		}
+		if (mLineName.equals("5") && mDirection.equals("North")) {
+			mIcon = R.drawable.l5northblue;
+		}
+//		if (mLineName.equals("5") && mDirection.equals("South")) {
+//			mIcon = R.drawable.;
+//		}
+
+		
+		return mIcon;
 	}		
 	
 }

@@ -38,8 +38,7 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-
-
+	public static String [] polylinesToHide = {};
 	public static String [] linesToHide = {};
 
 
