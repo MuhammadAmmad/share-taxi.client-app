@@ -1,5 +1,6 @@
 package com.panamana.sharetaxi.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -7,9 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -34,7 +38,11 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
+<<<<<<< HEAD
 	public static final String [] linesToHide = {LINES.LINE4a_S,LINES.LINE4a_N};
+=======
+	public static String [] linesToHide = {};
+>>>>>>> origin/naama-devel
 
 
 	// Life Cycle //
@@ -70,6 +78,11 @@ public class MapActivity extends ActionBarActivity {
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "onResume");
+		// Check if update needed
+		if (SettingsActivity.settingVisited) {
+			updateLinesToHide();
+			SettingsActivity.settingVisited = false;
+		}
 		// draw route
 		if (mapManager.polylineOptionsMap == null
 				|| mapManager.polylineOptionsMap.isEmpty()) {
@@ -180,6 +193,32 @@ public class MapActivity extends ActionBarActivity {
 
 	private void clickOpenSettings() {
 		startActivity(new Intent(this, SettingsActivity.class));
+	}
+	
+	private void updateLinesToHide() {
+		
+		List<String> temp = new ArrayList<String>();
+		
+		if (!SettingsActivity.b1_isChecked) {
+			temp.add(LINES.LINE4_N);
+		}
+		if (!SettingsActivity.b2_isChecked) {
+			temp.add(LINES.LINE4_S);
+		}
+		if (!SettingsActivity.b3_isChecked) {
+			temp.add(LINES.LINE4a_N);
+		}
+		if (!SettingsActivity.b4_isChecked) {
+			temp.add(LINES.LINE4a_S);
+		}
+		if (!SettingsActivity.b5_isChecked) {
+			temp.add(LINES.LINE5_N);
+		}
+		if (!SettingsActivity.b6_isChecked) {
+			temp.add(LINES.LINE5_S);
+		}
+		
+		linesToHide = temp.toArray(new String[temp.size()]);
 	}
 
 }
