@@ -150,11 +150,11 @@ ActionBar.TabListener {
 			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
-				return "че 4";
+				return getString(R.string.KAV4);
 			case 1:
-				return "че 4 а";
+				return getString(R.string.KAV4A);
 			case 2:
-				return "че 5";
+				return getString(R.string.KAV5);
 			}
 			return null;
 		}

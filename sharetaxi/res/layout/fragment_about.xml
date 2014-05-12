@@ -219,23 +219,25 @@
 
                 </TableRow>
 
-                <TableRow
-                    android:id="@+id/tableRow0_onTimesActivity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-		<Button
-		    android:id="@+id/send_Mail_Button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:onClick="sendEmail"
-		    android:text="שלח מייל למפתחים" />
-
-                </TableRow>
+  
 
                
             </TableLayout>
         </ScrollView>
     </TableRow>
+    
+           <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+		<Button
+		    android:id="@+id/send_Mail_Button"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:onClick="sendEmail"
+		    android:text="שלח מייל למפתחים" />
+
+                </LinearLayout>
 
 </TableLayout>
