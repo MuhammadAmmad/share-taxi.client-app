@@ -11,12 +11,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.Marker;
-import com.panamana.sharetaxi.activities.MapActivity;
 import com.panamana.sharetaxi.cars.locations.GetLocationsTask;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParserTask;
 import com.panamana.sharetaxi.cars.objects.Car;
-import com.panamana.sharetaxi.maps.MapManager;
-import com.panamana.sharetaxi.utils.ResourceUtils;
+import com.panamana.sharetaxi.controller.activities.MapActivity;
+import com.panamana.sharetaxi.model.maps.MapManager;
+import com.panamana.sharetaxi.model.utils.ResourceUtils;
 
 /**
  * Worker Thread: Draw cars over map.

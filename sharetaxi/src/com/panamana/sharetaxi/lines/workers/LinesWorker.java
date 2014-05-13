@@ -3,7 +3,7 @@ package com.panamana.sharetaxi.lines.workers;
 import android.content.Context;
 
 import com.panamana.sharetaxi.lines.objects.Line;
-import com.panamana.sharetaxi.maps.MapManager;
+import com.panamana.sharetaxi.model.maps.MapManager;
 
 /**
  * 

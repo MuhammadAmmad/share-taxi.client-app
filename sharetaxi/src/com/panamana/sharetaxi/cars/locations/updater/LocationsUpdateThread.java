@@ -1,6 +1,6 @@
 package com.panamana.sharetaxi.cars.locations.updater;
 
-import com.panamana.sharetaxi.maps.MapManager;
+import com.panamana.sharetaxi.model.maps.MapManager;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.utils;
+package com.panamana.sharetaxi.model.utils;
 
 public class DirectionalVector {
 

@@ -43,7 +43,6 @@
     <string name="saturday_Line_textView">שעות פעילות בשבת וחג </string>
     <string name="StationList_textView">רשימת התחנות </string>
     <string name="title_activity_times">TimesActivity</string>
-    <string name="title_activity_about">aboutActivity</string>
     <string name="title_activity_stations">StationsActivity</string>
     <string name="title_activity_results">ResultsActivity</string>
     <string name="title_activity_map">MapActivity</string>
@@ -58,7 +57,7 @@
     <string name="show_line_kav5_north">קו 5 צפון</string>
     <string name="show_line_kav5_south">קו 5 דרום</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="viral_us">viral us</string>
+    <string name="menu_action_about">about</string>
     
     
     

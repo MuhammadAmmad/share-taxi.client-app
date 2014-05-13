@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.activities;
+package com.panamana.sharetaxi.controller.activities;
 
 import java.util.Locale;
 
@@ -19,19 +19,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.panamana.sharetaxi.R;
+import com.panamana.sharetaxi.controller.dialogs.DialogAbout;
 
-public class ResultsActivity extends ActionBarActivity implements
-ActionBar.TabListener {
+public class StaticDataActivity extends ActionBarActivity implements
+		ActionBar.TabListener {
 	/** Called when the activity is first created. */
-	
+
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_results);
-		
+		setContentView(R.layout.activity_static_data);
+
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -64,67 +65,57 @@ ActionBar.TabListener {
 					.setTabListener(this));
 		}
 	}
-	
+
 	/*
 	 * create the menu
 	 */
 
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_activity_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
-	
-	
-	
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	    case R.id.action_map:
-	    	openMap();
-	    	return true;
-	    case R.id.action_info:
-	    	openInfo();
-	    	return true;
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.action_map:
+			openMap();
+			return true;
+		case R.id.action_info:
+			openInfo();
+			return true;
 		case R.id.action_settings:
 			openSettings();
-		    return true;
-		//	FOR ASSAF:
-		 	case R.id.action_viralUS:
-				openAbout();
-				return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+			return true;
+			// // FOR ASSAF:
+			// case R.id.action_viralUS:
+			// openAbout();
+			// return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
-	
 
-	
-	 // FOR ASSAF:
-	  private void openAbout() {
-		startActivity(new Intent(this, aboutActivity.class));
+	// FOR ASSAF:
+	private void openAbout() {
+		new DialogAbout(this).show();
 	}
-	
+
 	private void openMap() {
 		startActivity(new Intent(this, MapActivity.class));
 	}
-	
+
 	private void openInfo() {
-		//Do nothing.
+		// Do nothing.
 	}
-	
+
 	private void openSettings() {
-		startActivity(new Intent(this,SettingsActivity.class));
+		startActivity(new Intent(this, SettingsActivity.class));
 	}
-	
-	
-	
-	
-	
+
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
@@ -188,23 +179,24 @@ ActionBar.TabListener {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView;
-			int id =getArguments().getInt(ARG_SECTION_NUMBER);
+			int id = getArguments().getInt(ARG_SECTION_NUMBER);
 			switch (id) {
 			case 1:
-				 rootView = inflater.inflate(R.layout.fragment_kav4, container,false);
-				
+				rootView = inflater.inflate(R.layout.fragment_kav4, container,
+						false);
+
 				break;
 			case 2:
-				 rootView = inflater.inflate(R.layout.fragment_kav4_a, container,
-						false);
-				break;	
+				rootView = inflater.inflate(R.layout.fragment_kav4_a,
+						container, false);
+				break;
 
-			default://3
-				 rootView = inflater.inflate(R.layout.fragment_kav5, container,
+			default:// 3
+				rootView = inflater.inflate(R.layout.fragment_kav5, container,
 						false);
 				break;
 			}
-			
+
 			return rootView;
 		}
 	}

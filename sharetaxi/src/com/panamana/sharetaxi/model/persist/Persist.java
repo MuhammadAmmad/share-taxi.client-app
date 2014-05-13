@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.persist;
+package com.panamana.sharetaxi.model.persist;
 
 import java.io.EOFException;
 import java.io.File;

@@ -13,7 +13,7 @@ import com.panamana.sharetaxi.directions.DirectionsManager;
 import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
 import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
 import com.panamana.sharetaxi.lines.objects.Line;
-import com.panamana.sharetaxi.maps.MapManager;
+import com.panamana.sharetaxi.model.maps.MapManager;
 
 /**
  * Worker Thread: Draw route over map from Line object.

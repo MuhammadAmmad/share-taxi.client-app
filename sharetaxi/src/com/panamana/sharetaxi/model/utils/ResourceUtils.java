@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.utils;
+package com.panamana.sharetaxi.model.utils;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;

@@ -14,10 +14,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.LocationsJsonTags;
-import com.panamana.sharetaxi.maps.MapManager;
-import com.panamana.sharetaxi.utils.DirectionalVector;
-import com.panamana.sharetaxi.utils.Position;
-import com.panamana.sharetaxi.utils.ResourceUtils;
+import com.panamana.sharetaxi.model.maps.MapManager;
+import com.panamana.sharetaxi.model.utils.DirectionalVector;
+import com.panamana.sharetaxi.model.utils.Position;
+import com.panamana.sharetaxi.model.utils.ResourceUtils;
 
 /**
  * this is the Car object that gets the JSON data from the locations server

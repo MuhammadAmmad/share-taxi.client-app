@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.maps;
+package com.panamana.sharetaxi.model.maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +22,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
-import com.panamana.sharetaxi.activities.MapActivity;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.objects.Car;
+import com.panamana.sharetaxi.controller.activities.MapActivity;
 import com.panamana.sharetaxi.lines.LINES;
 
 /**

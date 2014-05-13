@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.activities;
+package com.panamana.sharetaxi.controller.activities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +20,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.locations.updater.LocationsUpdateThread;
+import com.panamana.sharetaxi.controller.dialogs.DialogAbout;
 import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.lines.objects.Line;
 import com.panamana.sharetaxi.lines.workers.LinesWorker;
-import com.panamana.sharetaxi.maps.MapManager;
+import com.panamana.sharetaxi.model.maps.MapManager;
 
 /**
  * Main Activity.
@@ -48,7 +49,7 @@ public class MapActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.map_layout);
+		setContentView(R.layout.activity_map);
 		Log.i(TAG, "onCreate");
 		//
 		context = this;
@@ -168,25 +169,23 @@ public class MapActivity extends ActionBarActivity {
 		case R.id.action_settings:
 			clickOpenSettings();
 			return true;
-			/*
-			 * COMMENTED OUT BY Yahav. CAN BE DELETED case R.id.map_menu_item0:
-			 * item0Clicked();
-			 * 
-			 * case R.id.map_menu_item1: item1Clicked(); return true; case
-			 * R.id.map_menu_item2: item2Clicked(); return true; case
-			 * R.id.map_menu_item3: item3Clicked(); return true; case
-			 * R.id.map_menu_item4: item4Clicked(); return true;
-			 */
+			
+		case R.id.action_about:
+			clickAbout();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private void clickAbout() {
+		new DialogAbout(this).show();
 	}
 
 	private void clickOpenMap() {
 	}
 
 	private void clickOpenInfo() {
-		startActivity(new Intent(this, ResultsActivity.class));
+		startActivity(new Intent(this, StaticDataActivity.class));
 	}
 
 	private void clickOpenSettings() {

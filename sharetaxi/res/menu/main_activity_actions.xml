@@ -1,22 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sharetaxi="http://schemas.android.com/apk/res-auto" >
 
-    <menu xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:sharetaxi="http://schemas.android.com/apk/res-auto" >
-            <!-- Search, should appear as action button -->
-    <item android:id="@+id/action_map"
-          android:icon="@drawable/ic_action_location_found"
-          android:title="@string/action_map"
-          sharetaxi:showAsAction="always" />
-    <item android:id="@+id/action_info"
-          android:icon="@drawable/ic_action_info"
-          android:title="@string/action_info"
-          sharetaxi:showAsAction="always" />
+    <!-- Search, should appear as action button -->
+    <item
+        android:id="@+id/action_map"
+        android:icon="@drawable/ic_action_location_found"
+        android:title="@string/action_map"
+        sharetaxi:showAsAction="always"/>
+    <item
+        android:id="@+id/action_info"
+        android:icon="@drawable/ic_action_info"
+        android:title="@string/action_info"
+        sharetaxi:showAsAction="always"/>
     <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          sharetaxi:showAsAction="never" />
-    <item android:id="@+id/action_viralUS"
-          android:title="@string/viral_us"
-          sharetaxi:showAsAction="never" />
-        
-        
-    </menu>
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        sharetaxi:showAsAction="never"/>
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/menu_action_about"
+        sharetaxi:showAsAction="never"/>
+
+</menu>

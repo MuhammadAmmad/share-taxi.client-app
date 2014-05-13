@@ -1,4 +1,4 @@
-package com.panamana.sharetaxi.activities;
+package com.panamana.sharetaxi.controller.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
