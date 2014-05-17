@@ -32,14 +32,14 @@ public class MapManager {
 
 	// Constants:
 	private static final String TAG = MapManager.class.getSimpleName();
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	
 	// Fields:
 	// map //
 	private GoogleMap map;
 	// lists //
-	public Map<String, Marker> markersMap = null;
+	public static Map<String, Marker> markersMap = null;
 	public static Map<String, PolylineOptions> polylineOptionsMap = null;
 	public static Map<String, Polyline> polylinesMap = null;
 
@@ -104,14 +104,15 @@ public class MapManager {
 		
 		Marker marker = null;
 		// build marker
-		if (direction.split("Direction: ").length == 0 && 
- linesToHide.get(LineDirectionPair.getPair(title, LINES
-						.getLine(title).getEndStations().getStartStation())) == true
-				&& linesToHide.get(LineDirectionPair.getPair(title, LINES
-						.getLine(title).getEndStations().getEndStation())) == true
-						
-						|| 
-				( direction.split("Direction: ").length > 0 && linesToHide.get(LineDirectionPair.getPair(title, direction.split("Direction: ")[0])) == true )) {
+		if (direction.split("Direction: ").length == 0 && (
+				(linesToHide.get(LineDirectionPair.getPair(title, 
+						LINES.getLine(title).getEndStations().getStartStation())))
+				|| (linesToHide.get(LineDirectionPair.getPair(title, 
+						LINES.getLine(title).getEndStations().getEndStation())))
+						)
+				|| (direction.split("Direction: ").length > 0 && linesToHide
+						.get(LineDirectionPair.getPair(title,
+								direction.split("Direction: ")[0])) == true)) {
 			// if car has no updated direction or should not be hided
 			if (DEBUG) Log.i(TAG,"title="+title+" direction="+direction);
 				marker = map.addMarker(
@@ -143,6 +144,10 @@ public class MapManager {
 				LINES.getLine(line).getEndStations().getStartStation())) 
 				== true) {
 			Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
+			if (polylinesMap.get(line) != null) {
+				Polyline prev = polylinesMap.get(line);
+				prev.remove();
+			}
 			polylinesMap.put(line, pol);			
 		}
 	}
@@ -160,7 +165,7 @@ public class MapManager {
 
 	}
 
-	public void removeCars() {
+	public static void removeCars() {
 		// TODO Auto-generated method stub
 		for (Marker marker : markersMap.values()) {
 			marker.remove();
@@ -169,6 +174,7 @@ public class MapManager {
 	}
 
 	public void HidePolylines(Map<LineDirectionPair,Boolean> linesToHide) {
+		if(DEBUG) Log.i(TAG,linesToHide.toString()); 
 		for (LineDirectionPair lineDirection : linesToHide.keySet()) {
 			if (polylinesMap.get(lineDirection.getLine()) != null) {
 				if (linesToHide.get(lineDirection) == false) {

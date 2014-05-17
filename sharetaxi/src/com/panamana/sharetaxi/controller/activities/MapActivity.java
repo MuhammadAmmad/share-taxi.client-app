@@ -40,7 +40,7 @@ public class MapActivity extends ActionBarActivity {
 	// Lines map
 	private static final String TAG = MapActivity.class.getSimpleName();
 	private static final String FILENAME = "polylines.data";
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
@@ -92,10 +92,17 @@ public class MapActivity extends ActionBarActivity {
 			Log.i(TAG, "onResume");
 		}
 		// Check if update needed
-		updateLinesToHide();
+		if(DEBUG) Log.i(TAG,String.valueOf(SettingsActivity.settingVisited));
 		if (SettingsActivity.settingVisited) {
+			if(DEBUG) Log.i(TAG,String.valueOf(SettingsActivity.settingVisited));
+			if (DEBUG) Log.i(TAG,linesToHide.toString());
+			updateLinesToHide();
+			MapManager.removeCars();
+			if (DEBUG) Log.i(TAG,linesToHide.toString());
 			SettingsActivity.settingVisited = false;
 		}
+		if(DEBUG) Log.i(TAG,String.valueOf(SettingsActivity.settingVisited));
+		if(DEBUG) Log.i(TAG,"hidePolylines will start now");
 		mapManager.HidePolylines(linesToHide);
 		// draw route
 		if (mapManager.polylineOptionsMap == null
