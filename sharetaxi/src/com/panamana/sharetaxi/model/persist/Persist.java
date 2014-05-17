@@ -29,16 +29,24 @@ public class Persist {
 			boolean append = false;
 			try {
 				file = new File(context.getFilesDir(), filename);
-				Log.i(TAG,"file: "+file.toString());
+				if(DEBUG) {
+					Log.i(TAG,"file: "+file.toString());
+				}
 				if(!file.exists()) {
-					Log.i(TAG,"file doesn't exist - create file");
+					if(DEBUG) {
+						Log.i(TAG,"file doesn't exist - create file");
+					}
 					file.createNewFile();
 				} else {
-					Log.i(TAG,"file exist");
+					if(DEBUG) {
+						Log.i(TAG,"file exist");
+					}
 				}
 				fos = new FileOutputStream(file,append);
 				out = new ObjectOutputStream(fos);
-				Log.i(TAG,"open write stream to "+filename);
+				if(DEBUG) {
+					Log.i(TAG,"open write stream to "+filename);
+				}
 				// write:
 				// polylines size
 				out.writeInt(polylineOptionsList.size());
@@ -46,7 +54,9 @@ public class Persist {
 				// polylines
 				for(PolylineOptions polyline : polylineOptionsList) {
 					
-					Log.i(TAG,"write polyline "+polyline.toString()+" to "+filename);
+					if(DEBUG) {
+						Log.i(TAG,"write polyline "+polyline.toString()+" to "+filename);
+					}
 					// color
 					out.writeInt(polyline.getColor());
 					if(DEBUG) Log.i(TAG,"write color "+polyline.getColor()+" to "+filename);
@@ -82,7 +92,9 @@ public class Persist {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				Log.i(TAG,"close write stream to "+filename);
+				if(DEBUG) {
+					Log.i(TAG,"close write stream to "+filename);
+				}
 			}
 		}
 
@@ -99,7 +111,9 @@ public class Persist {
 				}
 				fis = new FileInputStream(file);
 				in = new ObjectInputStream(fis);
-				Log.i(TAG,"open read stream to "+filename);
+				if(DEBUG) {
+					Log.i(TAG,"open read stream to "+filename);
+				}
 
 				int length = 0;
 				try {
@@ -134,7 +148,9 @@ public class Persist {
 						if(DEBUG) Log.i(TAG,"read LatLng "+latlng.toString()+" from "+filename);
 					}
 					PolylineOptions polyline = new PolylineOptionsBuilder(color, width, zindex, points).build();
-					Log.i(TAG,"read polyline "+polyline.toString()+" from "+filename);
+					if(DEBUG) {
+						Log.i(TAG,"read polyline "+polyline.toString()+" from "+filename);
+					}
 					polylines.add(polyline);
 				}
 			} catch (IOException ex) {
@@ -152,7 +168,9 @@ public class Persist {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				Log.i(TAG,"close read stream from "+filename);
+				if(DEBUG) {
+					Log.i(TAG,"close read stream from "+filename);
+				}
 			}
 			return polylines;
 		}

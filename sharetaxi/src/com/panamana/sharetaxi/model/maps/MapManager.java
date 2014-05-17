@@ -1,11 +1,7 @@
 package com.panamana.sharetaxi.model.maps;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.collections4.map.MultiKeyMap;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,9 +19,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
-import com.panamana.sharetaxi.cars.objects.Car;
-import com.panamana.sharetaxi.controller.activities.MapActivity;
 import com.panamana.sharetaxi.lines.LINES;
+import com.panamana.sharetaxi.lines.objects.LineDirectionPair;
 
 /**
  * Google Maps API manager class.
@@ -37,6 +32,7 @@ public class MapManager {
 
 	// Constants:
 	private static final String TAG = MapManager.class.getSimpleName();
+	private static final boolean DEBUG = true;
 
 	
 	// Fields:
@@ -52,7 +48,7 @@ public class MapManager {
 		markersMap = new HashMap<String, Marker>();
 		polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		polylinesMap = new HashMap<String, Polyline>();
-		createGoogleMap(context);
+		map = createGoogleMap(context);
 	}
 
 	// Methods:
@@ -62,12 +58,13 @@ public class MapManager {
 	 * create map
 	 * @param context
 	 */
-	private void createGoogleMap(Context context) {
+	private GoogleMap createGoogleMap(Context context) {
 		// Get a handle to the Map Fragment
-		map = ((MapFragment) ((Activity) context).getFragmentManager()
+		GoogleMap gmap = ((MapFragment) ((Activity) context).getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		// show my location
-		map.setMyLocationEnabled(true);
+		gmap.setMyLocationEnabled(true);
+		return gmap;
 	}
 
 	/**
@@ -84,13 +81,10 @@ public class MapManager {
 	 */
 	public void positionMap() {
 
-		map.setMyLocationEnabled(true);
-
-		Location location = map.getMyLocation();
-
-		if (location != null) {
-			positionMap(new LatLng(location.getLatitude(),
-					location.getLongitude()));
+		if (map.getMyLocation() != null) {
+			positionMap(new LatLng(
+					map.getMyLocation().getLatitude(), 
+					map.getMyLocation().getLongitude()));
 		}
 	}
 
@@ -105,115 +99,58 @@ public class MapManager {
 	 * @param carId
 	 * @return
 	 */
-//	public Marker addMarker(LatLng position, String title, String snippet, BitmapDescriptor icon, String carId) {
-//		//
-//		Marker marker = map.addMarker(new MarkerOptions().title(title)
-//				.snippet(snippet).position(position).icon(icon));
-//		//
-//		Marker prevMarker = markersMap.get(carId);
-//		if ( prevMarker != null) {
-//			prevMarker.remove();
-//		}
-//		markersMap.put(carId, marker);
-//		return marker;
-//	}
-
-	public Marker addMarker(LatLng position, String title, String snippet, BitmapDescriptor icon, String carId, String ...linesToHide) {
-		//
-		for (int i=0; i<linesToHide.length; i++) {
-			String lineNumber = linesToHide[i];
-			if (title.equalsIgnoreCase(lineNumber)) {
-				return null;
-			}
-		}
+	public Marker addMarker(LatLng position, String title, String direction,
+			BitmapDescriptor icon, String carId, Map<LineDirectionPair,Boolean> linesToHide) {
 		
-				Marker marker = map.addMarker(
+		Marker marker = null;
+		// build marker
+		if (direction.split("Direction: ").length == 0 && 
+ linesToHide.get(LineDirectionPair.getPair(title, LINES
+						.getLine(title).getEndStations().getStartStation())) == true
+				&& linesToHide.get(LineDirectionPair.getPair(title, LINES
+						.getLine(title).getEndStations().getEndStation())) == true
+						
+						|| 
+				( direction.split("Direction: ").length > 0 && linesToHide.get(LineDirectionPair.getPair(title, direction.split("Direction: ")[0])) == true )) {
+			// if car has no updated direction or should not be hided
+			if (DEBUG) Log.i(TAG,"title="+title+" direction="+direction);
+				marker = map.addMarker(
 						new MarkerOptions()
 						.title(title)
-						.snippet(snippet)
+						.snippet(direction)
 						.position(position)
 						.icon(icon));
-				//
+				// get previous marker
 				Marker prevMarker = markersMap.get(carId);
-				if ( prevMarker != null) {
+				// add marker to map
+				markersMap.put(carId, marker);
+				if (prevMarker != null) {
+					// got previous marker
 					prevMarker.remove();
 				}
-				markersMap.put(carId, marker);
-				return marker;
+		}
+		return marker;
 	}
-	// polyline - routes //
-	
-	/**
-	 * 
-	 * @param points
-	 */
-//	public void drawPolyline(PolylineOptions lineOptions, int color,
-//			LatLng points[]) {
-//		for (int i = 0; i < points.length - 1; i++) {
-//			map.addPolyline(new PolylineOptions().add(points[i], points[i + 1])
-//					.width(5).color(color));
-//		}
-//	}
 
-	public void addPolyline(String line) {
+	// polyline - routes //
+
+	public void addPolyline(String line,Map<LineDirectionPair,Boolean> linesToHide) {
 		// add polyline to map
 		// if both directions are in linesToHide then hide
-		int hideIf2 = 0;
-		for (int i=0; i<MapActivity.linesToHide.length; i++) {
-			String string= "";
-			for (int j=0; j<MapActivity.linesToHide.length; j++){
-				string += MapActivity.linesToHide[j] ;
-			}
-			
-			Log.i(TAG, "linesToHide"+ string);
-
-			String [] lineToHideParts;
-			String lineToHide;
-			String [] lineNameParts;
-			String lineName;
-			String direction = "";
-			if (MapActivity.linesToHide[i].contains("South")) {
-				direction = "South";
-			}
-			if (MapActivity.linesToHide[i].contains("North")) {
-				direction = "North";
-			}
-			lineToHideParts = MapActivity.linesToHide[i].split(direction);
-			lineToHide = lineToHideParts[0];
-			if (line.contains("South")) {
-				direction = "South";
-			}
-			if (line.contains("North")) {
-				direction = "North";
-			}
-			lineNameParts = line.split(direction);
-			lineName = lineNameParts[0];
-			if (lineToHide.equalsIgnoreCase(lineName)) {
-				Log.i(TAG,"hide");
-				hideIf2 ++;
-			}
+		if (DEBUG) Log.i(TAG,"line="+line+" direction="+LINES.getLine(line)
+				.getEndStations().getStartStation()+" linesToHide= "+linesToHide.toString());
+		if (linesToHide.get(LineDirectionPair.getPair(line, 
+				LINES.getLine(line).getEndStations().getStartStation())) 
+				== true) {
+			Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
+			polylinesMap.put(line, pol);			
 		}
-		if (hideIf2 == 2) {
-			return;
-		}
-		Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
-		polylinesMap.put(line, pol);			
 	}
 
 	public Polyline getPolyline(String line) {
 		// get polyline from map
 		return polylinesMap.get(line);
 	}
-//	
-//	public List<Marker> getLineCars(String lineNum) {
-//		List<Marker> lineCars = new ArrayList<Marker>(); 
-//		for (Marker marker: markersMap.values()) {
-//			if (marker.getTitle().equals(lineNum)) {
-//				lineCars.add(marker);
-//			}
-//		}
-//		return lineCars;
-//	}
 
 	// car markers //
 	
@@ -229,17 +166,22 @@ public class MapManager {
 			marker.remove();
 		}
 		markersMap.clear();
-
 	}
 
-	public void HidePolylines(String [] polylinesToHide) {
-		// TODO Auto-generated method stub
-		for (String line: polylinesToHide) {
-			if (line != null) {
-				MapManager.polylinesMap.get(line).setVisible(false);
+	public void HidePolylines(Map<LineDirectionPair,Boolean> linesToHide) {
+		for (LineDirectionPair lineDirection : linesToHide.keySet()) {
+			if (polylinesMap.get(lineDirection.getLine()) != null) {
+				if (linesToHide.get(lineDirection) == false) {
+					if ( linesToHide.get(LineDirectionPair.getPair(
+							lineDirection.getLine(),
+							LINES.getOppositeDirection( lineDirection.getLine()
+									, lineDirection.getDirection()))) == false) {
+						if (DEBUG) Log.i(TAG,"lineDirection.getLine()= "+ lineDirection.getLine() ) ;
+						polylinesMap.get(lineDirection.getLine()).setVisible(false);
+					}
+				}
 			}
 		}
-		
 	}
 
 }

@@ -15,10 +15,12 @@ public class Line {
 	private LatLng mStart;
 	private LatLng mEnd;
 	private LatLng [] mWaypoints;
+	private EndStations mEndStations;
 
 	// Constructor:
-	public Line(String name,int color,float width, LatLng start, LatLng end, LatLng[] waypoints) {
+	public Line(String name,EndStations endStations, int color,float width, LatLng start, LatLng end, LatLng[] waypoints) {
 		this.mName = name;
+		this.mEndStations = endStations;
 		this.mColor = color;
 		this.mWidth = width;
 		this.mStart = start;
@@ -55,4 +57,27 @@ public class Line {
 	public int getColor() {
 		return mColor;
 	}	
+//	
+//	public String getDirection() {
+//		if (mName.endsWith("North")) return "North";
+//		return "South";
+//	}
+//	
+//	public String getOppositeDirection() {
+//		if (mName.endsWith("North")) return "North";
+//		return "South";		
+//	}
+
+	public String getOppositeStation(String direction) {
+		if (direction.equals(mEndStations.getStartStation())) {
+			return mEndStations.getEndStation();
+		}
+		else {
+			return mEndStations.getStartStation();
+		}
+	}
+
+	public EndStations getEndStations() {
+		return mEndStations;
+	}
 }

@@ -15,6 +15,7 @@ implements
 OnClickListener {
 
 	private static final String TAG = DialogAbout.class.getSimpleName();
+	private static final boolean DEBUG = false;
 
 	public DialogAbout(Context context) {
 		super(context);
@@ -25,7 +26,9 @@ OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		Log.i(TAG, "onClick");
+		if(DEBUG) {
+			Log.i(TAG, "onClick");
+		}
 		switch (v.getId()) {
 		case R.id.dialog_about_ok:
 			dismiss();

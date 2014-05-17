@@ -14,6 +14,7 @@ public class LocationsUpdateThread extends Thread {
 	// Constants:
 	private static final String TAG = LocationsUpdateThread.class.getSimpleName();
 	private static final long INTERVAL = 1000;
+	private static final boolean DEBUG = false;
 
 	// Fields:
 	private boolean isRunning = true;
@@ -34,18 +35,24 @@ public class LocationsUpdateThread extends Thread {
 	 * @author naama
 	 */
 	public void run() {
-		Log.i(TAG,"start thread");
+		if(DEBUG) {
+			Log.i(TAG,"start thread");
+		}
 		while(isRunning ){
 			// do
 			backgroundTask();
 			// wait
 			try {Thread.sleep(INTERVAL);} catch (InterruptedException e) {}
 		}
-		Log.i(TAG,"stop thread");
+		if(DEBUG) {
+			Log.i(TAG,"stop thread");
+		}
 	}
 	
 	private void backgroundTask() {
-		Log.i(TAG,"tik");
+		if(DEBUG) {
+			Log.i(TAG,"tik");
+		}
 		maps.drawCars(context);
 	}
 

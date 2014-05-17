@@ -1,7 +1,9 @@
 package com.panamana.sharetaxi.controller.activities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import com.panamana.sharetaxi.cars.locations.updater.LocationsUpdateThread;
 import com.panamana.sharetaxi.controller.dialogs.DialogAbout;
 import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.lines.objects.Line;
+import com.panamana.sharetaxi.lines.objects.LineDirectionPair;
 import com.panamana.sharetaxi.lines.workers.LinesWorker;
 import com.panamana.sharetaxi.model.maps.MapManager;
 
@@ -34,30 +37,40 @@ import com.panamana.sharetaxi.model.maps.MapManager;
 public class MapActivity extends ActionBarActivity {
 
 	//
+	// Lines map
 	private static final String TAG = MapActivity.class.getSimpleName();
 	private static final String FILENAME = "polylines.data";
+	private static final boolean DEBUG = true;
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-	public static String [] polylinesToHide = {};
-	public static String [] linesToHide = {};
+//	public static String [] polylinesToHide = {};
+	public static Map<LineDirectionPair,Boolean> linesToHide = new HashMap<LineDirectionPair, Boolean>();
 
 
 	// Life Cycle //
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, "onCreate");
+		initLinesMap();
+		updateLinesToHide();
+		if(DEBUG) {
+			Log.i(TAG, "onCreate");
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-		Log.i(TAG, "onCreate");
+		if(DEBUG) {
+			Log.i(TAG, "onCreate");
+		}
 		//
 		context = this;
 		// create map
 		mapManager = new MapManager(this);
 		// set map position
 		mapManager.positionMap(LINES.LINE4_WAYPOINTS.getStart());
-		Log.i(TAG, "draw line");
+		if(DEBUG) {
+			Log.i(TAG, "draw line");
+		}
 
 		// Maps.drawLine(Lines.line4,context);
 		// Maps.drawLine(Lines.line4a,context);
@@ -75,13 +88,15 @@ public class MapActivity extends ActionBarActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.i(TAG, "onResume");
+		if(DEBUG) {
+			Log.i(TAG, "onResume");
+		}
 		// Check if update needed
+		updateLinesToHide();
 		if (SettingsActivity.settingVisited) {
-			updateLinesToHide();
 			SettingsActivity.settingVisited = false;
 		}
-		mapManager.HidePolylines(polylinesToHide);
+		mapManager.HidePolylines(linesToHide);
 		// draw route
 		if (mapManager.polylineOptionsMap == null
 				|| mapManager.polylineOptionsMap.isEmpty()) {
@@ -90,13 +105,6 @@ public class MapActivity extends ActionBarActivity {
 				@Override
 				public void onLineWorkerComplete() {
 					if(!isFinishing() && mapManager!=null) {
-						List<LatLng> line4 = mapManager.polylineOptionsMap.get(LINES.LINE4_N).getPoints();
-						List<LatLng> line4a = mapManager.polylineOptionsMap.get(LINES.LINE4a_N).getPoints();
-						PolylineOptions line4aPolyline = new PolylineOptions();
-						line4aPolyline.addAll(line4).addAll(line4a)
-						.color(LINES.LINE4A_WAYPOINTS.getColor())
-						.width(LINES.LINE4A_WAYPOINTS.getWidth());
-						MapManager.polylineOptionsMap.put(LINES.LINE4a_N, line4aPolyline);
 						// NOT onDestroy AND got MapManager
 						for(final String line : mapManager.polylineOptionsMap.keySet()){
 							runOnUiThread(new Runnable() {
@@ -104,7 +112,7 @@ public class MapActivity extends ActionBarActivity {
 								public void run() {
 									if(!isFinishing() && mapManager!=null) {
 										// NOT onDestroy AND got MapManager
-										mapManager.addPolyline(line);
+										mapManager.addPolyline(line,linesToHide);
 									}
 								}
 							});
@@ -116,8 +124,8 @@ public class MapActivity extends ActionBarActivity {
 
 		} else {
 			// got line data - add/draw
-			for(String line : mapManager.polylineOptionsMap.keySet()){
-				mapManager.addPolyline(line);
+			for(String line : MapManager.polylineOptionsMap.keySet()){
+				mapManager.addPolyline(line,linesToHide);
 			}
 		}
 		updater = new LocationsUpdateThread(this,mapManager);
@@ -128,7 +136,9 @@ public class MapActivity extends ActionBarActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.i(TAG, "onPause");
+		if(DEBUG) {
+			Log.i(TAG, "onPause");
+		}
 		if (updater != null) {
 			updater.pause();
 		}
@@ -198,36 +208,57 @@ public class MapActivity extends ActionBarActivity {
 		List<String> tempLines = new ArrayList<String>();
 		
 		if (!SettingsActivity.b1_isChecked) {
-			tempCars.add(LINES.LINE4_N);
+//			tempCars.add(LINES.LINE4_N);
+			linesToHide.put(LineDirectionPair.LINE4NORTH, false);
+		}
+		else {
+			linesToHide.put(LineDirectionPair.LINE4NORTH, true);
 		}
 		if (!SettingsActivity.b2_isChecked) {
-			tempCars.add(LINES.LINE4_S);
+			linesToHide.put(LineDirectionPair.LINE4SOUTH, false);		
 		}
+		else {
+			linesToHide.put(LineDirectionPair.LINE4SOUTH, true);		
+		}
+		
 		if (!SettingsActivity.b3_isChecked) {
-			tempCars.add(LINES.LINE4a_N);
+//			tempCars.add(LINES.LINE4_N);
+			linesToHide.put(LineDirectionPair.LINE4ANORTH, false);
+		}
+		else {
+			linesToHide.put(LineDirectionPair.LINE4ANORTH, true);
 		}
 		if (!SettingsActivity.b4_isChecked) {
-			tempCars.add(LINES.LINE4a_S);
+			linesToHide.put(LineDirectionPair.LINE4ASOUTH, false);		
 		}
+		else {
+			linesToHide.put(LineDirectionPair.LINE4ASOUTH, true);		
+		}
+
+		
+		
 		if (!SettingsActivity.b5_isChecked) {
-			tempCars.add(LINES.LINE5_N);
+//			tempCars.add(LINES.LINE4_N);
+			linesToHide.put(LineDirectionPair.LINE5NORTH, false);
+		}
+		else {
+			linesToHide.put(LineDirectionPair.LINE5NORTH, true);
 		}
 		if (!SettingsActivity.b6_isChecked) {
-			tempCars.add(LINES.LINE5_S);
+			linesToHide.put(LineDirectionPair.LINE5SOUTH, false);		
+		}
+		else {
+			linesToHide.put(LineDirectionPair.LINE5SOUTH, true);		
 		}
 		
-		if (tempCars.contains(LINES.LINE4_N) && tempCars.contains(LINES.LINE4_S)) {
-			tempLines.add(LINES.LINE4_N);
-		}
-		if (tempCars.contains(LINES.LINE4a_N) && tempCars.contains(LINES.LINE4a_S)) {
-			tempLines.add(LINES.LINE4a_N);
-		}
-		if (tempCars.contains(LINES.LINE5_N) && tempCars.contains(LINES.LINE5_S)) {
-			tempLines.add(LINES.LINE5_N);
-		}
-		
-		linesToHide = tempCars.toArray(new String[tempCars.size()]);
-		polylinesToHide = tempLines.toArray(new String[tempLines.size()]);
+//		linesToHide.put(LineDirectionPair.LINE4NORTH, false);
+//		linesToHide.put(LineDirectionPair.LINE4SOUTH, false);
+	}
+	
+	public static void initLinesMap() {
+		LINES.linesMap.put(LINES.LINE4, LINES.LINE4A_WAYPOINTS);
+		LINES.linesMap.put(LINES.LINE4a, LINES.LINE4A_WAYPOINTS);
+		LINES.linesMap.put(LINES.LINE5, LINES.LINE5_WAYPOINTS);
 	}
 
 }

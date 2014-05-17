@@ -52,7 +52,9 @@ class LineWorker extends Thread{
 			maps.polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		}
 		maps.polylineOptionsMap.put(line.getName(), polyline);
-		Log.i(TAG,"polyline:"+ polyline.toString());
+		if(DEBUG) {
+			Log.i(TAG,"polyline:"+ polyline.toString());
+		}
 	}
 
 	// methods:
@@ -73,8 +75,9 @@ class LineWorker extends Thread{
 			}
 			// set color and width
 			lineOptions.width(line.getWidth()).color(line.getColor());
-			Log.i(TAG,"lineOptions:"+lineOptions.toString());
-			
+			if(DEBUG) {
+				Log.i(TAG,"lineOptions:"+lineOptions.toString());
+			}
 		}
 		return lineOptions;
 	}

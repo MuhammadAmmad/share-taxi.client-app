@@ -20,6 +20,7 @@ public class LocationsJSONParser {
 	// Constants:
 	private static final String TAG = LocationsJSONParser.class.getSimpleName();
 	private static final String POINTS = "points";
+	private boolean DEBUG = false;
 
 	// Interface:
 	public interface LocationsJsonTags {
@@ -40,21 +41,32 @@ public class LocationsJSONParser {
 	 */
 	public Map<String, Car> parse(JSONObject jObject) {
 		JSONArray jPoints = null;
-
-		Log.i(TAG, "started parsing");
+		if(DEBUG) {
+			Log.i(TAG, "started parsing");
+		}
 		try {
 			jPoints = getPoints(jObject);
 			for (int i = 0; i < jPoints.length(); i++) {
 				// build car for each location JSON response
 				Car car = new Car(jPoints.getJSONObject(i));
-				Log.i(TAG,"1routeLocation"+Integer.toString(car.getIRouteLocation()));
+				if(DEBUG) {
+					Log.i(TAG,"1routeLocation"+Integer.toString(car.getIRouteLocation()));
+				}
 				car.updateCarDirection();
-				Log.i(TAG,"2routeLocation"+Integer.toString(car.getIRouteLocation()));
+				if(DEBUG) {
+					Log.i(TAG,"2routeLocation"+Integer.toString(car.getIRouteLocation()));
+				}
 				if (car.getDirection() != "") {
 					String direction = car.getDirection();
-					Log.i(TAG+"YYYYYYYYYYYYYYYYYYYYYYYYYYYYY",car.getDirection());
+					if(DEBUG) {
+						Log.i(TAG+"YYYYYYYYYYYYYYYYYYYYYYYYYYYYY",car.getDirection());
+					}
 				}
-				Log.i(TAG,"3routeLocation"+Integer.toString(car.getIRouteLocation()));
+				if(DEBUG) {
+					if(DEBUG) {
+						Log.i(TAG,"3routeLocation"+Integer.toString(car.getIRouteLocation()));
+					}
+				}
 				CarsWorker.cars.put(car.getID(), car);
 			}
 		} catch (JSONException je) {

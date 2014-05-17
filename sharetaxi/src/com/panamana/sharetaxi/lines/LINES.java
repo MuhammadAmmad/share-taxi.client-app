@@ -1,8 +1,12 @@
 package com.panamana.sharetaxi.lines;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.graphics.Color;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.panamana.sharetaxi.lines.objects.EndStations;
 import com.panamana.sharetaxi.lines.objects.Line;
 
 /**
@@ -11,20 +15,24 @@ import com.panamana.sharetaxi.lines.objects.Line;
  */
 public class LINES {
 
+//	static {
+//		initLinesMap();
+//	}
+	public static final Map<String,Line> linesMap = new HashMap<String,Line>();
+
+	
+	
 	// Line names
 	
-	public static final String LINE4_N = "line4North";
-	public static final String LINE4_S = "line4South";
-	public static final String LINE4a_N = "line4aNorth";
-	public static final String LINE4a_S = "line4aSouth";
-	public static final String LINE5_N = "line5North";
-	public static final String LINE5_S = "line5South";
+	public static final String LINE4 = "line4";
+	public static final String LINE4a = "line4a";
+	public static final String LINE5 = "line5";
 	
 	
 	// Line way points
 	
 	public static Line LINE4_WAYPOINTS = new Line(
-			LINES.LINE4_N,
+			LINES.LINE4, new EndStations("South","North"),
 			Color.rgb(180,159,217),
 			7,
 			new LatLng(32.0538589,34.780081),
@@ -38,9 +46,9 @@ public class LINES {
 			);
 	
 	public static Line LINE4A_WAYPOINTS = new Line(
-			LINES.LINE4a_N,
+			LINES.LINE4a, new EndStations("South","North"),
 			Color.rgb(106,171,232),
-			4,
+			7,
 			new LatLng(32.0985456, 34.7802936),
 			new LatLng(32.1294424,34.7926878),
 			new LatLng[] {
@@ -54,9 +62,9 @@ public class LINES {
 			);
 	
 	public static Line LINE5_WAYPOINTS = new Line(
-			LINES.LINE5_N,
+			LINES.LINE5, new EndStations("South", "North"),
 			Color.rgb(14, 23, 219),
-			4,
+			7,
 			new LatLng(32.0562598,34.7810158),
 			new LatLng(32.0965916,34.8040227),
 			new LatLng[] {
@@ -70,4 +78,13 @@ public class LINES {
 				new LatLng(32.0937948,34.7904164),
 				}
 			);
+	
+
+	public static Line getLine(String lineName) {
+		return linesMap.get(lineName);
+	}
+	
+	public static String getOppositeDirection(String line, String direction) {
+		return getLine(line).getOppositeStation(direction);
+	}
 }

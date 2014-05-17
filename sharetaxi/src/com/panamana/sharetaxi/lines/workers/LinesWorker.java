@@ -1,7 +1,13 @@
 package com.panamana.sharetaxi.lines.workers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.lines.objects.Line;
 import com.panamana.sharetaxi.model.maps.MapManager;
 
@@ -11,6 +17,8 @@ import com.panamana.sharetaxi.model.maps.MapManager;
  */
 public abstract class LinesWorker extends Thread {
 
+	private static final double LINE_OFFSET = 0.0003;
+	
 	// Fields:
 	private Context context;
 	private Line[] lines;
@@ -41,10 +49,29 @@ public abstract class LinesWorker extends Thread {
 				e.printStackTrace();
 			}
 		}
+		if (maps.polylineOptionsMap.get(LINES.LINE4) != null && maps.polylineOptionsMap.get(LINES.LINE4a) != null) {
+			List<LatLng> line4 = maps.polylineOptionsMap.get(LINES.LINE4).getPoints();
+			List<LatLng> line4a = maps.polylineOptionsMap.get(LINES.LINE4a).getPoints();
+			line4 = shiftPolylineOptions	(line4,	LINE_OFFSET);
+			line4a = shiftPolylineOptions	(line4a,LINE_OFFSET);
+			PolylineOptions line4aPolyline = new PolylineOptions();
+			line4aPolyline.addAll(line4).addAll(line4a)
+			.color(LINES.LINE4A_WAYPOINTS.getColor())
+			.width(LINES.LINE4A_WAYPOINTS.getWidth());
+			MapManager.polylineOptionsMap.put(LINES.LINE4a, line4aPolyline);
+		}
 		// 2. finish, got lines data from server
 		onLineWorkerComplete();		
 	}
 	
+	private List<LatLng> shiftPolylineOptions(List<LatLng> points,double offset) {
+		List<LatLng> shiftedPoints = new ArrayList<LatLng>();
+		for (LatLng point: points) {
+			shiftedPoints.add(new LatLng(point.latitude, point.longitude+offset));
+		}
+		return shiftedPoints;
+	}
+
 	public abstract void onLineWorkerComplete();
 	
 }

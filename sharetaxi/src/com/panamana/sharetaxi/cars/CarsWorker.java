@@ -26,8 +26,8 @@ public class CarsWorker extends Thread {
 
 	// Constant:
 	private static final String TAG = CarsWorker.class.getSimpleName();
-	protected static final String MARKER_TITLE_PREFIX = "Line";
-	private final boolean DEBUG = true;
+	protected static final String MARKER_TITLE_PREFIX = "line";
+	private final boolean DEBUG = false;
 //	public static final String [] linesToHide = {};
 
 	// Fields:
@@ -50,10 +50,14 @@ public class CarsWorker extends Thread {
 		// removeCars();
 		// 1. get Directions API response from line waypoints
 		response = getLocations();
-		Log.i(TAG, "passed getLocations");
+		if(DEBUG) {
+			Log.i(TAG, "passed getLocations");
+		}
 		// 2. parse Directions API response to List<List<LatLng>> "routes"
 		parseLocations(response);
-		Log.i(TAG, "passed parseLocations");
+		if(DEBUG) {
+			Log.i(TAG, "passed parseLocations");
+		}
 		// 3. draw
 		drawCars(cars);
 	}
@@ -74,11 +78,13 @@ public class CarsWorker extends Thread {
 					public void run() {
 
 						Marker marker = maps.addMarker(car.getLatLng(),
-								MARKER_TITLE_PREFIX + car.getLineName() + car.getDirection(),
+								MARKER_TITLE_PREFIX + car.getLineName() ,
 								"Direction: "+car.getDirection(), ResourceUtils.getImage(car.getIcon()),
 								car.getID(), MapActivity.linesToHide);
 						car.setMarker(marker);
-						Log.i(TAG, car.toString());
+						if(DEBUG) {
+							Log.i(TAG, car.toString());
+						}
 					}
 				});
 			} catch (IllegalStateException ile) {
@@ -99,7 +105,9 @@ public class CarsWorker extends Thread {
 			// wait get result from task
 			// routes =
 			parserTask.execute(response).get(10, TimeUnit.SECONDS);
-			Log.i(TAG, "parseLocations response:" + response);
+			if(DEBUG) {
+				Log.i(TAG, "parseLocations response:" + response);
+			}
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
 		}

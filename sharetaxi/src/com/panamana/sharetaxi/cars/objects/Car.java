@@ -28,6 +28,7 @@ import com.panamana.sharetaxi.model.utils.ResourceUtils;
 public class Car {
 
 	private static final String TAG = Car.class.getSimpleName();
+	private static final boolean DEBUG = false;
 	// Fields:
 	private String mID;
 	private String mTime;
@@ -157,12 +158,16 @@ public class Car {
 					break;
 				}
 			}
-			Log.i(TAG,"11routeLocation"+Integer.toString(this.getIRouteLocation()));
+			if(DEBUG) {
+				Log.i(TAG,"11routeLocation"+Integer.toString(this.getIRouteLocation()));
+			}
 			mIRouteLocation=iTHLocation;
 			mDistanceFromI=DirectionalVector.calcDirection(
 					LatLng2XYZ(linePoints.get(iTHLocation)),
 					carXYZPoint).getVectorSize();
-			Log.i(TAG,"12routeLocation"+Integer.toString(this.getIRouteLocation()));
+			if(DEBUG) {
+				Log.i(TAG,"12routeLocation"+Integer.toString(this.getIRouteLocation()));
+			}
 		}
 	}
 	
@@ -176,10 +181,14 @@ public class Car {
 		// if car was just initialized 
 		// I root location - the I'th segment of the route
 		if (carByID.getIRouteLocation() == 10000) {
-			Log.i(TAG,"no prev location");
+			if(DEBUG) {
+				Log.i(TAG,"no prev location");
+			}
 			this.calcIRouteLocationAndDistance();
 		} else {
-			Log.i(TAG,"save prev location");
+			if(DEBUG) {
+				Log.i(TAG,"save prev location");
+			}
 			int prevIRouteLocation = carByID.getIRouteLocation();
 			float prevDistanceFromI = carByID.getDistanceFromI();
 			this.calcIRouteLocationAndDistance();
@@ -200,7 +209,9 @@ public class Car {
 			}
 		}
 		CarsWorker.cars.put(mID, carByID);
-		Log.i(TAG,carByID.getDirection());
+		if(DEBUG) {
+			Log.i(TAG,carByID.getDirection());
+		}
 
 	}		
 
