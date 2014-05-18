@@ -52,7 +52,7 @@ public class Car {
 		this.mIRouteLocation = 10000;
 		this.mDistanceFromI = 10000;
 		this.mDirection = "";
-		this.mIcon = R.drawable.l5northblue;
+		this.mIcon = R.drawable.l5north;
 	}
 
 	public String getDirection() {
@@ -240,10 +240,10 @@ public class Car {
 	public int getIcon() {
 		// TODO Auto-generated method stub
 		if (mLineName.equals("4") && mDirection.equals("North")) {
-			mIcon = R.drawable.l5northblue;
+			mIcon = R.drawable.l4northnew;
 		}
 		if (mLineName.equals("4") && mDirection.equals("South")) {
-			mIcon = R.drawable.l5northblue;
+			mIcon = R.drawable.l4south;
 		}
 
 		if (mLineName.equals("4a") && mDirection.equals("South")) {
@@ -253,11 +253,11 @@ public class Car {
 			mIcon = R.drawable.l5northblue;
 		}
 		if (mLineName.equals("5") && mDirection.equals("North")) {
-			mIcon = R.drawable.l5northblue;
+			mIcon = R.drawable.l5north;
 		}
-//		if (mLineName.equals("5") && mDirection.equals("South")) {
-//			mIcon = R.drawable.;
-//		}
+		if (mLineName.equals("5") && mDirection.equals("South")) {
+			mIcon = R.drawable.l5south;
+		}
 
 		
 		return mIcon;
