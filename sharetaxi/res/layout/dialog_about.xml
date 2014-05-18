@@ -209,7 +209,7 @@
                         android:id="@+id/contact_as_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/conect_as_title" />
+                        android:text="@string/contact_as_title" />
                 </TableRow>
             </TableLayout>
         </ScrollView>

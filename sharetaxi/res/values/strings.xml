@@ -78,11 +78,10 @@
     <string name="devel_name6">יוסי בכינור</string>
     <string name="about_the_project">אודות הפרויקט איפה ולמה עשינו אותו ועוד קצת טקסט</string>
     <string name="thanks_for_email">אנו מודים לך אל האימייל נחזור אליך בהקדם האפשרי</string>
-    <string name="contact_as_title">contact as</string>
     <string name="email_first_line">צוות sharetaxi שלום רב</string>
     <string name="email">sharetaxi@googlegroups.com</string>
     <string name="facebookWebPage">http://www.facebook.com</string>
-    <string name="conect_as_title">Conect As</string>
+    <string name="contact_as_title">Contact As</string>
     <string name="OK">OK</string>
     
     
