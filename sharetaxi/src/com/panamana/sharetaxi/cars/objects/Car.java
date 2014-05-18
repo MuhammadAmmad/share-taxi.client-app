@@ -30,6 +30,7 @@ public class Car {
 
 	private static final String TAG = Car.class.getSimpleName();
 	private static final boolean DEBUG = false;
+	private int i = 0;
 	// Fields:
 	private String mID;
 	private String mTime;
@@ -179,6 +180,7 @@ public class Car {
 		if (carByID == null) {
 			carByID = this;
 		}
+		String prevDirection = carByID.getDirection();
 		// if car was just initialized 
 		// I root location - the I'th segment of the route
 		if (carByID.getIRouteLocation() == 10000) {
@@ -196,22 +198,31 @@ public class Car {
 			// if car is still on the same I-th polyline of the root
 			if (prevIRouteLocation == this.getIRouteLocation()) {
 				if (prevDistanceFromI < this.getDistanceFromI()) {
-					mDirection = LINES.getLine(mLineName).getEndStations().getEndStation();
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation();
 				} else {
-					mDirection = LINES.getLine(mLineName).getEndStations().getStartStation();
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
 				}
 			} else {
 				if (prevIRouteLocation < this.getIRouteLocation()) {
-					mDirection = LINES.getLine(mLineName).getEndStations().getEndStation()
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation()
 					;
 				} else {
-					mDirection = LINES.getLine(mLineName).getEndStations().getStartStation();
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
 				}
 			}
 		}
-		CarsWorker.cars.put(mID, carByID);
-		if(DEBUG) {
-			Log.i(TAG,carByID.getDirection());
+		if (i<3) {
+			if (!mDirection.equals(prevDirection) && !prevDirection.equals("")) {
+				mDirection = prevDirection;
+				i ++;
+			}
+		}
+		else {
+			i = 0;
+			CarsWorker.cars.put(mID, carByID);
+			if(DEBUG) {
+				Log.i(TAG,carByID.getDirection());
+			}
 		}
 
 	}		
