@@ -112,7 +112,7 @@ public class MapManager {
 						)
 				|| (direction.split("Direction: ").length > 0 && linesToHide
 						.get(LineDirectionPair.getPair(title,
-								direction.split("Direction: ")[0])) == true)) {
+								direction.split("Direction: ")[1])) == true)) {
 			// if car has no updated direction or should not be hided
 			if (DEBUG) Log.i(TAG,"title="+title+" direction="+direction);
 				marker = map.addMarker(

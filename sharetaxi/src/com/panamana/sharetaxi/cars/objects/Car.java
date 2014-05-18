@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.LocationsJsonTags;
+import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.model.maps.MapManager;
 import com.panamana.sharetaxi.model.utils.DirectionalVector;
 import com.panamana.sharetaxi.model.utils.Position;
@@ -134,7 +135,7 @@ public class Car {
 	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
 	 */
 	public void calcIRouteLocationAndDistance() {
-		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName+"North");
+		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
 		
 		if (linePolylineOptions != null) {
 			// valid poly line
@@ -159,14 +160,14 @@ public class Car {
 				}
 			}
 			if(DEBUG) {
-				Log.i(TAG,"11routeLocation"+Integer.toString(this.getIRouteLocation()));
+				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
 			}
 			mIRouteLocation=iTHLocation;
 			mDistanceFromI=DirectionalVector.calcDirection(
 					LatLng2XYZ(linePoints.get(iTHLocation)),
 					carXYZPoint).getVectorSize();
 			if(DEBUG) {
-				Log.i(TAG,"12routeLocation"+Integer.toString(this.getIRouteLocation()));
+				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
 			}
 		}
 	}
@@ -195,16 +196,16 @@ public class Car {
 			// if car is still on the same I-th polyline of the root
 			if (prevIRouteLocation == this.getIRouteLocation()) {
 				if (prevDistanceFromI < this.getDistanceFromI()) {
-					mDirection = "North";
+					mDirection = LINES.getLine(mLineName).getEndStations().getEndStation();
 				} else {
-					mDirection = "South";
+					mDirection = LINES.getLine(mLineName).getEndStations().getStartStation();
 				}
 			} else {
 				if (prevIRouteLocation < this.getIRouteLocation()) {
-					mDirection = "North";
+					mDirection = LINES.getLine(mLineName).getEndStations().getEndStation()
 					;
 				} else {
-					mDirection = "South";
+					mDirection = LINES.getLine(mLineName).getEndStations().getStartStation();
 				}
 			}
 		}
