@@ -59,8 +59,10 @@
     <string name="menu_action_about">About</string>
     
     
-    
-    
+        <string name="about_devel">אודות המפתחים</string>
+        <string name="devel_names_title">שמות מפתחי הפרויקט</string>
+    <string name="share_app_title">שתף את האפליקציה</string>
+    <string name="facebook_web_page_title">מצא אותנו ב facebook</string>
     <string name="send_SMS_to">לשלוח מסרון שיתוף ל</string>
     <string name="share">שתף</string>
     <string name="cancel_share">ביטול</string>
@@ -76,9 +78,12 @@
     <string name="devel_name6">יוסי בכינור</string>
     <string name="about_the_project">אודות הפרויקט איפה ולמה עשינו אותו ועוד קצת טקסט</string>
     <string name="thanks_for_email">אנו מודים לך אל האימייל נחזור אליך בהקדם האפשרי</string>
+    <string name="contact_as_title">contact as</string>
     <string name="email_first_line">צוות sharetaxi שלום רב</string>
     <string name="email">sharetaxi@googlegroups.com</string>
     <string name="facebookWebPage">http://www.facebook.com</string>
+    <string name="conect_as_title">Conect As</string>
+    <string name="OK">OK</string>
     
     
     
