@@ -91,9 +91,9 @@ public class StaticDataActivity extends ActionBarActivity implements
 			openSettings();
 			return true;
 			// // FOR ASSAF:
-			// case R.id.action_viralUS:
-			// openAbout();
-			// return true;
+			 case R.id.action_about:
+			 openAbout();
+			 return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
