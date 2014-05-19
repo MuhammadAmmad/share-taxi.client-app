@@ -29,8 +29,9 @@ import com.panamana.sharetaxi.model.utils.ResourceUtils;
 public class Car {
 
 	private static final String TAG = Car.class.getSimpleName();
-	private static final boolean DEBUG = true;
-	private int i = 0;
+	private static final boolean DEBUG = false;
+
+
 	// Fields:
 	private String mID;
 	private String mTime;
@@ -42,6 +43,8 @@ public class Car {
 	private int mIRouteLocation;
 	private float mDistanceFromI;
 	private int mIcon;
+	private int mIterator;
+	private String mNewDirection;
 	
 	// Constructor:
 	public Car (String ID, String time, String line, LatLng latlng ) {
@@ -54,8 +57,20 @@ public class Car {
 		this.mDistanceFromI = 10000;
 		this.mDirection = "";
 		this.mIcon = R.drawable.l5north;
+		this.mIterator = 0;
+		this.mNewDirection = "";
+		this.mPrevDirection = "";
 	}
-
+	public Car (JSONObject jo) throws JSONException {
+		this(
+			jo.getString(LocationsJsonTags.ANDROIDID),           
+			jo.getString(LocationsJsonTags.DATE),               
+			jo.getString(LocationsJsonTags.LINENUM),          
+			new LatLng( jo.getDouble(LocationsJsonTags.LATITUDE), 
+	                  	jo.getDouble(LocationsJsonTags.LONGITUDE))
+			);
+	}
+	
 	public String getDirection() {
 		return mDirection;
 	}
@@ -73,15 +88,6 @@ public class Car {
 	}
 	public void setDistanceFromI(float mDistanceFromI) {
 		this.mDistanceFromI = mDistanceFromI;
-	}
-	public Car (JSONObject jo) throws JSONException {
-		this(
-			jo.getString(LocationsJsonTags.ANDROIDID),           
-			jo.getString(LocationsJsonTags.DATE),               
-			jo.getString(LocationsJsonTags.LINENUM),          
-			new LatLng( jo.getDouble(LocationsJsonTags.LATITUDE), 
-	                  	jo.getDouble(LocationsJsonTags.LONGITUDE))
-			);
 	}
 
 	// Methods:
@@ -183,7 +189,9 @@ public class Car {
 		}
 		// I root location - the I'th segment of the route
 		int prevIRouteLocation = carByID.getIRouteLocation();
-		String prevDirection = carByID.getDirection();
+		mPrevDirection = carByID.getDirection();
+		mIterator = carByID.getIterator();
+		mNewDirection = carByID.getNewDirection();
 		this.calcIRouteLocationAndDistance();
 		if (prevIRouteLocation != 10000) {
 			// if car was not just initialized 
@@ -205,39 +213,54 @@ public class Car {
 					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
 				}
 			}
+//			if (direction changed and prevDirection is not "") {
+//				check 3 times if mDirection = newDirection
+//			if it is, change to newDirection 
+//			}
+			if(DEBUG) Log.i("1"+TAG,"car "+mID+" i="+mIterator);
+			if(mIterator==0) {
+				if (!"".equals(mPrevDirection) ) {
+					if(DEBUG) Log.i("1.1"+TAG,"car prevDirection is blank");
+					if (!mDirection.equals(mPrevDirection)) {
+						mNewDirection = mDirection;
+						mDirection =mPrevDirection;
+						mIterator++;
+						if(DEBUG) Log.i("2"+TAG,"car "+mID+" i="+mIterator);
+					}
+				}
+			}
+			else {
+				if (mIterator>0 && mIterator<3) {
+					if(DEBUG) Log.i("3"+TAG,"car "+mID+" i="+mIterator);
+					if (mDirection.equals(mNewDirection)) {
+						mDirection = mPrevDirection;
+						mIterator++;
+					}
+					else {
+						mIterator=0;
+					}
+				}
+				else {
+					if (mIterator==3) {
+						if(DEBUG) Log.i("4"+TAG,"car "+mID+" i="+mIterator);
+						mDirection =mNewDirection;
+						mPrevDirection =mNewDirection;
+						mIterator=0;
+					}
+				}
+			
+			}
 		}
-//		if (i==0 && !mDirection.equals(prevDirection) && !"".equals(prevDirection)) {
-//			mDirection = prevDirection;
-//			i++;
-//		}
-//		else {
-//			if (i<3) {
-//				if (mDirection.equals(prevDirection)) {
-//					mDirection = prevDirection;
-//					i++;
-//				}
-//			}
-//			else {
-//				i =0;
-//			}
-//		}
-//		
-//			if (i<3) {
-//			if (!mDirection.equals(prevDirection) && !prevDirection.equals("")) {
-//				mDirection = prevDirection;
-//				i ++;
-//			}
-//		}
-//		else {
-//			i = 0;
-//			if(DEBUG) {
-//				Log.i(TAG,carByID.getDirection());
-//			}
-//		}
-		CarsWorker.cars.put(mID, carByID);
+		CarsWorker.cars.put(mID, this);
 	}		
 
 	
+	private String getNewDirection() {
+		return mNewDirection;
+	}
+	private int getIterator() {
+		return mIterator;
+	}
 	private Position LatLng2XYZ(LatLng latlng) {
 		// TODO Auto-generated method stub
 		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);

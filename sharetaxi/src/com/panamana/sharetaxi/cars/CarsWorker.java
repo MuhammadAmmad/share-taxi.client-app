@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.util.Log;
 import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.cars.locations.GetLocationsTask;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParserTask;
+import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.LocationsJsonTags;
 import com.panamana.sharetaxi.cars.objects.Car;
 import com.panamana.sharetaxi.controller.activities.MapActivity;
 import com.panamana.sharetaxi.model.maps.MapManager;
@@ -133,6 +137,10 @@ public class CarsWorker extends Thread {
 		if (DEBUG)
 			Log.i(TAG, "response: " + response);
 		return response;
+	}
+
+	public static Car getCar (JSONObject jo) throws JSONException {
+		return cars.get(jo.getString(LocationsJsonTags.ANDROIDID));
 	}
 
 }
