@@ -77,7 +77,7 @@ public class DialogAbout extends Dialog implements OnClickListener {
 			Intent emailIntent = new Intent(Intent.ACTION_SEND);
 			emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
 			emailIntent.putExtra(Intent.EXTRA_CC,
-					new String[] { "fassaf.f@gmail.com" });
+					new String[] { "" });
 			emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
 			emailIntent.putExtra(Intent.EXTRA_TEXT, email_first_line);
 
