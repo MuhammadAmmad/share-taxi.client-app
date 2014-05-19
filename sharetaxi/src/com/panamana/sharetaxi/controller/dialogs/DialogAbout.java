@@ -27,7 +27,7 @@ public class DialogAbout extends Dialog implements OnClickListener {
 	
 	
 	
-	String facebookWebPage = "http://www.facebook.com";
+	String facebookWebPage = "http://www.facebook.com/ShareTaxiApp";
 	String Url_for_download = "https://www.dropbox.com/s/3uuxe1czqj3jmsq/ShareTaxi.apk";
 
 	

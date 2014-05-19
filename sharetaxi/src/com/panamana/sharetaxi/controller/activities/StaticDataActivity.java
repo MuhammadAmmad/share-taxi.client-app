@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.controller.dialogs.DialogAbout;
@@ -106,14 +107,19 @@ public class StaticDataActivity extends ActionBarActivity implements
 
 	private void openMap() {
 		startActivity(new Intent(this, MapActivity.class));
+		Toast.makeText(getApplicationContext(), getString(R.string.mapToastline), Toast.LENGTH_LONG).show();
+
 	}
 
 	private void openInfo() {
-		// Do nothing.
+		Toast.makeText(getApplicationContext(), getString(R.string.infoToastline), Toast.LENGTH_LONG).show();
 	}
 
 	private void openSettings() {
 		startActivity(new Intent(this, SettingsActivity.class));
+		Toast.makeText(getApplicationContext(), getString(R.string.settingToastline), Toast.LENGTH_LONG).show();
+
+		
 	}
 
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
