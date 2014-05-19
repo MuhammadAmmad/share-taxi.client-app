@@ -29,12 +29,13 @@ import com.panamana.sharetaxi.model.utils.ResourceUtils;
 public class Car {
 
 	private static final String TAG = Car.class.getSimpleName();
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private int i = 0;
 	// Fields:
 	private String mID;
 	private String mTime;
 	private String mDirection;
+	private String mPrevDirection;
 	private LatLng mLatLng;
 	private String mLineName;
 	private Marker mMarker;
@@ -180,51 +181,60 @@ public class Car {
 		if (carByID == null) {
 			carByID = this;
 		}
-		String prevDirection = carByID.getDirection();
-		// if car was just initialized 
 		// I root location - the I'th segment of the route
-		if (carByID.getIRouteLocation() == 10000) {
-			if(DEBUG) {
-				Log.i(TAG,"no prev location");
-			}
-			this.calcIRouteLocationAndDistance();
-		} else {
+		int prevIRouteLocation = carByID.getIRouteLocation();
+		String prevDirection = carByID.getDirection();
+		this.calcIRouteLocationAndDistance();
+		if (prevIRouteLocation != 10000) {
+			// if car was not just initialized 
 			if(DEBUG) {
 				Log.i(TAG,"save prev location");
 			}
-			int prevIRouteLocation = carByID.getIRouteLocation();
 			float prevDistanceFromI = carByID.getDistanceFromI();
-			this.calcIRouteLocationAndDistance();
-			// if car is still on the same I-th polyline of the root
-			if (prevIRouteLocation == this.getIRouteLocation()) {
-				if (prevDistanceFromI < this.getDistanceFromI()) {
+			if (prevIRouteLocation == this.mIRouteLocation) {
+				// if car is still on the same I-th segment of the root
+				if (prevDistanceFromI < this.mDistanceFromI) {
 					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation();
 				} else {
 					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
 				}
 			} else {
-				if (prevIRouteLocation < this.getIRouteLocation()) {
-					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation()
-					;
+				if (prevIRouteLocation < this.mIRouteLocation) {
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation();
 				} else {
 					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
 				}
 			}
 		}
-		if (i<3) {
-			if (!mDirection.equals(prevDirection) && !prevDirection.equals("")) {
-				mDirection = prevDirection;
-				i ++;
-			}
-		}
-		else {
-			i = 0;
-			CarsWorker.cars.put(mID, carByID);
-			if(DEBUG) {
-				Log.i(TAG,carByID.getDirection());
-			}
-		}
-
+//		if (i==0 && !mDirection.equals(prevDirection) && !"".equals(prevDirection)) {
+//			mDirection = prevDirection;
+//			i++;
+//		}
+//		else {
+//			if (i<3) {
+//				if (mDirection.equals(prevDirection)) {
+//					mDirection = prevDirection;
+//					i++;
+//				}
+//			}
+//			else {
+//				i =0;
+//			}
+//		}
+//		
+//			if (i<3) {
+//			if (!mDirection.equals(prevDirection) && !prevDirection.equals("")) {
+//				mDirection = prevDirection;
+//				i ++;
+//			}
+//		}
+//		else {
+//			i = 0;
+//			if(DEBUG) {
+//				Log.i(TAG,carByID.getDirection());
+//			}
+//		}
+		CarsWorker.cars.put(mID, carByID);
 	}		
 
 	
@@ -240,17 +250,17 @@ public class Car {
 	public int getIcon() {
 		// TODO Auto-generated method stub
 		if (mLineName.equals("4") && mDirection.equals("North")) {
-			mIcon = R.drawable.l4northnew;
+			mIcon = R.drawable.l4north;
 		}
 		if (mLineName.equals("4") && mDirection.equals("South")) {
 			mIcon = R.drawable.l4south;
 		}
 
 		if (mLineName.equals("4a") && mDirection.equals("South")) {
-			mIcon = R.drawable.l5northblue;
+			mIcon = R.drawable.l4asouth;
 		}
 		if (mLineName.equals("4a") && mDirection.equals("North")) {
-			mIcon = R.drawable.l5northblue;
+			mIcon = R.drawable.l4anorth;
 		}
 		if (mLineName.equals("5") && mDirection.equals("North")) {
 			mIcon = R.drawable.l5north;

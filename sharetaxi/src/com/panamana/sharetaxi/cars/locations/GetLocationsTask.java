@@ -25,7 +25,7 @@ public class GetLocationsTask extends AsyncTask<String, Void, String> {
 	@Override
 	protected String doInBackground(String...params) {
 		URI uri = null;
-		String url= "http://sharetaxi6.appspot.com/getLocations";
+		String url= "http://sharetaxi8.appspot.com/getLocations";
 		if(DEBUG) {
 			Log.i(TAG ,"URL: "+url);
 		}
