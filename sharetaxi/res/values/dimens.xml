@@ -5,5 +5,8 @@
     <dimen name="activity_vertical_margin">5dp</dimen>
     <dimen name="title_line">14sp</dimen>
     <dimen name="text">12sp</dimen>
+        <dimen name="title_lineDialog">16sp</dimen>
+    
+    <dimen name="textDialog">14sp</dimen>
 
 </resources>

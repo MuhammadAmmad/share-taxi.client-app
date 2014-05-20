@@ -1,9 +1,9 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
-    android:layout_height="400dp"
+    android:layout_height="500dp"
+    android:layout_gravity="center"
     android:background="@color/egg_shell"
     android:gravity="center"
-    android:layout_gravity="center"
     android:stretchColumns="yes" >
 
     <LinearLayout
@@ -15,13 +15,13 @@
             android:id="@+id/send_App_Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="שתף את האפליקציה" />
+            android:text="@string/share_app_title" />
 
         <Button
             android:id="@+id/facebookButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="facebook" />
+            android:text="@string/facebook_web_page_title" />
     </LinearLayout>
 
     <TableRow
@@ -36,19 +36,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="5dp" >
+            android:padding="2dp" >
 
-            <!--
-            android:stretchColumns Defines that you want 
-            this component to expand in width to fit any extra 
-            space
-            -->
-
+      
             <TableLayout
                 android:id="@+id/TableScrollView_onAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="2dp"
                 android:stretchColumns="yes" >
 
                 <TableRow
@@ -60,11 +55,11 @@
                         android:id="@+id/aboutTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:padding="10sp"
-                        android:text="אודות המפתחים"
+                        android:gravity="center"
+                        android:padding="5sp"
+                        android:text="@string/about_devel"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/title_line"
+                        android:textSize="@dimen/title_lineDialog"
                         android:textStyle="bold" />
                 </TableRow>
 
@@ -80,14 +75,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:padding="10dp"
+                        android:padding="1dp"
                         android:text="@string/about_the_project"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text" />
+                        android:textSize="@dimen/textDialog" 
+                        />
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/tableRow0_onAbout"
+                    android:id="@+id/tableRow0_onAbout2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
@@ -95,11 +91,11 @@
                         android:id="@+id/developers_name_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:padding="10sp"
-                        android:text="שמות מפתחי הפרויקט"
+                        android:gravity="center"
+                        android:padding="7sp"
+                        android:text="@string/devel_names_title"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/title_line"
+                        android:textSize="@dimen/title_lineDialog"
                         android:textStyle="bold" />
                 </TableRow>
 
@@ -117,7 +113,7 @@
                         android:padding="5dp"
                         android:text="@string/devel_name1"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text" />
+                        android:textSize="@dimen/textDialog" />
                 </TableRow>
 
                 <TableRow
@@ -134,7 +130,7 @@
                         android:padding="5dp"
                         android:text="@string/devel_name2"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text" />
+                        android:textSize="@dimen/textDialog" />
                 </TableRow>
 
                 <TableRow
@@ -151,7 +147,7 @@
                         android:padding="5dp"
                         android:text="@string/devel_name3"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text" />
+                        android:textSize="@dimen/textDialog" />
                 </TableRow>
 
                 <TableRow
@@ -168,7 +164,7 @@
                         android:padding="5dp"
                         android:text="@string/devel_name4"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text" />
+                        android:textSize="@dimen/textDialog" />
                 </TableRow>
 
                 <TableRow
@@ -185,7 +181,7 @@
                         android:padding="5dp"
                         android:text="@string/devel_name5"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text" />
+                        android:textSize="@dimen/textDialog" />
                 </TableRow>
 
                 <TableRow
@@ -202,7 +198,19 @@
                         android:padding="5dp"
                         android:text="@string/devel_name6"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text" />
+                        android:textSize="@dimen/textDialog" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow0_onAbout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/contact_as_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contact_as_title" />
                 </TableRow>
             </TableLayout>
         </ScrollView>
@@ -217,7 +225,7 @@
             android:id="@+id/dialog_about_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ok" />
+            android:text="@string/OK" />
     </LinearLayout>
 
 </TableLayout>

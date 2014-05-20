@@ -16,7 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.a;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -199,14 +201,19 @@ public class MapActivity extends ActionBarActivity {
 	}
 
 	private void clickOpenMap() {
+		Toast.makeText(getApplicationContext(), getString(R.string.mapToastline), Toast.LENGTH_LONG).show();
 	}
 
 	private void clickOpenInfo() {
 		startActivity(new Intent(this, StaticDataActivity.class));
+		Toast.makeText(getApplicationContext(), getString(R.string.infoToastline), Toast.LENGTH_LONG).show();
+
 	}
 
 	private void clickOpenSettings() {
 		startActivity(new Intent(this, SettingsActivity.class));
+		Toast.makeText(getApplicationContext(), getString(R.string.settingToastline), Toast.LENGTH_LONG).show();
+
 	}
 	
 	private void updateLinesToHide() {
