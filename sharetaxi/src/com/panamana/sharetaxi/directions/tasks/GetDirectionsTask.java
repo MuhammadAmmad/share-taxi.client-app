@@ -16,7 +16,7 @@ import android.util.Log;
 /**
  * AsyncTask for Google Directions API HTTP GET request.
  * https://maps.googleapis.com/maps/api/directions/json?origin=32.0540052,34.7801726&destination=32.1050853,34.8032777&sensor=true&waypoints=via:32.0550017,34.7754579|via:32.056,34.7754579
- * @author 
+ * @author naama 
  */
 public class GetDirectionsTask extends AsyncTask<String, Void, String> {
 	

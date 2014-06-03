@@ -81,14 +81,18 @@ public class CarsWorker extends Thread {
 					@Override
 					public void run() {
 
-						Marker marker = maps.addMarker(car.getLatLng(),
-								MARKER_TITLE_PREFIX + car.getLineName() ,
-								"Direction: "+car.getDirection(), ResourceUtils.getImage(car.getIcon()),
-								car.getID(), MapActivity.linesToHide);
+						double localDirection = car.getLocalDirection();
+						Log.i (TAG,"car localDirection: "+ localDirection);
+						Marker marker = maps.addMarker(
+								car.getLatLng(),
+								MARKER_TITLE_PREFIX + car.getLineName() /*+ " " + localDirection*/,
+								"Direction: "+car.getDirection() , 
+								ResourceUtils.getImage(car.getIcon()),
+								car.getID(), 
+								MapActivity.linesToHide,
+								car.getLocalDirection());
 						car.setMarker(marker);
-						if(DEBUG) {
-							Log.i(TAG, car.toString());
-						}
+						if(DEBUG) Log.i(TAG, car.toString());
 					}
 				});
 			} catch (IllegalStateException ile) {

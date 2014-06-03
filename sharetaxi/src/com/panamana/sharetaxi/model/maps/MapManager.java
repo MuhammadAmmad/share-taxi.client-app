@@ -21,6 +21,8 @@ import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.lines.objects.LineDirectionPair;
+import com.panamana.sharetaxi.model.utils.Marker_Arrow;
+import com.panamana.sharetaxi.model.utils.ResourceUtils;
 
 /**
  * Google Maps API manager class.
@@ -39,13 +41,13 @@ public class MapManager {
 	// map //
 	private GoogleMap map;
 	// lists //
-	public static Map<String, Marker> markersMap = null;
+	public static Map<String, Marker_Arrow> markersMap = null;
 	public static Map<String, PolylineOptions> polylineOptionsMap = null;
 	public static Map<String, Polyline> polylinesMap = null;
 
 	// init:
 	public MapManager(Context context) {
-		markersMap = new HashMap<String, Marker>();
+		markersMap = new HashMap<String, Marker_Arrow>();
 		polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		polylinesMap = new HashMap<String, Polyline>();
 		map = createGoogleMap(context);
@@ -100,9 +102,10 @@ public class MapManager {
 	 * @return
 	 */
 	public Marker addMarker(LatLng position, String title, String direction,
-			BitmapDescriptor icon, String carId, Map<LineDirectionPair,Boolean> linesToHide) {
+			BitmapDescriptor icon, String carId, Map<LineDirectionPair,Boolean> linesToHide, float localDirection) {
 		
 		Marker marker = null;
+		Marker arrow = null;
 		// build marker
 		if (direction.split("Direction: ").length == 0 && (
 				(linesToHide.get(LineDirectionPair.getPair(title, 
@@ -121,10 +124,18 @@ public class MapManager {
 						.snippet(direction)
 						.position(position)
 						.icon(icon));
+				arrow = map.addMarker(
+						new MarkerOptions()
+						.position(position)
+						.icon(ResourceUtils
+						.getImage(R.drawable.marker_arrow)));
+				arrow.setRotation(localDirection*360);
 				// get previous marker
-				Marker prevMarker = markersMap.get(carId);
+				Marker_Arrow prevMarker = markersMap.get(carId);
+				
 				// add marker to map
-				markersMap.put(carId, marker);
+				markersMap.put(carId, new Marker_Arrow(marker,arrow) );
+//				markersMap.put(carId, marker);
 				if (prevMarker != null) {
 					// got previous marker
 					prevMarker.remove();
@@ -167,7 +178,7 @@ public class MapManager {
 
 	public static void removeCars() {
 		// TODO Auto-generated method stub
-		for (Marker marker : markersMap.values()) {
+		for (Marker_Arrow marker : markersMap.values()) {
 			marker.remove();
 		}
 		markersMap.clear();

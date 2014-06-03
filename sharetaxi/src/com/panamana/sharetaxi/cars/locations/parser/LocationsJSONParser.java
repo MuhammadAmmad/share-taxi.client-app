@@ -45,6 +45,7 @@ public class LocationsJSONParser {
 			Log.i(TAG, "started parsing");
 		}
 		try {
+			// cars locations from server
 			jPoints = getPoints(jObject);
 			for (int i = 0; i < jPoints.length(); i++) {
 				// build car for each location JSON response

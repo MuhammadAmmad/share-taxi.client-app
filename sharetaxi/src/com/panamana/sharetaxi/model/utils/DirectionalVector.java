@@ -47,11 +47,13 @@ public class DirectionalVector {
 	 * calculates the direction from a to b (b-a)
 	 */
 	public static DirectionalVector calcDirection(Position a, Position b) {
-		float cx = b.getX()-a.getX();
-		float cy = b.getY()-a.getY();
-		float cz = b.getZ()-a.getZ();
-		DirectionalVector c = new DirectionalVector(cx, cy, cz);
-//		c = c.NormalizeVector();
+		DirectionalVector c = null; 
+		if ( a!= null && b!=null) {
+			float cx = b.getX()-a.getX();
+			float cy = b.getY()-a.getY();
+			float cz = b.getZ()-a.getZ();
+			c = new DirectionalVector(cx, cy, cz);
+		}
 		return c;
 	}
 	
@@ -95,6 +97,12 @@ public class DirectionalVector {
 
 	public void setZ_direction(float z_direction) {
 		this.z_direction = z_direction;
+	}
+
+	public float getAngleFromNorth() {
+		return (float)(Math.acos(scalarProduct(
+				new DirectionalVector(x_direction, y_direction, 0).NormalizeVector(), 
+				new DirectionalVector(1, 0, 0)))); 
 	}
 	
 	
