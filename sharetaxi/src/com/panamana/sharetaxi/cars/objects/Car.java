@@ -236,10 +236,58 @@ public class Car {
 				+ "]";
 	}
 	
+	
 	/**
 	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
 	 */
 	public void calcIRouteLocationAndDistance() {
+		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
+		
+		if (linePolylineOptions != null) {
+			// valid poly line
+			int iTHLocation = 0;
+			Position carXYZPoint = LatLng2XYZ(mLatLng);
+			List<LatLng> linePoints = linePolylineOptions.getPoints(); 
+			float distanceFromLine = 10000;
+			for (int i = 0; i<linePoints.size()-1; i++) {
+				float distanceFromThisLine = 
+						Position.distancePfromVectorAB(
+								carXYZPoint,
+								LatLng2XYZ(linePoints.get(i)),
+								LatLng2XYZ(linePoints.get(i+1)));
+				if (distanceFromLine < distanceFromLine) {
+					// car is closer to this line than to the last one
+					distanceFromLine = distanceFromThisLine;
+					iTHLocation =i;
+				}
+				// if the car was closer to the last line than to this one, we can stop iterate over the lines points
+				if (distanceFromThisLine > distanceFromLine) {
+					break;
+				}
+			}
+			if(DEBUG) {
+				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
+			}
+			mIRouteLocation=iTHLocation;
+			mDistanceFromI=DirectionalVector.calcDirection(
+					LatLng2XYZ(linePoints.get(iTHLocation)),
+					carXYZPoint).getVectorSize();
+			if(DEBUG) {
+				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
+			}
+		}
+	}
+	
+
+	
+	
+	
+	
+	
+	/**
+	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
+	 */
+	public void calcIRouteLocationAndDistance2() {
 		
 		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
 		
