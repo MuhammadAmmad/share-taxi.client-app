@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -39,6 +40,7 @@ public class Car {
 	private String mDirection;
 	private String mPrevDirection;
 	private LatLng mLatLng;
+	private LatLng mPrevLatLng;
 	private String mLineName;
 	private Marker mMarker;
 	private int mIRouteLocation;
@@ -77,6 +79,98 @@ public class Car {
 	public String getDirection() {
 		return mDirection;
 	}
+	
+	public void updateCarDirection() {
+		// the prev object of the same car in CarsWorker.cars
+		Car carByID = CarsWorker.cars.get(mID);
+		if (carByID == null) {
+			carByID = this;
+		}
+		// I root location - the I'th segment of the route
+		mPrevLatLng = carByID.getLatLng();
+
+		mLocalDirection = latLng2Location(mPrevLatLng).bearingTo(latLng2Location(mLatLng));
+		
+		updateCarDirection2(carByID);
+
+		CarsWorker.cars.put(mID, this);
+	}
+	
+	public void updateCarDirection2(Car carByID) {
+
+		// I root location - the I'th segment of the route
+		int prevIRouteLocation = carByID.getIRouteLocation();
+		mPrevDirection = carByID.getDirection();
+		mIterator = carByID.getIterator();
+		mNewDirection = carByID.getNewDirection();
+		this.calcIRouteLocationAndDistance();
+		if (prevIRouteLocation != Float.MAX_VALUE) {
+			// if car was not just initialized 
+			if(DEBUG) Log.i(TAG,"save prev location");
+
+			float prevDistanceFromI = carByID.getDistanceFromI();
+			if (prevIRouteLocation == this.mIRouteLocation) {
+				// if car is still on the same I-th segment of the root
+				if (prevDistanceFromI < this.mDistanceFromI) {
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation();
+				} else {
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
+				}
+			} else {
+				if (prevIRouteLocation < this.mIRouteLocation) {
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation();
+				} else {
+					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
+				}
+			}
+//			if (direction changed and prevDirection is not "") {
+//				check 3 times if mDirection = newDirection
+//			if it is, change to newDirection 
+//			}
+			if(DEBUG) Log.i("1"+TAG,"car "+mID+" i="+mIterator);
+			if(mIterator==0) {
+				if (!"".equals(mPrevDirection) ) {
+					if(DEBUG) Log.i("1.1"+TAG,"car prevDirection is blank");
+					if (!mDirection.equals(mPrevDirection)) {
+						mNewDirection = mDirection;
+						mDirection =mPrevDirection;
+						mIterator++;
+						if(DEBUG) Log.i("2"+TAG,"car "+mID+" i="+mIterator);
+					}
+				}
+			}
+			else {
+				if (mIterator>0 && mIterator<3) {
+					if(DEBUG) Log.i("3"+TAG,"car "+mID+" i="+mIterator);
+					if (mDirection.equals(mNewDirection)) {
+						mDirection = mPrevDirection;
+						mIterator++;
+					}
+					else {
+						mIterator=0;
+					}
+				}
+				else {
+					if (mIterator==3) {
+						if(DEBUG) Log.i("4"+TAG,"car "+mID+" i="+mIterator);
+						mDirection =mNewDirection;
+						mPrevDirection =mNewDirection;
+						mIterator=0;
+					}
+				}
+			}
+		}
+	}		
+
+	
+	
+	private Location latLng2Location(LatLng latLng) {
+		Location location = new Location("");
+		location.setLatitude(latLng.latitude);
+		location.setLongitude(latLng.longitude);
+		return location;
+	}
+	
 	public void setDirection(String mDirection) {
 		this.mDirection = mDirection;
 	}
@@ -155,28 +249,28 @@ public class Car {
 			List<LatLng> linePoints = linePolylineOptions.getPoints(); 
 
 			mIRouteLocation = getClosestSegmentIndex(carXYZPoint, linePoints);
-
-			if(DEBUG) Log.i(TAG,"mIRouteLocation= "+ mIRouteLocation);
-			
-			if (linePoints.get(mIRouteLocation) != null && linePoints.get(mIRouteLocation+5) != null){
-				// got previous and current lines
-				Position prevPos = LatLng2XYZ(linePoints.get(mIRouteLocation)) ;
-				Position curPos = LatLng2XYZ(linePoints.get(mIRouteLocation+1));
-				
-				if(DEBUG) Log.i(TAG,"prevPos="+prevPos+ " curPos= "+curPos);
-				
-				if (DirectionalVector.calcDirection(prevPos,curPos) != null) {
-					// got a valid vector between prev and cur positions
-					mLocalDirection = 
-							(float) Math.atan( (curPos.getY()-prevPos.getY())/(curPos.getX()-prevPos.getX()) );
-							
-							//DirectionalVector.calcDirection(prevPos,curPos).getAngleFromNorth();
-					if(DEBUG) Log.i(TAG,"mLocalDirection= "+mLocalDirection);
-				}
+//
+//			if(DEBUG) Log.i(TAG,"mIRouteLocation= "+ mIRouteLocation);
+//			
+//			if (linePoints.get(mIRouteLocation) != null && linePoints.get(mIRouteLocation+5) != null){
+//				// got previous and current lines
+//				Position prevPos = LatLng2XYZ(linePoints.get(mIRouteLocation)) ;
+//				Position curPos = LatLng2XYZ(linePoints.get(mIRouteLocation+1));
+//				
+//				if(DEBUG) Log.i(TAG,"prevPos="+prevPos+ " curPos= "+curPos);
+//				
+//				if (DirectionalVector.calcDirection(prevPos,curPos) != null) {
+//					// got a valid vector between prev and cur positions
+//					mLocalDirection = 
+//							(float) Math.atan( (curPos.getY()-prevPos.getY())/(curPos.getX()-prevPos.getX()) );
+//							
+//							//DirectionalVector.calcDirection(prevPos,curPos).getAngleFromNorth();
+//					if(DEBUG) Log.i(TAG,"mLocalDirection= "+mLocalDirection);
+//				}
 				mDistanceFromI=DirectionalVector.calcDirection(
 						LatLng2XYZ(linePoints.get(mIRouteLocation)),
 						carXYZPoint).getVectorSize();
-			}
+//			}
 		}
 	}
 	
@@ -210,83 +304,10 @@ public class Car {
 			}
 		}
 		
-		if (DEBUG) Log.i(TAG,"minIthSegment= "+minIthSegment);
 		return minIthSegment;
 	}
 	
 	
-	public void updateCarDirection() {
-		// the prev object of the same car in CarsWorker.cars
-		Car carByID = CarsWorker.cars.get(mID);
-		if (carByID == null) {
-			carByID = this;
-		}
-		// I root location - the I'th segment of the route
-		int prevIRouteLocation = carByID.getIRouteLocation();
-		mPrevDirection = carByID.getDirection();
-		mIterator = carByID.getIterator();
-		mNewDirection = carByID.getNewDirection();
-		this.calcIRouteLocationAndDistance();
-		if (prevIRouteLocation != Float.MAX_VALUE) {
-			// if car was not just initialized 
-			if(DEBUG) {
-				Log.i(TAG,"save prev location");
-			}
-			float prevDistanceFromI = carByID.getDistanceFromI();
-			if (prevIRouteLocation == this.mIRouteLocation) {
-				// if car is still on the same I-th segment of the root
-				if (prevDistanceFromI < this.mDistanceFromI) {
-					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation();
-				} else {
-					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
-				}
-			} else {
-				if (prevIRouteLocation < this.mIRouteLocation) {
-					mDirection = LINES.getLine("line"+mLineName).getEndStations().getEndStation();
-				} else {
-					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
-				}
-			}
-//			if (direction changed and prevDirection is not "") {
-//				check 3 times if mDirection = newDirection
-//			if it is, change to newDirection 
-//			}
-			if(DEBUG) Log.i("1"+TAG,"car "+mID+" i="+mIterator);
-			if(mIterator==0) {
-				if (!"".equals(mPrevDirection) ) {
-					if(DEBUG) Log.i("1.1"+TAG,"car prevDirection is blank");
-					if (!mDirection.equals(mPrevDirection)) {
-						mNewDirection = mDirection;
-						mDirection =mPrevDirection;
-						mIterator++;
-						if(DEBUG) Log.i("2"+TAG,"car "+mID+" i="+mIterator);
-					}
-				}
-			}
-			else {
-				if (mIterator>0 && mIterator<3) {
-					if(DEBUG) Log.i("3"+TAG,"car "+mID+" i="+mIterator);
-					if (mDirection.equals(mNewDirection)) {
-						mDirection = mPrevDirection;
-						mIterator++;
-					}
-					else {
-						mIterator=0;
-					}
-				}
-				else {
-					if (mIterator==3) {
-						if(DEBUG) Log.i("4"+TAG,"car "+mID+" i="+mIterator);
-						mDirection =mNewDirection;
-						mPrevDirection =mNewDirection;
-						mIterator=0;
-					}
-				}
-			
-			}
-		}
-		CarsWorker.cars.put(mID, this);
-	}		
 
 	
 	private String getNewDirection() {
@@ -296,11 +317,17 @@ public class Car {
 		return mIterator;
 	}
 	private Position LatLng2XYZ(LatLng latlng) {
-		// TODO Auto-generated method stub
 		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);
 		float yPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.sin(latlng.longitude);
 		float zPos = (float) 6371000 * (float)Math.sin(latlng.latitude);
 		Position position = new Position(xPos, yPos, zPos);
+		return position;
+	}
+	
+	private Position LatLng2XY (LatLng latlng) {
+		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);
+		float yPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.sin(latlng.longitude);
+		Position position = new Position(xPos, yPos, 0);
 		return position;
 	}
 
