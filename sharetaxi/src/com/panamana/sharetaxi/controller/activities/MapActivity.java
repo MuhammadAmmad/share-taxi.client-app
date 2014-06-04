@@ -1,5 +1,7 @@
 package com.panamana.sharetaxi.controller.activities;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +17,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.a;
@@ -23,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
+import com.panamana.sharetaxi.addressSearch.tasks.DownloadTask;
 import com.panamana.sharetaxi.cars.locations.updater.LocationsUpdateThread;
 import com.panamana.sharetaxi.controller.dialogs.DialogAbout;
 import com.panamana.sharetaxi.lines.LINES;
@@ -40,9 +46,12 @@ public class MapActivity extends ActionBarActivity {
 
 	//
 	// Lines map
+	Button mBtnFind;
+	EditText etPlace;
+	
 	private static final String TAG = MapActivity.class.getSimpleName();
 	private static final String FILENAME = "polylines.data";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
@@ -64,6 +73,10 @@ public class MapActivity extends ActionBarActivity {
 		if(DEBUG) {
 			Log.i(TAG, "onCreate");
 		}
+		
+		// Getting reference to the find button
+        mBtnFind = (Button) findViewById(R.id.btn_show);
+        
 		//
 		context = this;
 		// create map
@@ -73,11 +86,48 @@ public class MapActivity extends ActionBarActivity {
 		if(DEBUG) {
 			Log.i(TAG, "draw line");
 		}
-
-		// Maps.drawLine(Lines.line4,context);
-		// Maps.drawLine(Lines.line4a,context);
-		// Maps.drawLine(Lines.line5,context);
-		// Maps.drawCars(context);
+		
+		// Getting reference to EditText
+        etPlace = (EditText) findViewById(R.id.et_place);
+		
+		// Setting click event listener for the find button
+        mBtnFind.setOnClickListener(new OnClickListener() {
+ 
+            @Override
+            public void onClick(View v) {
+                // Getting the place entered
+                String location = etPlace.getText().toString();
+ 
+                if (DEBUG) Log.i(TAG,"location="+location);
+                if(location==null || location.equals("")){
+                    Toast.makeText(getBaseContext(), "No Place is entered", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+ 
+                String url = "https://maps.googleapis.com/maps/api/geocode/json?";
+ 
+                try {
+                    // encoding special characters like space in the user input place
+                    location = URLEncoder.encode(location, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+ 
+                String address = "address=" + location;
+ 
+                String sensor = "sensor=false";
+ 
+                // url , from where the geocoding data is fetched
+                url = url + address + "&" + sensor;
+ 
+                // Instantiating DownloadTask to get places from Google Geocoding service
+                // in a non-ui thread
+                DownloadTask downloadTask = new DownloadTask(context,mapManager);
+ 
+                // Start downloading the geocoding places
+                downloadTask.execute(url);
+            }
+        });
 	}
 
 	@Override

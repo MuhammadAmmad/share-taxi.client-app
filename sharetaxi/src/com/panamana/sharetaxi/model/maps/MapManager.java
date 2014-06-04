@@ -206,4 +206,8 @@ public class MapManager {
 		}
 	}
 
+	public void addAddress(MarkerOptions markerOptions) {
+		Marker marker = map.addMarker(markerOptions);
+	}
+
 }

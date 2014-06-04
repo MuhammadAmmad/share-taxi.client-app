@@ -66,5 +66,7 @@
     <string name="mapToastline">עקוב אחר מיקום המונית הרצויה בזמן אמת</string>
     <string name="infoToastline">מידע אודות מסלול הקו זמנים ותדירות הגעות</string>
     <string name="settingToastline">בחר את קווי המונית שיוצגו על המפה</string>
+    <string name="find">Find</string>
+    <string name="hint">Enter Place</string>
 
 </resources>
