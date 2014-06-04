@@ -54,12 +54,17 @@
     <string name="facebook_web_page_title">מצא אותנו ב facebook</string>
     <string name="send_SMS_to">לשלוח מסרון שיתוף ל</string>
     <string name="share">שתף</string>
-    <string name="devel_name1">פנדי הפנדה</string>
-    <string name="devel_name2">ישראל הגדול</string>
-    <string name="devel_name3">החתול במגפיים</string>
-    <string name="devel_name4">משה אופניק</string>
-    <string name="devel_name5">עוגי פלצת</string>
-    <string name="devel_name6">יוסי בכינור</string>
+    <string name="devel_name1">נעמה נהרי</string>
+    <string name="devel_name2">עידן חביב</string>
+    <string name="devel_name3">לימור פורסט</string>
+    <string name="devel_name4">יהב פרי</string>
+    <string name="devel_name5">לבנת זריא</string>
+    <string name="devel_name6">אסף פייביש</string>
+	<string name="devel_icon">עיצוב איקון נוי גבישי</string>
+	<string name="copyright">כל הזכויות שמורות למפתחי האפליקציה</string> 
+
+
+
     <string name="about_the_project"> האפליקציה פותחה על ידי קבוצת סטודנטים למדעי המחשב מאוניברסיטת תל אביב בשיתוף גוגל ישראל </string>
     <string name="contact_as_title">Contact As</string>
     <string name="OK">OK</string>

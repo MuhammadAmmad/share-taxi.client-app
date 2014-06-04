@@ -63,21 +63,32 @@ public class DialogAbout extends Dialog implements OnClickListener {
 		}
 
 		else if (v == shareButton) {
-			Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+			//send SMS
+			/*Intent sendIntent = new Intent(Intent.ACTION_VIEW);
 			sendIntent
 					.putExtra("sms_body", share_msg + "\n" + Url_for_download);
 			sendIntent.setType("vnd.android-dir/mms-sms");
 			mActivity.startActivity(sendIntent);
-
+*/
 			// Toast.makeText(getApplicationContext(), thanks_for_share,
 			// Toast.LENGTH_LONG).show();
+			
+			
+			//share
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, share_msg + "\n" + Url_for_download);
+			sendIntent.setType("text/plain");
+			mActivity.startActivity(sendIntent);
+			
+			
 		}
 
 		else if (v == contactButton) {
 			Intent emailIntent = new Intent(Intent.ACTION_SEND);
 			emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { email });
 			emailIntent.putExtra(Intent.EXTRA_CC,
-					new String[] { "" });
+					new String[] { "fassaf.f@gmail.com" });
 			emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
 			emailIntent.putExtra(Intent.EXTRA_TEXT, email_first_line);
 
