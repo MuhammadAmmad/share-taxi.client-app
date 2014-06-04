@@ -1,28 +1,10 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dp"
-    android:layout_height="530dp"
+    android:layout_height="470dp"
     android:layout_gravity="center"
     android:background="@color/egg_shell"
     android:gravity="center"
     android:stretchColumns="yes" >
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/send_App_Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/share_app_title" />
-
-        <Button
-            android:id="@+id/facebookButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/facebook_web_page_title" />
-    </LinearLayout>
 
     <TableRow
         android:id="@+id/tableRow_onAbout"
@@ -44,6 +26,30 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:stretchColumns="yes" >
+
+                <TableRow
+                    android:id="@+id/tableRow10_onAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/send_App_Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/share_app_title" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow11_onAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/facebookButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/facebook_web_page_title" />
+                </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRow0_onAbout"
@@ -232,21 +238,21 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/textDialogSmall" />
                 </TableRow>
+
+                <TableRow
+                    android:id="@+id/name_list17_TableRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/contact_as_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contact_as_title" />
+                </TableRow>
             </TableLayout>
         </ScrollView>
     </TableRow>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/contact_as_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/contact_as_title" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
