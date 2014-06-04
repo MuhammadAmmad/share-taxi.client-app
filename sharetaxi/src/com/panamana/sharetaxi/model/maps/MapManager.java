@@ -151,9 +151,14 @@ public class MapManager {
 		// if both directions are in linesToHide then hide
 		if (DEBUG) Log.i(TAG,"line="+line+" direction="+LINES.getLine(line)
 				.getEndStations().getStartStation()+" linesToHide= "+linesToHide.toString());
-		if (linesToHide.get(LineDirectionPair.getPair(line, 
+		if (
+				linesToHide.get(LineDirectionPair.getPair(line, 
 				LINES.getLine(line).getEndStations().getStartStation())) 
-				== true) {
+				== true ||
+				linesToHide.get(LineDirectionPair.getPair(line, 
+				LINES.getLine(line).getEndStations().getEndStation())) 
+				== true 
+				) {
 			Polyline pol = map.addPolyline(polylineOptionsMap.get(line));
 			if (polylinesMap.get(line) != null) {
 				Polyline prev = polylinesMap.get(line);
