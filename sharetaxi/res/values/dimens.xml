@@ -8,5 +8,7 @@
         <dimen name="title_lineDialog">16sp</dimen>
     
     <dimen name="textDialog">14sp</dimen>
+    <dimen name="textDiaLog">15sp</dimen>
+    <dimen name="textDialogSmall">13sp</dimen>
 
 </resources>
