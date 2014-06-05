@@ -7,10 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -87,47 +91,104 @@ public class MapActivity extends ActionBarActivity {
 			Log.i(TAG, "draw line");
 		}
 		
-		// Getting reference to EditText
-        etPlace = (EditText) findViewById(R.id.et_place);
+//<<<<<<< HEAD
+//		// Getting reference to EditText
+//        etPlace = (EditText) findViewById(R.id.et_place);
+//		
+//		// Setting click event listener for the find button
+//        mBtnFind.setOnClickListener(new OnClickListener() {
+// 
+//            @Override
+//            public void onClick(View v) {
+//                // Getting the place entered
+//                String location = etPlace.getText().toString();
+// 
+//                if (DEBUG) Log.i(TAG,"location="+location);
+//                if(location==null || location.equals("")){
+//                    Toast.makeText(getBaseContext(), "No Place is entered", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+// 
+//                String url = "https://maps.googleapis.com/maps/api/geocode/json?";
+// 
+//                try {
+//                    // encoding special characters like space in the user input place
+//                    location = URLEncoder.encode(location, "utf-8");
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+// 
+//                String address = "address=" + location;
+// 
+//                String sensor = "sensor=false";
+// 
+//                // url , from where the geocoding data is fetched
+//                url = url + address + "&" + sensor;
+// 
+//                // Instantiating DownloadTask to get places from Google Geocoding service
+//                // in a non-ui thread
+//                DownloadTask downloadTask = new DownloadTask(context,mapManager);
+// 
+//                // Start downloading the geocoding places
+//                downloadTask.execute(url);
+//            }
+//        });
+		// Get the intent, verify the action and get the query
+	    Intent intent = getIntent();
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+	      String query = intent.getStringExtra(SearchManager.QUERY);
+	      
+	      if(DEBUG) {
+				Log.i(TAG, query);
+			}
+	
+	      doMySearch(query);
+	      
+	      //if could not find the address alert with AlertDialog...
+	      /*
+	       Toast.makeText(this, query, Toast.LENGTH_SHORT).show(); 
+	       * */
+	      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	        builder.setTitle("Sorry...")
+	        .setMessage("Could not find address.")
+	        .setNegativeButton("Close",new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int id) {
+	                dialog.cancel();
+	            }
+	        });
+	        AlertDialog alert = builder.create();
+	        alert.show();
+	    }
+		// Maps.drawLine(Lines.line4,context);
+		// Maps.drawLine(Lines.line4a,context);
+		// Maps.drawLine(Lines.line5,context);
+		// Maps.drawCars(context);
+	}
+
+	private void doMySearch(String query) {
+      String url = "https://maps.googleapis.com/maps/api/geocode/json?";
+
+      try {
+          // encoding special characters like space in the user input place
+          query = URLEncoder.encode(query, "utf-8");
+      } catch (UnsupportedEncodingException e) {
+          e.printStackTrace();
+      }
+
+      String address = "address=" + query;
+
+      String sensor = "sensor=false";
+
+      // url , from where the geocoding data is fetched
+      url = url + address + "&" + sensor;
+
+      // Instantiating DownloadTask to get places from Google Geocoding service
+      // in a non-ui thread
+      DownloadTask downloadTask = new DownloadTask(context,mapManager);
+
+      // Start downloading the geocoding places
+      downloadTask.execute(url);
 		
-		// Setting click event listener for the find button
-        mBtnFind.setOnClickListener(new OnClickListener() {
- 
-            @Override
-            public void onClick(View v) {
-                // Getting the place entered
-                String location = etPlace.getText().toString();
- 
-                if (DEBUG) Log.i(TAG,"location="+location);
-                if(location==null || location.equals("")){
-                    Toast.makeText(getBaseContext(), "No Place is entered", Toast.LENGTH_SHORT).show();
-                    return;
-                }
- 
-                String url = "https://maps.googleapis.com/maps/api/geocode/json?";
- 
-                try {
-                    // encoding special characters like space in the user input place
-                    location = URLEncoder.encode(location, "utf-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
- 
-                String address = "address=" + location;
- 
-                String sensor = "sensor=false";
- 
-                // url , from where the geocoding data is fetched
-                url = url + address + "&" + sensor;
- 
-                // Instantiating DownloadTask to get places from Google Geocoding service
-                // in a non-ui thread
-                DownloadTask downloadTask = new DownloadTask(context,mapManager);
- 
-                // Start downloading the geocoding places
-                downloadTask.execute(url);
-            }
-        });
 	}
 
 	@Override
@@ -222,6 +283,18 @@ public class MapActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_activity_actions, menu);
+
+	    // Get the SearchView and set the searchable configuration
+	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+/* Merge
+	    SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+	    
+	    // Assumes current activity is the searchable activity
+	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+	    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+ * 
+ */
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 

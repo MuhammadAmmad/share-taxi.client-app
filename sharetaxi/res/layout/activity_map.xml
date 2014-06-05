@@ -19,18 +19,20 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:hint="@string/hint"
         android:inputType="text" >
-
-        <requestFocus />
     </EditText>
+<!--  Merge
+        android:hint="@string/hint"
+ -->
 
     <Button
         android:id="@+id/btn_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/et_place"
+        android:layout_below="@+id/et_place" />
+<!--  Merge
         android:text="@string/find" />
+ -->
 
 </RelativeLayout>
