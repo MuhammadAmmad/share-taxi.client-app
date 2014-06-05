@@ -107,13 +107,13 @@ public class MapManager {
 		Marker marker = null;
 		Marker arrow = null;
 		// build marker
-		if (direction.split("Direction: ").length == 0 && // (
-			/*	(linesToHide.get(LineDirectionPair.getPair(title, 
+		if (direction.split("Direction: ").length == 0 && (
+			(linesToHide.get(LineDirectionPair.getPair(title, 
 						LINES.getLine(title).getEndStations().getStartStation())))
 				|| (linesToHide.get(LineDirectionPair.getPair(title, 
 						LINES.getLine(title).getEndStations().getEndStation())))
-						)*/
-				//||
+						)
+				||
 				(direction.split("Direction: ").length > 0 && linesToHide
 						.get(LineDirectionPair.getPair(title,
 								direction.split("Direction: ")[1])) == true)) {
