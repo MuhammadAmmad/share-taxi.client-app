@@ -50,8 +50,8 @@ public class MapActivity extends ActionBarActivity {
 
 	//
 	// Lines map
-	Button mBtnFind;
-	EditText etPlace;
+//	Button mBtnFind;
+//	EditText etPlace;
 	
 	private static final String TAG = MapActivity.class.getSimpleName();
 	private static final String FILENAME = "polylines.data";
@@ -77,10 +77,10 @@ public class MapActivity extends ActionBarActivity {
 		if(DEBUG) {
 			Log.i(TAG, "onCreate");
 		}
-		
-		// Getting reference to the find button
-        mBtnFind = (Button) findViewById(R.id.btn_show);
-        
+//		
+//		// Getting reference to the find button
+//        mBtnFind = (Button) findViewById(R.id.btn_show);
+//        
 		//
 		context = this;
 		// create map
@@ -148,17 +148,24 @@ public class MapActivity extends ActionBarActivity {
 	      /*
 	       Toast.makeText(this, query, Toast.LENGTH_SHORT).show(); 
 	       * */
-	      AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	        builder.setTitle("Sorry...")
-	        .setMessage("Could not find address.")
-	        .setNegativeButton("Close",new DialogInterface.OnClickListener() {
-	            public void onClick(DialogInterface dialog, int id) {
-	                dialog.cancel();
-	            }
-	        });
-	        AlertDialog alert = builder.create();
-	        alert.show();
+//	      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//	        builder.setTitle("Sorry...")
+//	        .setMessage("Could not find address.")
+//	        .setNegativeButton("Close",new DialogInterface.OnClickListener() {
+//	            public void onClick(DialogInterface dialog, int id) {
+//	                dialog.cancel();
+//	            }
+//	        });
+//	        AlertDialog alert = builder.create();
+//	        alert.show();
+	      
+	      
+	      
 	    }
+	    
+	    
+	    
+	    
 		// Maps.drawLine(Lines.line4,context);
 		// Maps.drawLine(Lines.line4a,context);
 		// Maps.drawLine(Lines.line5,context);
@@ -286,14 +293,11 @@ public class MapActivity extends ActionBarActivity {
 
 	    // Get the SearchView and set the searchable configuration
 	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-/* Merge
 	    SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
 	    
 	    // Assumes current activity is the searchable activity
 	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 	    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
- * 
- */
 		
 		return super.onCreateOptionsMenu(menu);
 	}

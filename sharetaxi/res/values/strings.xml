@@ -71,10 +71,8 @@
     <string name="mapToastline">עקוב אחר מיקום המונית הרצויה בזמן אמת</string>
     <string name="infoToastline">מידע אודות מסלול הקו זמנים ותדירות הגעות</string>
     <string name="settingToastline">בחר את קווי המונית שיוצגו על המפה</string>
-<!--  Merge
     <string name="find">Find</string>
     <string name="hint">Enter Place</string>
- -->
     <string name="app_label">ShareTaxi</string>
     <string name="search_hint">Search address</string>
     <string name="action_search"></string>
