@@ -130,6 +130,7 @@ public class MapManager {
 						.icon(ResourceUtils
 						.getImage(R.drawable.marker_arrow)));
 				arrow.setRotation(localDirection);
+				marker.setAnchor(0.5f, 0.5f);
 				// get previous marker
 				Marker_Arrow prevMarker = markersMap.get(carId);
 				

@@ -385,11 +385,11 @@ public class Car {
 			mIcon = R.drawable.l4north;
 		}
 		if (mLineName.equals("4") && mDirection.equals("South")) {
-			mIcon = R.drawable.l4south;
+			mIcon = R.drawable.l4north;
 		}
 
 		if (mLineName.equals("4a") && mDirection.equals("South")) {
-			mIcon = R.drawable.l4asouth;
+			mIcon = R.drawable.l4anorth;
 		}
 		if (mLineName.equals("4a") && mDirection.equals("North")) {
 			mIcon = R.drawable.l4anorth;
@@ -398,7 +398,7 @@ public class Car {
 			mIcon = R.drawable.l5north;
 		}
 		if (mLineName.equals("5") && mDirection.equals("South")) {
-			mIcon = R.drawable.l5south;
+			mIcon = R.drawable.l5north;
 		}
 
 		
