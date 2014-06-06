@@ -77,49 +77,7 @@ public class MapActivity extends ActionBarActivity {
 		if(DEBUG) {
 			Log.i(TAG, "draw line");
 		}
-		
-//<<<<<<< HEAD
-//		// Getting reference to EditText
-//        etPlace = (EditText) findViewById(R.id.et_place);
-//		
-//		// Setting click event listener for the find button
-//        mBtnFind.setOnClickListener(new OnClickListener() {
-// 
-//            @Override
-//            public void onClick(View v) {
-//                // Getting the place entered
-//                String location = etPlace.getText().toString();
-// 
-//                if (DEBUG) Log.i(TAG,"location="+location);
-//                if(location==null || location.equals("")){
-//                    Toast.makeText(getBaseContext(), "No Place is entered", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-// 
-//                String url = "https://maps.googleapis.com/maps/api/geocode/json?";
-// 
-//                try {
-//                    // encoding special characters like space in the user input place
-//                    location = URLEncoder.encode(location, "utf-8");
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-// 
-//                String address = "address=" + location;
-// 
-//                String sensor = "sensor=false";
-// 
-//                // url , from where the geocoding data is fetched
-//                url = url + address + "&" + sensor;
-// 
-//                // Instantiating DownloadTask to get places from Google Geocoding service
-//                // in a non-ui thread
-//                DownloadTask downloadTask = new DownloadTask(context,mapManager);
-// 
-//                // Start downloading the geocoding places
-//                downloadTask.execute(url);
-//            }
-//        });
+
 		// Get the intent, verify the action and get the query
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
