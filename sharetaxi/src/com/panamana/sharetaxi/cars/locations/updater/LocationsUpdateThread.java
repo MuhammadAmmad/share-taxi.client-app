@@ -13,7 +13,7 @@ public class LocationsUpdateThread extends Thread {
 	
 	// Constants:
 	private static final String TAG = LocationsUpdateThread.class.getSimpleName();
-	private static final long INTERVAL = 1000;
+	private static final long INTERVAL = 5000;
 	private static final boolean DEBUG = false;
 
 	// Fields:
