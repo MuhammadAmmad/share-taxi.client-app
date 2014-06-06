@@ -34,11 +34,6 @@ import com.panamana.sharetaxi.model.maps.MapManager;
  * @author
  */
 public class MapActivity extends ActionBarActivity {
-
-	//
-	// Lines map
-//	Button mBtnFind;
-//	EditText etPlace;
 	
 	private static final String TAG = MapActivity.class.getSimpleName();
 	private static final String FILENAME = "polylines.data";
@@ -46,7 +41,6 @@ public class MapActivity extends ActionBarActivity {
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
-//	public static String [] polylinesToHide = {};
 	public static Map<LineDirectionPair,Boolean> linesToHide = new HashMap<LineDirectionPair, Boolean>();
 
 
@@ -64,11 +58,6 @@ public class MapActivity extends ActionBarActivity {
 		if(DEBUG) {
 			Log.i(TAG, "onCreate");
 		}
-//		
-//		// Getting reference to the find button
-//        mBtnFind = (Button) findViewById(R.id.btn_show);
-//        
-		//
 		context = this;
 		// create map
 		mapManager = new MapManager(this);
@@ -107,14 +96,6 @@ public class MapActivity extends ActionBarActivity {
 	      
 	      
 	    }
-	    
-	    
-	    
-	    
-		// Maps.drawLine(Lines.line4,context);
-		// Maps.drawLine(Lines.line4a,context);
-		// Maps.drawLine(Lines.line5,context);
-		// Maps.drawCars(context);
 	}
 
 	private void doMySearch(String query) {
@@ -214,7 +195,7 @@ public class MapActivity extends ActionBarActivity {
 		if (updater != null) {
 			updater.pause();
 		}
-		mapManager.removeCars();
+		MapManager.removeCars();
 	}
 
 	@Override
