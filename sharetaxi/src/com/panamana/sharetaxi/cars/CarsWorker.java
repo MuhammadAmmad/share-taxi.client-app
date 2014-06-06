@@ -91,15 +91,15 @@ public class CarsWorker extends Thread {
 										MapActivity.linesToHide,
 										car.getLocalDirection());
 								car.setMarker(marker);
-							} else {
-								if (MapManager.markersMap.get(car.getID()) != null) {
-									MapManager.markersMap.get( car.getID() ).remove();
-									
-								}
 							}
 						}
 					});
-				}
+					} else {
+						if (MapManager.markersMap.get(car.getID()) != null) {
+							MapManager.markersMap.get( car.getID() ).remove();
+							
+						}
+					}
 			} catch (IllegalStateException ile) {
 				Log.e(TAG, ile.toString());
 			}
