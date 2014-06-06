@@ -84,7 +84,8 @@ public class CarsWorker extends Thread {
 								if (DEBUG) Log.i(TAG,"prevLatLng: "+car.getPrevLatLng()+ "LatLng: "+car.getLatLng());
 								Marker marker = maps.addMarker(
 										car.getLatLng(),
-										MARKER_TITLE_PREFIX + car.getLineName() /*+ " " + localDirection*/,
+										MARKER_TITLE_PREFIX + car.getLineName() ,
+										car.getFreeSeats(),
 										"Direction: "+car.getDirection() , 
 										ResourceUtils.getImage(car.getIcon()),
 										car.getID(), 

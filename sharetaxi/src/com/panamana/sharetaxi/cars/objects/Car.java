@@ -42,6 +42,7 @@ public class Car {
 	private LatLng mLatLng;
 	private LatLng mPrevLatLng;
 	private String mLineName;
+	private String mFreeSeats;
 	private Marker mMarker;
 	private int mIRouteLocation;
 	private float mDistanceFromI;
@@ -52,7 +53,7 @@ public class Car {
 	private boolean mIsActive;
 	
 	// Constructor:
-	public Car (String ID, String time, String line, LatLng latlng ) {
+	public Car (String ID, String time, String line, LatLng latlng, String freeSeats ) {
 		this.mID = ID;
 		this.mTime = time;
 		this.mLineName = line;
@@ -62,6 +63,11 @@ public class Car {
 			mPrevLatLng = latlng;
 		}
 		this.mLatLng = latlng;
+		if (freeSeats.equals("null")) {
+			this.mFreeSeats = "";
+		} else {
+			this.mFreeSeats = freeSeats;
+		}
 		this.mMarker = null;
 		this.mIRouteLocation = 0;
 		this.mDistanceFromI = 0;
@@ -79,7 +85,8 @@ public class Car {
 			jo.getString(LocationsJsonTags.DATE),               
 			jo.getString(LocationsJsonTags.LINENUM),          
 			new LatLng( jo.getDouble(LocationsJsonTags.LATITUDE), 
-	                  	jo.getDouble(LocationsJsonTags.LONGITUDE))
+	                  	jo.getDouble(LocationsJsonTags.LONGITUDE)),
+			jo.getString(LocationsJsonTags.FREE_SEATS)
 			);
 	}
 	
@@ -421,6 +428,9 @@ public class Car {
 	}
 	public void setIsActiveFalse() {
 		mIsActive = false;
+	}
+	public String getFreeSeats() {
+		return mFreeSeats;
 	}		
 	
 }

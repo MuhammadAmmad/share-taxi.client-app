@@ -101,7 +101,7 @@ public class MapManager {
 	 * @param carId
 	 * @return
 	 */
-	public Marker addMarker(LatLng position, String title, String direction,
+	public Marker addMarker(LatLng position, String title, String freeSeats, String direction,
 			BitmapDescriptor icon, String carId, Map<LineDirectionPair,Boolean> linesToHide, float localDirection) {
 		
 		Marker marker = null;
@@ -122,7 +122,7 @@ public class MapManager {
 				marker = map.addMarker(
 						new MarkerOptions()
 						.title(title)
-						.snippet(direction)
+						.snippet("Free Seats: "+ freeSeats)
 						.position(position)
 						.icon(icon));
 				arrow = map.addMarker(

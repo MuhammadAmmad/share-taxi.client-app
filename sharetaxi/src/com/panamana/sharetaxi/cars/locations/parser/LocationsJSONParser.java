@@ -30,6 +30,7 @@ public class LocationsJSONParser {
 		static final public String ANDROIDID = "androidID";
 		static final public String LATITUDE = "latitude";
 		static final public String DATE = "date";
+		static final public String FREE_SEATS = "freeSeats";
 	}
 
 	// Methods:
@@ -50,26 +51,16 @@ public class LocationsJSONParser {
 			for (int i = 0; i < jPoints.length(); i++) {
 				// build car for each location JSON response
 				Car car = new Car(jPoints.getJSONObject(i));
-				if(DEBUG) {
-					Log.i(TAG,"1routeLocation"+Integer.toString(car.getIRouteLocation()));
-				}
+				if(DEBUG) Log.i(TAG,"1routeLocation"+Integer.toString(car.getIRouteLocation()));
 				car.updateCarDirection();
-				if(DEBUG) {
-					Log.i(TAG,"2routeLocation"+Integer.toString(car.getIRouteLocation()));
-				}
+				if(DEBUG) Log.i(TAG,"2routeLocation"+Integer.toString(car.getIRouteLocation()));
 				if (car.getDirection() != "") {
 					String direction = car.getDirection();
-					if(DEBUG) {
-						Log.i(TAG+"YYYYYYYYYYYYYYYYYYYYYYYYYYYYY",car.getDirection());
-					}
+					if(DEBUG) Log.i(TAG,car.getDirection());
 				}
-				if(DEBUG) {
-					if(DEBUG) {
-						Log.i(TAG,"3routeLocation"+Integer.toString(car.getIRouteLocation()));
-					}
+					if(DEBUG) Log.i(TAG,"3routeLocation"+Integer.toString(car.getIRouteLocation()));
+					CarsWorker.cars.put(car.getID(), car);
 				}
-				CarsWorker.cars.put(car.getID(), car);
-			}
 		} catch (JSONException je) {
 			je.printStackTrace();
 		} catch (Exception e) {
