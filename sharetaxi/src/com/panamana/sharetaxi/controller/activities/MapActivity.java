@@ -50,32 +50,22 @@ public class MapActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		initLinesMap();
 		updateLinesToHide();
-		if(DEBUG) {
-			Log.i(TAG, "onCreate");
-		}
+		if(DEBUG) Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-		if(DEBUG) {
-			Log.i(TAG, "onCreate");
-		}
+		if(DEBUG) Log.i(TAG, "onCreate");
 		context = this;
 		// create map
 		mapManager = new MapManager(this);
 		// set map position
 		mapManager.positionMap(LINES.LINE4_WAYPOINTS.getStart());
-		if(DEBUG) {
-			Log.i(TAG, "draw line");
-		}
+		if(DEBUG) Log.i(TAG, "draw line");
 
 		// Get the intent, verify the action and get the query
 	    Intent intent = getIntent();
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      String query = intent.getStringExtra(SearchManager.QUERY);
-	      
-	      if(DEBUG) {
-				Log.i(TAG, query);
-			}
-	
+	      if(DEBUG) Log.i(TAG, query);
 	      doMySearch(query);
 	      
 	      //if could not find the address alert with AlertDialog...
@@ -100,14 +90,14 @@ public class MapActivity extends ActionBarActivity {
 
 	private void doMySearch(String query) {
       String url = "https://maps.googleapis.com/maps/api/geocode/json?";
-
+      
       try {
           // encoding special characters like space in the user input place
           query = URLEncoder.encode(query, "utf-8");
+          
       } catch (UnsupportedEncodingException e) {
           e.printStackTrace();
       }
-
       String address = "address=" + query;
 
       String sensor = "sensor=false";

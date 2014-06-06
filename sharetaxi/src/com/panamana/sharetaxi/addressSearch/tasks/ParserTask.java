@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.panamana.sharetaxi.addressSearch.GeocodeJSONParser;
+import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.model.maps.MapManager;
 
 import android.content.Context;
@@ -83,6 +84,7 @@ public class ParserTask extends AsyncTask<String, Integer, List<HashMap<String,S
             // Placing a marker on the touched position
             // TODO
             maps.addAddress(markerOptions);
+            maps.positionMap(latLng);
 
             // Locate the first location
 //            if(i==0)
