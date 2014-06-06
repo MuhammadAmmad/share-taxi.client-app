@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.Marker;
@@ -31,7 +32,7 @@ public class CarsWorker extends Thread {
 	// Constant:
 	private static final String TAG = CarsWorker.class.getSimpleName();
 	protected static final String MARKER_TITLE_PREFIX = "line";
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 //	public static final String [] linesToHide = {};
 
 	// Fields:
@@ -49,19 +50,11 @@ public class CarsWorker extends Thread {
 	// Methods:
 	
 	public void run() {
-		if (DEBUG)
-			Log.i(TAG, "CarsWorker started");
 		// removeCars();
 		// 1. get Directions API response from line waypoints
 		response = getLocations();
-		if(DEBUG) {
-			Log.i(TAG, "passed getLocations");
-		}
 		// 2. parse Directions API response to List<List<LatLng>> "routes"
 		parseLocations(response);
-		if(DEBUG) {
-			Log.i(TAG, "passed parseLocations");
-		}
 		// 3. draw
 		drawCars(cars);
 	}
@@ -76,26 +69,41 @@ public class CarsWorker extends Thread {
 
 		for (final Car car : carsList) {
 			try {
-				((Activity) context).runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-
-							Marker marker = maps.addMarker(
-									car.getLatLng(),
-									MARKER_TITLE_PREFIX + car.getLineName() /*+ " " + localDirection*/,
-									"Direction: "+car.getDirection() , 
-									ResourceUtils.getImage(car.getIcon()),
-									car.getID(), 
-									MapActivity.linesToHide,
-									car.getLocalDirection());
-							car.setMarker(marker);
-							if(DEBUG) Log.i(TAG, car.toString());
-					}
-				});
+				if (car.isActive() == true) {
+					((Activity) context).runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							
+//						Car.latLng2Location(car.getPrevLatLng()).distanceTo(
+//								Car.latLng2Location(car.getLatLng()));
+//							if (car.getMarker() != null) {
+//								car.getMarker().remove();
+//							}
+							if (!car.getPrevLatLng().equals(car.getLatLng())) {
+								if (DEBUG) Log.i(TAG,"prevLatLng: "+car.getPrevLatLng()+ "LatLng: "+car.getLatLng());
+								Marker marker = maps.addMarker(
+										car.getLatLng(),
+										MARKER_TITLE_PREFIX + car.getLineName() /*+ " " + localDirection*/,
+										"Direction: "+car.getDirection() , 
+										ResourceUtils.getImage(car.getIcon()),
+										car.getID(), 
+										MapActivity.linesToHide,
+										car.getLocalDirection());
+								car.setMarker(marker);
+							} else {
+								if (MapManager.markersMap.get(car.getID()) != null) {
+									MapManager.markersMap.get( car.getID() ).remove();
+									
+								}
+							}
+						}
+					});
+				}
 			} catch (IllegalStateException ile) {
 				Log.e(TAG, ile.toString());
 			}
+			car.setIsActiveFalse();
 		}
 		return carsList;
 	}
@@ -111,9 +119,6 @@ public class CarsWorker extends Thread {
 			// wait get result from task
 			// routes =
 			parserTask.execute(response).get(10, TimeUnit.SECONDS);
-			if(DEBUG) {
-				Log.i(TAG, "parseLocations response:" + response);
-			}
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
 		}
@@ -126,18 +131,12 @@ public class CarsWorker extends Thread {
 
 	private String getLocations() {
 		GetLocationsTask glt = new GetLocationsTask();
-		if (DEBUG)
-			Log.i(TAG, "GetLocationsTask started");
 		try {
 			// wait get result from task
 			response = glt.execute().get(10, TimeUnit.SECONDS);
-			if (DEBUG)
-				Log.i(TAG, "response: " + response.toString());
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
 		}
-		if (DEBUG)
-			Log.i(TAG, "response: " + response);
 		return response;
 	}
 

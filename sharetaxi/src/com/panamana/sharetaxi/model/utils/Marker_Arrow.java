@@ -13,9 +13,10 @@ public class Marker_Arrow {
 	}
 
 	public void remove() {
-		marker.remove();
-		arrow.remove();
+		if (this.marker != null && this.arrow != null) {
+			marker.remove();
+			arrow.remove();
+		}
 	}
-	
 
 }

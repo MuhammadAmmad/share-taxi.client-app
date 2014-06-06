@@ -30,7 +30,7 @@ import com.panamana.sharetaxi.model.utils.ResourceUtils;
 public class Car {
 
 	private static final String TAG = Car.class.getSimpleName();
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private static final int FIND_CLOSEST_SEGMENT_FILTER = 3;
 
 
@@ -49,12 +49,18 @@ public class Car {
 	private int mIterator;
 	private String mNewDirection;
 	private float mLocalDirection;
+	private boolean mIsActive;
 	
 	// Constructor:
 	public Car (String ID, String time, String line, LatLng latlng ) {
 		this.mID = ID;
 		this.mTime = time;
 		this.mLineName = line;
+		if (CarsWorker.cars.get(ID) != null) {
+			this.mPrevLatLng = CarsWorker.cars.get(ID).getLatLng();
+		} else {
+			mPrevLatLng = latlng;
+		}
 		this.mLatLng = latlng;
 		this.mMarker = null;
 		this.mIRouteLocation = 0;
@@ -65,6 +71,7 @@ public class Car {
 		this.mNewDirection = "";
 		this.mPrevDirection = "";
 		this.mLocalDirection = -1;
+		this.mIsActive = true;
 	}
 	public Car (JSONObject jo) throws JSONException {
 		this(
@@ -87,7 +94,6 @@ public class Car {
 			carByID = this;
 		}
 		// I root location - the I'th segment of the route
-		mPrevLatLng = carByID.getLatLng();
 
 		mLocalDirection = latLng2Location(mPrevLatLng).bearingTo(latLng2Location(mLatLng));
 		
@@ -164,7 +170,7 @@ public class Car {
 
 	
 	
-	private Location latLng2Location(LatLng latLng) {
+	public static Location latLng2Location(LatLng latLng) {
 		Location location = new Location("");
 		location.setLatitude(latLng.latitude);
 		location.setLongitude(latLng.longitude);
@@ -406,6 +412,15 @@ public class Car {
 	}
 	public float getLocalDirection() {
 		return mLocalDirection;
+	}
+	public LatLng getPrevLatLng() {
+		return mPrevLatLng;
+	}
+	public boolean isActive() {
+		return mIsActive;
+	}
+	public void setIsActiveFalse() {
+		mIsActive = false;
 	}		
 	
 }

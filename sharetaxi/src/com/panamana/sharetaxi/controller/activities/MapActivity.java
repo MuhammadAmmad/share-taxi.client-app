@@ -37,7 +37,7 @@ public class MapActivity extends ActionBarActivity {
 	
 	private static final String TAG = MapActivity.class.getSimpleName();
 	private static final String FILENAME = "polylines.data";
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
