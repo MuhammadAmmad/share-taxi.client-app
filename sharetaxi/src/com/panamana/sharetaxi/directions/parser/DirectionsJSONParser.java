@@ -13,24 +13,26 @@ import com.google.android.gms.maps.model.LatLng;
  * Parse JSON response from Google Direction API
  * @author 
  */
-class DirectionsJSONParser {
+public class DirectionsJSONParser {
 
 	// JSON parameters
-	static final private String ROUTES = "routes";
-	static final private String LEGS = "legs";
-	static final private String STEPS = "steps";
-	static final private String POLYLINE = "polyline";
-	static final private String POINTS = "points";
+	private static final String ROUTES = "routes";
+	private static final String LEGS = "legs";
+	private static final String STEPS = "steps";
+	private static final String POLYLINE = "polyline";
+	private static final String POINTS = "points";
+	private static final String DURATION = "duration";
 
 	/**
 	 * Receives a JSONObject and returns a list of lists containing latitude and
 	 * longitude
 	 */
-	public List<List<LatLng>> parse(JSONObject jObject) {
+	public List<List<LatLng>> parse(JSONObject jObject, String time) {
 		List<List<LatLng>> routes = new ArrayList<List<LatLng>>();
 		JSONArray jRoutes = null;
 		JSONArray jLegs = null;
 		JSONArray jSteps = null;
+		JSONObject jDuration = null;
 		List<LatLng> list = null;
 		List<LatLng> path = null;
 		try {
@@ -39,6 +41,8 @@ class DirectionsJSONParser {
 			for (int i = 0; i < jRoutes.length(); i++) {
 				jLegs = getLegs(jRoutes, i);
 				path = new ArrayList<LatLng>();
+				jDuration =  ((JSONObject) jLegs.getJSONObject(i)).getJSONObject(DURATION);
+				time = getDuration(jDuration);
 				/** Traversing all legs */
 				for (int j = 0; j < jLegs.length(); j++) {
 					jSteps = getSteps(jLegs, j);
@@ -138,6 +142,10 @@ class DirectionsJSONParser {
 	 */
 	private String getPolyline(JSONArray jSteps, int k) throws JSONException {
 		return (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get(POLYLINE)).get(POINTS);
+	}
+	
+	private String getDuration(JSONObject jDuration) throws JSONException {
+		return (String)(jDuration.get("text"));
 	}
 
 }

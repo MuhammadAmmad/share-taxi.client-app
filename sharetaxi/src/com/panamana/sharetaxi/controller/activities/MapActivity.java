@@ -19,25 +19,32 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.addressSearch.tasks.DownloadTask;
+import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.locations.updater.LocationsUpdateThread;
+import com.panamana.sharetaxi.cars.objects.Car;
 import com.panamana.sharetaxi.controller.dialogs.DialogAbout;
 import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.lines.objects.LineDirectionPair;
 import com.panamana.sharetaxi.lines.workers.LinesWorker;
 import com.panamana.sharetaxi.model.maps.MapManager;
+import com.panamana.sharetaxi.model.utils.Marker_Arrow;
 
 /**
  * Main Activity.
  * 
  * @author
  */
-public class MapActivity extends ActionBarActivity {
+public class MapActivity extends ActionBarActivity implements OnMarkerClickListener{
 	
 	private static final String TAG = MapActivity.class.getSimpleName();
 	private static final String FILENAME = "polylines.data";
 	private static final boolean DEBUG = false;
+	private GoogleMap map;
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
@@ -60,6 +67,7 @@ public class MapActivity extends ActionBarActivity {
 		// set map position
 		mapManager.positionMap(LINES.LINE4_WAYPOINTS.getStart());
 		if(DEBUG) Log.i(TAG, "draw line");
+		MapManager.map.setOnMarkerClickListener((OnMarkerClickListener)this);
 
 		// Get the intent, verify the action and get the query
 	    Intent intent = getIntent();
@@ -257,6 +265,22 @@ public class MapActivity extends ActionBarActivity {
 		startActivity(new Intent(this, SettingsActivity.class));
 		Toast.makeText(getApplicationContext(), getString(R.string.settingToastline), Toast.LENGTH_LONG).show();
 
+	}
+	@ Override
+	public boolean onMarkerClick(Marker marker) {
+		Log.i(TAG,"clicked");
+		Object [] markersArray = MapManager.markersMap.values().toArray();
+		int i = 0;
+		while (i<CarsWorker.cars.size() ) {
+			if (marker.equals(((Marker_Arrow) (markersArray[i])).getMarker())) {
+				i++;
+			}
+		}
+		String carID = (String)MapManager.markersMap.keySet().toArray()[i];
+		Car carById = CarsWorker.cars.get(carID);
+		carById.updateEstimatedTime();
+		
+		return false;
 	}
 	
 	private void updateLinesToHide() {

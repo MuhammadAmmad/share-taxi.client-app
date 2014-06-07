@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
@@ -39,12 +40,12 @@ public class MapManager {
 	
 	// Fields:
 	// map //
-	private GoogleMap map;
+	public static GoogleMap map;
 	// lists //
 	public static Map<String, Marker_Arrow> markersMap = null;
 	public static Map<String, PolylineOptions> polylineOptionsMap = null;
 	public static Map<String, Polyline> polylinesMap = null;
-
+	
 	// init:
 	public MapManager(Context context) {
 		markersMap = new HashMap<String, Marker_Arrow>();

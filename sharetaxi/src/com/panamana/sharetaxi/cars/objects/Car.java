@@ -1,6 +1,7 @@
 package com.panamana.sharetaxi.cars.objects;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +16,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.panamana.sharetaxi.R;
 import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.LocationsJsonTags;
+import com.panamana.sharetaxi.directions.DirectionsManager;
+import com.panamana.sharetaxi.directions.parser.DirectionsJSONParser;
+import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
 import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.model.maps.MapManager;
 import com.panamana.sharetaxi.model.utils.DirectionalVector;
@@ -51,6 +55,7 @@ public class Car {
 	private String mNewDirection;
 	private float mLocalDirection;
 	private boolean mIsActive;
+	private static String mEstimatedTime;
 	
 	// Constructor:
 	public Car (String ID, String time, String line, LatLng latlng, String freeSeats ) {
@@ -282,9 +287,11 @@ public class Car {
 				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
 			}
 			mIRouteLocation=iTHLocation;
-			mDistanceFromI=DirectionalVector.calcDirection(
-					LatLng2XYZ(linePoints.get(iTHLocation)),
-					carXYZPoint).getVectorSize();
+			if (linePoints.size()>0) {
+				mDistanceFromI=DirectionalVector.calcDirection(
+						LatLng2XYZ(linePoints.get(iTHLocation)),
+						carXYZPoint).getVectorSize();
+			}
 			if(DEBUG) {
 				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
 			}
@@ -393,7 +400,6 @@ public class Car {
 	}
 
 	public int getIcon() {
-		// TODO Auto-generated method stub
 		if (mLineName.equals("4") && mDirection.equals("North")) {
 			mIcon = R.drawable.l4north;
 		}
@@ -431,6 +437,34 @@ public class Car {
 	}
 	public String getFreeSeats() {
 		return mFreeSeats;
+	}
+	public void updateEstimatedTime() {
+		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
+		List<LatLng> linePoints = linePolylineOptions.getPoints(); 
+		LatLng endPoint = linePoints.get(mIRouteLocation);
+		GetDirectionsTask gdt = new GetDirectionsTask();
+		String response = "";
+		try {
+			// wait get result from task
+			response = gdt.execute(DirectionsManager.buildDirectionRequest(
+					DirectionsManager.latlng2String(mLatLng),
+					DirectionsManager.latlng2String(endPoint),
+					null)).get(10,TimeUnit.SECONDS);
+			if(DEBUG) Log.i(TAG,"response: "+response.toString());
+		} catch (Exception e) {
+			Log.e(TAG,e.toString());
+		}
+		try {
+			JSONObject jo = new JSONObject(response);
+			// Parse
+			new DirectionsJSONParser().parse(jo,mEstimatedTime);
+		} catch (JSONException joe){
+			joe.printStackTrace();
+		} catch (NullPointerException npe) {
+			npe.printStackTrace();
+		} catch (IllegalStateException ise) {
+			ise.printStackTrace();
+		}
 	}		
 	
 }

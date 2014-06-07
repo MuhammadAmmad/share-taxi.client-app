@@ -26,7 +26,7 @@ public class DirectionJSONParserTask extends AsyncTask<String, Integer, List<Lis
 		try {
 			JSONObject jo = new JSONObject(jsonData[0]);
 			// Parse
-			routes = new DirectionsJSONParser().parse(jo);
+			routes = new DirectionsJSONParser().parse(jo,null);
 		} catch (JSONException joe){
 			joe.printStackTrace();
 			return null;
