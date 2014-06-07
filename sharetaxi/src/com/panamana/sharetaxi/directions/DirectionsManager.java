@@ -1,5 +1,7 @@
 package com.panamana.sharetaxi.directions;
 
+import android.text.format.Time;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
 import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
@@ -48,7 +50,6 @@ public class DirectionsManager {
 	
 	public static String buildDirectionRequest(String origin, String destination, String[]waypoints){
 
-//		String out = null;
 		String result = "https://maps.googleapis.com/maps/api/directions/json?" +
 		"origin=" + origin + 
 		"&" +
@@ -56,7 +57,8 @@ public class DirectionsManager {
 		"&" +
 		"sensor=" + "true" +
 		"&" + 
-		"mode=" + "walking";
+		"mode=" + "walking" +
+		"departure_time=" + System.currentTimeMillis();
 		if(waypoints.length>0) {
 			result += "&"+"waypoints=" + "via:" + waypoints[0]; 
 			for (int i=1; i<waypoints.length; i++) {

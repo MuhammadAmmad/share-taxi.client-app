@@ -18,5 +18,9 @@ public class Marker_Arrow {
 			arrow.remove();
 		}
 	}
+	
+	public Marker getMarker() {
+		return marker;
+	}
 
 }
