@@ -33,7 +33,7 @@ public class LINES {
 	
 	public static Line LINE4_WAYPOINTS = new Line(
 			LINES.LINE4, new EndStations("South","North"),
-			Color.rgb(180,159,217),
+			Color.rgb(180,159,217),// purple
 			7,
 			new LatLng(32.0538589,34.780081),
 			new LatLng(32.0985456, 34.7802936),
@@ -47,7 +47,7 @@ public class LINES {
 	
 	public static Line LINE4A_WAYPOINTS = new Line(
 			LINES.LINE4a, new EndStations("South","North"),
-			Color.rgb(106,171,232),
+			Color.rgb(106,171,232),// light blue
 			7,
 			new LatLng(32.0985456, 34.7802936),
 			new LatLng(32.1294424,34.7926878),
@@ -63,7 +63,7 @@ public class LINES {
 	
 	public static Line LINE5_WAYPOINTS = new Line(
 			LINES.LINE5, new EndStations("South", "North"),
-			Color.rgb(14, 23, 219),
+			Color.rgb(14, 23, 219),// blue
 			7,
 			new LatLng(32.0562598,34.7810158),
 			new LatLng(32.0965916,34.8040227),

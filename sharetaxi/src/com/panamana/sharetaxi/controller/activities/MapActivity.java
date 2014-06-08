@@ -55,12 +55,15 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		initLinesMap();
-		updateLinesToHide();
-		if(DEBUG) Log.i(TAG, "onCreate");
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		
 		if(DEBUG) Log.i(TAG, "onCreate");
+			
+		initLinesMap();
+		updateLinesToHide();
+		
 		context = this;
 		// create map
 		mapManager = new MapManager(this);
@@ -89,10 +92,7 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 //	            }
 //	        });
 //	        AlertDialog alert = builder.create();
-//	        alert.show();
-	      
-	      
-	      
+//	        alert.show();  
 	    }
 	}
 
