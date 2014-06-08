@@ -18,17 +18,15 @@ public class DialogAbout extends Dialog implements OnClickListener {
 	Activity mActivity;
 	Button okButton, facebookButton, shareButton, contactButton;
 
-	String share_msg = "היי מה שלומך? אני רוצה לשתף איתך תוכנה מומלצת למעקב ותזמון קוי מוניות שירות מספר 4 5 באזור תא, הורד בחינם מהקישור הבא",
+	String share_msg = "Hi, I want to share with you recommended app that helps you see the shared taxis nearby.\ndownload free: ",
 			thanks_for_share = "תודה על שיתוף האפליקציה",
 			email_first_line = "צוות sharetaxi שלום רב",
 			thanks_for_email = "אנו מודים לך אל האימייל נחזור אליך בהקדם האפשרי",
 			email = "sharetaxi@googlegroups.com";
 
-	
-	
-	
 	String facebookWebPage = "http://www.facebook.com/ShareTaxiApp";
-	String Url_for_download = "https://www.dropbox.com/s/3uuxe1czqj3jmsq/ShareTaxi.apk";
+	
+	String Url_for_download = "https://play.google.com/store/apps/details?id=com.panamana.sharetaxi";
 
 	
 	
@@ -49,6 +47,7 @@ public class DialogAbout extends Dialog implements OnClickListener {
 
 		contactButton = (Button) findViewById(R.id.contact_as_button);
 		contactButton.setOnClickListener(this);
+		
 	}
 
 	@Override
