@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
 import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
 import com.panamana.sharetaxi.lines.objects.Line;
+import com.panamana.sharetaxi.model.utils.LocationUtils;
 
 /**
  * Google Directions API manager class.
@@ -37,9 +38,9 @@ public class DirectionsManager {
 	 */
 	public static void drawRoute(Line line) {
 		new GetDirectionsTask().execute(buildDirectionRequest(
-				latlng2String(line.getStart()),
-				latlng2String(line.getEnd()),
-				latlng2String(line.getWaypoints())));
+				LocationUtils.latlng2String(line.getStart()),
+				LocationUtils.latlng2String(line.getEnd()),
+				LocationUtils.latlng2String(line.getWaypoints())));
 	}
 
 	static public void parseJson(String json){
@@ -57,38 +58,15 @@ public class DirectionsManager {
 		"&" +
 		"sensor=" + "true" +
 		"&" + 
-		"mode=" + "walking" +
+		"mode=" + "driving" +
 		"departure_time=" + System.currentTimeMillis();
-		if(waypoints.length>0) {
+		if(waypoints!= null && waypoints.length>0) {
 			result += "&"+"waypoints=" + "via:" + waypoints[0]; 
 			for (int i=1; i<waypoints.length; i++) {
 				result += "%7C" + "via:" + waypoints[i];
 			}
 		}
 		return result;
-	}
-	
-	
-	/**
-	 * 
-	 * @param latlng
-	 * @return
-	 */
-	public static String latlng2String(LatLng latLng) {
-		return latLng.latitude+","+latLng.longitude;
-	}
-	
-	/**
-	 * 
-	 * @param latLngs
-	 * @return
-	 */
-	public static String[] latlng2String(LatLng[] latLngs) {
-		String[] arr = new String[latLngs.length];
-		for (int i=0; i< latLngs.length; i++){
-			arr[i]=latlng2String(latLngs[i]);
-		}
-		return arr;
 	}
 
 	/**

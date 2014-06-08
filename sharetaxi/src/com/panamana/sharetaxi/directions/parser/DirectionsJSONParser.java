@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class DirectionsJSONParser {
 
+	public static String time;
 	// JSON parameters
 	private static final String ROUTES = "routes";
 	private static final String LEGS = "legs";
@@ -22,12 +25,13 @@ public class DirectionsJSONParser {
 	private static final String POLYLINE = "polyline";
 	private static final String POINTS = "points";
 	private static final String DURATION = "duration";
+	private static final String TAG = DirectionsJSONParser.class.getSimpleName();
 
 	/**
 	 * Receives a JSONObject and returns a list of lists containing latitude and
 	 * longitude
 	 */
-	public List<List<LatLng>> parse(JSONObject jObject, String time) {
+	public List<List<LatLng>> parse(JSONObject jObject) {
 		List<List<LatLng>> routes = new ArrayList<List<LatLng>>();
 		JSONArray jRoutes = null;
 		JSONArray jLegs = null;
@@ -43,6 +47,7 @@ public class DirectionsJSONParser {
 				path = new ArrayList<LatLng>();
 				jDuration =  ((JSONObject) jLegs.getJSONObject(i)).getJSONObject(DURATION);
 				time = getDuration(jDuration);
+				Log.i(TAG,time);
 				/** Traversing all legs */
 				for (int j = 0; j < jLegs.length(); j++) {
 					jSteps = getSteps(jLegs, j);

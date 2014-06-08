@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.util.Log;
 
@@ -22,8 +21,8 @@ import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
 import com.panamana.sharetaxi.lines.LINES;
 import com.panamana.sharetaxi.model.maps.MapManager;
 import com.panamana.sharetaxi.model.utils.DirectionalVector;
+import com.panamana.sharetaxi.model.utils.LocationUtils;
 import com.panamana.sharetaxi.model.utils.Position;
-import com.panamana.sharetaxi.model.utils.ResourceUtils;
 
 /**
  * this is the Car object that gets the JSON data from the locations server
@@ -107,7 +106,7 @@ public class Car {
 		}
 		// I root location - the I'th segment of the route
 
-		mLocalDirection = latLng2Location(mPrevLatLng).bearingTo(latLng2Location(mLatLng));
+		mLocalDirection = LocationUtils.latLng2Location(mPrevLatLng).bearingTo(LocationUtils.latLng2Location(mLatLng));
 		
 		updateCarDirection2(carByID);
 
@@ -180,15 +179,6 @@ public class Car {
 		}
 	}		
 
-	
-	
-	public static Location latLng2Location(LatLng latLng) {
-		Location location = new Location("");
-		location.setLatitude(latLng.latitude);
-		location.setLongitude(latLng.longitude);
-		return location;
-	}
-	
 	public void setDirection(String mDirection) {
 		this.mDirection = mDirection;
 	}
@@ -438,26 +428,36 @@ public class Car {
 	public String getFreeSeats() {
 		return mFreeSeats;
 	}
+	
+	/**
+	 * updates the mEstimatedTime field. 
+	 * gets the time estimation from the google directions api between the car LatLng and the closest to user- line point LatLng   
+	 * @author naama
+	 */
 	public void updateEstimatedTime() {
-		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
-		List<LatLng> linePoints = linePolylineOptions.getPoints(); 
-		LatLng endPoint = linePoints.get(mIRouteLocation);
+		LatLng myLocation = LocationUtils.location2LatLng(MapManager.getMyLocation());
+		LatLng endPoint = getClosestRouteLocation(myLocation);
+		Log.i(TAG,"startPoint= " + mLatLng.toString() + "endPoint= " + endPoint.toString());
 		GetDirectionsTask gdt = new GetDirectionsTask();
 		String response = "";
 		try {
 			// wait get result from task
+//			Log.i(TAG,"buildedReques: ");
 			response = gdt.execute(DirectionsManager.buildDirectionRequest(
-					DirectionsManager.latlng2String(mLatLng),
-					DirectionsManager.latlng2String(endPoint),
+					LocationUtils.latlng2String(mLatLng),
+					LocationUtils.latlng2String(endPoint),
 					null)).get(10,TimeUnit.SECONDS);
 			if(DEBUG) Log.i(TAG,"response: "+response.toString());
 		} catch (Exception e) {
 			Log.e(TAG,e.toString());
 		}
+//		Log.i(TAG,"response= "+ response);
 		try {
 			JSONObject jo = new JSONObject(response);
 			// Parse
-			new DirectionsJSONParser().parse(jo,mEstimatedTime);
+			new DirectionsJSONParser().parse(jo);
+			mEstimatedTime = DirectionsJSONParser.time; 
+			Log.i(TAG,"estimatedTime="+ mEstimatedTime);
 		} catch (JSONException joe){
 			joe.printStackTrace();
 		} catch (NullPointerException npe) {
@@ -465,6 +465,42 @@ public class Car {
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
 		}
-	}		
+	}
+	
+	/**
+	 * returns the point on the car's line that is closest to the given LatLng
+	 * @author naama
+	 * @param latLng
+	 * @return
+	 */
+	private LatLng getClosestRouteLocation(LatLng latLng) {
+		Location latLngLocation = LocationUtils.latLng2Location(latLng);
+		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
+		Location closestILocation = null;
+		if (linePolylineOptions != null) {
+			// valid poly line
+			List<LatLng> linePoints = linePolylineOptions.getPoints(); 
+			int closestI = 0;
+			closestILocation = LocationUtils.latLng2Location(linePoints.get(closestI)); 
+			for (int i = 0; i<linePoints.size()-1; i++) {
+				Location iLocation = LocationUtils.latLng2Location(linePoints.get(i));
+				if(latLngLocation.distanceTo(iLocation) < 
+						latLngLocation.distanceTo(closestILocation)) {
+					closestI = i;
+					closestILocation = LocationUtils.latLng2Location(linePoints.get(closestI));
+				}
+			}
+		}
+		return LocationUtils.location2LatLng(closestILocation);
+	}
+	
+	/**
+	 * @author naama
+	 * @return
+	 */
+	public String getEstimatedTime() {
+		return mEstimatedTime;
+	}
+	
 	
 }
