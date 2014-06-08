@@ -14,6 +14,7 @@ import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
 import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
 import com.panamana.sharetaxi.lines.objects.Line;
 import com.panamana.sharetaxi.model.maps.MapManager;
+import com.panamana.sharetaxi.model.utils.LocationUtils;
 
 /**
  * Worker Thread: Draw route over map from Line object.
@@ -99,10 +100,11 @@ class LineWorker extends Thread {
 
 	private void getDirections() {
 		GetDirectionsTask gdt = new GetDirectionsTask();
+		
 		String request = DirectionsManager.buildDirectionRequest(
-				DirectionsManager.latlng2String(line.getStart()),
-				DirectionsManager.latlng2String(line.getEnd()),
-				DirectionsManager.latlng2String(line.getWaypoints()));
+				LocationUtils.latlng2String(line.getStart()),
+				LocationUtils.latlng2String(line.getEnd()),
+				LocationUtils.latlng2String(line.getWaypoints()));
 		if (DEBUG)
 			Log.i(TAG, "request:" + request);
 		if (DEBUG)

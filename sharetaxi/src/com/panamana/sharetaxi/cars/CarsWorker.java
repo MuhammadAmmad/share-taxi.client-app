@@ -90,7 +90,8 @@ public class CarsWorker extends Thread {
 										ResourceUtils.getImage(car.getIcon()),
 										car.getID(), 
 										MapActivity.linesToHide,
-										car.getLocalDirection());
+										car.getLocalDirection(),
+										car.getEstimatedTime());
 								car.setMarker(marker);
 							}
 						}

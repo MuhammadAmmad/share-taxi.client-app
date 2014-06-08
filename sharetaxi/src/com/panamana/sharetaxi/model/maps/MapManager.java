@@ -103,7 +103,7 @@ public class MapManager {
 	 * @return
 	 */
 	public Marker addMarker(LatLng position, String title, String freeSeats, String direction,
-			BitmapDescriptor icon, String carId, Map<LineDirectionPair,Boolean> linesToHide, float localDirection) {
+			BitmapDescriptor icon, String carId, Map<LineDirectionPair,Boolean> linesToHide, float localDirection, String timeEstimation) {
 		
 		Marker marker = null;
 		Marker arrow = null;
@@ -123,7 +123,7 @@ public class MapManager {
 				marker = map.addMarker(
 						new MarkerOptions()
 						.title(title)
-						.snippet("Free Seats: "+ freeSeats)
+						.snippet("Free Seats: "+ freeSeats + ", Estimated time: " +timeEstimation)
 						.position(position)
 						.icon(icon));
 				arrow = map.addMarker(
@@ -212,6 +212,11 @@ public class MapManager {
 	public void addAddress(MarkerOptions markerOptions) {
 		Marker marker = map.addMarker(markerOptions);
 		
+	}
+
+	public static Location getMyLocation() {
+		// TODO Auto-generated method stub
+		return map.getMyLocation();
 	}
 
 }
