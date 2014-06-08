@@ -58,8 +58,7 @@ public class DirectionsManager {
 		"&" +
 		"sensor=" + "true" +
 		"&" + 
-		"mode=" + "driving" +
-		"departure_time=" + System.currentTimeMillis();
+		"mode=" + "walking" ;
 		if(waypoints!= null && waypoints.length>0) {
 			result += "&"+"waypoints=" + "via:" + waypoints[0]; 
 			for (int i=1; i<waypoints.length; i++) {
@@ -69,6 +68,20 @@ public class DirectionsManager {
 		return result;
 	}
 
+	public static String buildDirectionRequestForTimeEstimation(String origin, String destination) {
+		String result = "https://maps.googleapis.com/maps/api/directions/json?" +
+		"origin=" + origin + 
+		"&" +
+		"destination=" + destination +
+		"&" +
+		"sensor=" + "true" +
+		"&" + 
+		"mode=" + "driving" +
+		"departure_time=" + System.currentTimeMillis();
+		return result;
+	}
+
+	
 	/**
 	 * 
 	 * @param json
@@ -76,5 +89,6 @@ public class DirectionsManager {
 	public static void handleDirectionReponse(String json) {
 		parseJson(json);
 	}
+
 
 }

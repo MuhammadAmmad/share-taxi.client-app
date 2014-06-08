@@ -443,10 +443,10 @@ public class Car {
 		try {
 			// wait get result from task
 //			Log.i(TAG,"buildedReques: ");
-			response = gdt.execute(DirectionsManager.buildDirectionRequest(
+			response = gdt.execute(DirectionsManager.buildDirectionRequestForTimeEstimation(
 					LocationUtils.latlng2String(mLatLng),
-					LocationUtils.latlng2String(endPoint),
-					null)).get(10,TimeUnit.SECONDS);
+					LocationUtils.latlng2String(endPoint)
+					)).get(10,TimeUnit.SECONDS);
 			if(DEBUG) Log.i(TAG,"response: "+response.toString());
 		} catch (Exception e) {
 			Log.e(TAG,e.toString());

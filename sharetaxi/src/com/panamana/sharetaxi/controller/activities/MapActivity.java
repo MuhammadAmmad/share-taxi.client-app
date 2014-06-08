@@ -270,21 +270,27 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 	public boolean onMarkerClick(Marker marker) {
 		Log.i(TAG,"clicked");
 		Log.i(TAG,"marker= "+ marker.toString());
-
+	
 		Object [] markersArray = MapManager.markersMap.values().toArray();
 		int i = 0;
 		while (i<CarsWorker.cars.size() ) {
 			Log.i(TAG,"cars.size="+CarsWorker.cars.size());
 //			Log.i(TAG,"from markeres array: "+((Marker_Arrow)(markersArray[i])).getMarker().toString());
-			if (marker.equals(((Marker_Arrow) (markersArray[i])).getMarker())) {
-				break;
+			if (i < markersArray.length) {
+				// valid index
+				if(marker.equals(((Marker_Arrow) (markersArray[i])).getMarker())) {
+					// found the marker
+					String carID = (String)MapManager.markersMap.keySet().toArray()[i];
+					Car carById = CarsWorker.cars.get(carID);
+					carById.updateEstimatedTime();
+					break;
+				}
+				// marker not found yet
+				i++;
+			} else {
+				Log.w(TAG,"out of bounds of markerArray");
 			}
-			i++;
 		}
-		String carID = (String)MapManager.markersMap.keySet().toArray()[i];
-		Car carById = CarsWorker.cars.get(carID);
-		carById.updateEstimatedTime();
-		
 		return false;
 	}
 	
