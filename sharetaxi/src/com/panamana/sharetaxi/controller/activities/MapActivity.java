@@ -1,5 +1,9 @@
 package com.panamana.sharetaxi.controller.activities;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -11,6 +15,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -92,9 +97,13 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 //	            }
 //	        });
 //	        AlertDialog alert = builder.create();
-//	        alert.show();  
+//	        alert.show(); 
+	     
+	      
 	    }
+	    
 	}
+
 
 	private void doMySearch(String query) {
       String url = "https://maps.googleapis.com/maps/api/geocode/json?";

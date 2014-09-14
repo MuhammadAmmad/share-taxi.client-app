@@ -1,10 +1,14 @@
 package com.panamana.sharetaxi.lines.workers;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import android.os.Environment;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -47,6 +51,10 @@ class LineWorker extends Thread {
 		getDirections();
 		// 2. parse Directions API response to List<List<LatLng>> "routes"
 		parseDirections();
+
+		// *. write routes to file use only to add new lines.
+//		writeToFile();
+		
 		// new
 		// 3. createPolylines
 		PolylineOptions polyline = createPolylines();
@@ -61,6 +69,41 @@ class LineWorker extends Thread {
 	}
 
 	// methods:
+
+	
+	/*
+	 * use when new lines are added
+	 */
+//	private void writeToFile() {
+//		// TODO Auto-generated method stub
+//	    /*
+//	     * creates a new file
+//	     */
+//	    
+//	    File file = new File(Environment.getExternalStoragePublicDirectory(
+//	            Environment.DIRECTORY_PICTURES), "Line"+line.getName()+".txt");
+//
+//	    try {
+//	    	file.getParentFile().mkdirs();
+//	    	file.createNewFile();
+//	    	System.out.println("file != null");
+//	    }
+//	    catch (Exception e)
+//	    {
+//	    	Log.i(TAG,e.getMessage());
+//	    	e.printStackTrace();
+//	    }
+//
+//	    try {
+//	    	FileWriter fileWriter = new FileWriter(file);
+//	    	fileWriter.append("hello world");
+//	    	fileWriter.append(routes.toString());
+//	    	fileWriter.close();
+//	    }
+//	    catch (IOException IOE) {
+//	    	IOE.printStackTrace();
+//	    }
+//	}
 
 	private PolylineOptions createPolylines() {
 		final PolylineOptions lineOptions = new PolylineOptions();
