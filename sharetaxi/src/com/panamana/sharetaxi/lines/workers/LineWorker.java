@@ -53,7 +53,7 @@ class LineWorker extends Thread {
 		parseDirections();
 
 		// *. write routes to file use only to add new lines.
-//		writeToFile();
+		writeToFile();
 		
 		// new
 		// 3. createPolylines
@@ -74,36 +74,35 @@ class LineWorker extends Thread {
 	/*
 	 * use when new lines are added
 	 */
-//	private void writeToFile() {
-//		// TODO Auto-generated method stub
-//	    /*
-//	     * creates a new file
-//	     */
-//	    
-//	    File file = new File(Environment.getExternalStoragePublicDirectory(
-//	            Environment.DIRECTORY_PICTURES), "Line"+line.getName()+".txt");
-//
-//	    try {
-//	    	file.getParentFile().mkdirs();
-//	    	file.createNewFile();
-//	    	System.out.println("file != null");
-//	    }
-//	    catch (Exception e)
-//	    {
-//	    	Log.i(TAG,e.getMessage());
-//	    	e.printStackTrace();
-//	    }
-//
-//	    try {
-//	    	FileWriter fileWriter = new FileWriter(file);
-//	    	fileWriter.append("hello world");
-//	    	fileWriter.append(routes.toString());
-//	    	fileWriter.close();
-//	    }
-//	    catch (IOException IOE) {
-//	    	IOE.printStackTrace();
-//	    }
-//	}
+	private void writeToFile() {
+		// TODO Auto-generated method stub
+	    /*
+	     * creates a new file
+	     */
+	    
+	    File file = new File(Environment.getExternalStoragePublicDirectory(
+	            Environment.DIRECTORY_PICTURES), line.getName()+".txt");
+
+	    try {
+	    	file.getParentFile().mkdirs();
+	    	file.createNewFile();
+	    	System.out.println("file != null");
+	    }
+	    catch (Exception e)
+	    {
+	    	Log.i(TAG,e.getMessage());
+	    	e.printStackTrace();
+	    }
+
+	    try {
+	    	FileWriter fileWriter = new FileWriter(file);
+	    	fileWriter.append(routes.toString());
+	    	fileWriter.close();
+	    }
+	    catch (IOException IOE) {
+	    	IOE.printStackTrace();
+	    }
+	}
 
 	private PolylineOptions createPolylines() {
 		final PolylineOptions lineOptions = new PolylineOptions();
