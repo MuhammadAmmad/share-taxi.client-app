@@ -81,14 +81,14 @@ public class DirectionsManager {
 		return result;
 	}
 
-	
-	/**
-	 * 
-	 * @param json
-	 */
-	public static void handleDirectionReponse(String json) {
-		parseJson(json);
-	}
+//	
+//	/**
+//	 * 
+//	 * @param json
+//	 */
+//	public static void handleDirectionReponse(String json) {
+//		parseJson(json);
+//	}
 
 
 }

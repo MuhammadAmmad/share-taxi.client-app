@@ -84,22 +84,6 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 	      if(DEBUG) Log.i(TAG, query);
 	      doMySearch(query);
 	      
-	      //if could not find the address alert with AlertDialog...
-	      /*
-	       Toast.makeText(this, query, Toast.LENGTH_SHORT).show(); 
-	       * */
-//	      AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//	        builder.setTitle("Sorry...")
-//	        .setMessage("Could not find address.")
-//	        .setNegativeButton("Close",new DialogInterface.OnClickListener() {
-//	            public void onClick(DialogInterface dialog, int id) {
-//	                dialog.cancel();
-//	            }
-//	        });
-//	        AlertDialog alert = builder.create();
-//	        alert.show(); 
-	     
-	      
 	    }
 	    
 	}

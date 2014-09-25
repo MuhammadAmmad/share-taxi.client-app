@@ -1,18 +1,27 @@
 package com.panamana.sharetaxi.lines.workers;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import android.R;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.panamana.sharetaxi.controller.activities.MapActivity;
 import com.panamana.sharetaxi.directions.DirectionsManager;
 import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
 import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
@@ -52,10 +61,6 @@ class LineWorker extends Thread {
 		// 2. parse Directions API response to List<List<LatLng>> "routes"
 		parseDirections();
 
-		// *. write routes to file use only to add new lines.
-		writeToFile();
-		
-		// new
 		// 3. createPolylines
 		PolylineOptions polyline = createPolylines();
 		// 4. add polyline to list
@@ -66,42 +71,6 @@ class LineWorker extends Thread {
 		if (DEBUG) {
 			Log.i(TAG, "polyline:" + polyline.toString());
 		}
-	}
-
-	// methods:
-
-	
-	/*
-	 * use when new lines are added
-	 */
-	private void writeToFile() {
-		// TODO Auto-generated method stub
-	    /*
-	     * creates a new file
-	     */
-	    
-	    File file = new File(Environment.getExternalStoragePublicDirectory(
-	            Environment.DIRECTORY_PICTURES), line.getName()+".txt");
-
-	    try {
-	    	file.getParentFile().mkdirs();
-	    	file.createNewFile();
-	    	System.out.println("file != null");
-	    }
-	    catch (Exception e)
-	    {
-	    	Log.i(TAG,e.getMessage());
-	    	e.printStackTrace();
-	    }
-
-	    try {
-	    	FileWriter fileWriter = new FileWriter(file);
-	    	fileWriter.append(routes.toString());
-	    	fileWriter.close();
-	    }
-	    catch (IOException IOE) {
-	    	IOE.printStackTrace();
-	    }
 	}
 
 	private PolylineOptions createPolylines() {
@@ -141,26 +110,124 @@ class LineWorker extends Thread {
 	}
 
 	private void getDirections() {
-		GetDirectionsTask gdt = new GetDirectionsTask();
-		
-		String request = DirectionsManager.buildDirectionRequest(
-				LocationUtils.latlng2String(line.getStart()),
-				LocationUtils.latlng2String(line.getEnd()),
-				LocationUtils.latlng2String(line.getWaypoints()));
-		if (DEBUG)
-			Log.i(TAG, "request:" + request);
-		if (DEBUG)
-			Log.i(TAG, "GetDirectionsTask started");
-		try {
-			// wait get result from task
-			response = gdt.execute(request).get(10, TimeUnit.SECONDS);
+
+		boolean hasFile = checkIfFileExist();
+		if (hasFile) {
+			// has file
+			Log.i(TAG, "has file");
+			response = readFiles();
+		} else {
+			// no file
+			Log.i(TAG, "no file");
+			GetDirectionsTask gdt = new GetDirectionsTask();
+			String request = DirectionsManager.buildDirectionRequest(
+					LocationUtils.latlng2String(line.getStart()),
+					LocationUtils.latlng2String(line.getEnd()),
+					LocationUtils.latlng2String(line.getWaypoints()));
 			if (DEBUG)
-				Log.i(TAG, "response: " + response.toString());
-		} catch (Exception e) {
-			Log.e(TAG, e.toString());
+				Log.i(TAG, "request:" + request);
+			if (DEBUG)
+				Log.i(TAG, "GetDirectionsTask started");
+			try {
+				// files doesn't exist - download from server
+				// wait get result from task
+				response = gdt.execute(request).get(10, TimeUnit.SECONDS);
+				// save response to file
+				saveToLocalStorage(response);
+				if (DEBUG)
+					Log.i(TAG, "response: " + response.toString());
+			} catch (Exception e) {
+				Log.e(TAG, e.toString());
+			}
+			if (DEBUG)
+				Log.i(TAG, "response: " + response);
 		}
-		if (DEBUG)
-			Log.i(TAG, "response: " + response);
+
+	}
+
+	private boolean checkIfFileExist() {
+		
+		Log.i(TAG, "checkIfFileExist");
+
+		String path = MapActivity.context.getFilesDir().getAbsolutePath();
+		String fileName = line.getName() + ".txt";
+
+		Log.i(TAG, "path: " + path + "\nfileName: " + fileName);
+
+		File file = new File(path + File.separator + fileName);
+		
+		return file.exists();
+	}
+
+	private String readFiles() {
+	
+		Log.i(TAG,"readFiles");
+		
+		InputStream is = null;
+		String fileName = line.getName() + ".txt";
+		Log.i(TAG,"fileName: "+fileName);
+		
+		try {
+			is = MapActivity.context.openFileInput(fileName);
+		} catch(FileNotFoundException e) {
+			// no file
+			Log.i(TAG, e.toString());
+		}
+		
+		try {
+			// read
+			InputStreamReader inputStreamReader = new InputStreamReader(is);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			response = bufferedReader.readLine();
+			Log.i(TAG, "responseFromFile" + response);
+			
+		} catch (IOException e) {
+			// read failed
+			Log.i(TAG, e.toString());
+		}
+
+		return response;
+	}
+
+	private void saveToLocalStorage(String response2) {
+		/*
+		 * creates a new file
+		 */
+		Log.i(TAG, "saveToLocalStorage");
+
+		String path = MapActivity.context.getFilesDir().getAbsolutePath();
+		String fileName = line.getName() + ".txt";
+
+		Log.i(TAG, "path: " + path + "\nfileName: " + fileName);
+
+		File file = new File(path + File.separator + fileName);
+
+		boolean isFile = file.exists();
+		if (!isFile) {
+			// no file - create
+			try {
+				boolean created = file.createNewFile();
+				Log.i(TAG, "file "
+						+ (created ? "has been created" : "already exists"));
+				isFile = true;
+			} catch (IOException e) {
+				// failed
+				Log.i(TAG, e.toString());
+			}
+		}
+		if (isFile) {
+			// write file
+			Log.i(TAG, "file exist");
+			try {
+				FileWriter fileWriter = new FileWriter(file);
+				fileWriter.append(response);
+				fileWriter.close();
+				Log.i(TAG, "file written");
+
+			} catch (IOException IOE) {
+				IOE.printStackTrace();
+			}
+		}
 	}
 
 	/**
