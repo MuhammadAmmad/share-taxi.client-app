@@ -1,5 +1,7 @@
 package com.panamana.sharetaxi.model.utils;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Position {
 
 	private float x_pos;
@@ -73,4 +75,20 @@ public class Position {
 			this.getY() == pos.getY() &&
 			this.getZ() == pos.getZ()) ;
 	}
+	
+	public static Position LatLng2XYZ(LatLng latlng) {
+		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);
+		float yPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.sin(latlng.longitude);
+		float zPos = (float) 6371000 * (float)Math.sin(latlng.latitude);
+		Position position = new Position(xPos, yPos, zPos);
+		return position;
+	}
+	
+	public static Position LatLng2XY (LatLng latlng) {
+		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);
+		float yPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.sin(latlng.longitude);
+		Position position = new Position(xPos, yPos, 0);
+		return position;
+	}
+
 }

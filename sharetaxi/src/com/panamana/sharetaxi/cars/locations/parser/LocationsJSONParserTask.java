@@ -16,6 +16,7 @@ public class LocationsJSONParserTask  extends AsyncTask<String, Integer, Map<Str
 	/**
 	 * Background
 	 * @return 
+	 * @author naama
 	 */
 	@Override
 	protected Map<String,Car> doInBackground(String... jsonData) {

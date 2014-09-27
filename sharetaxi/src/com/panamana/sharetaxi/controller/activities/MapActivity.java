@@ -1,21 +1,14 @@
 package com.panamana.sharetaxi.controller.activities;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -24,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.R;
@@ -42,14 +34,15 @@ import com.panamana.sharetaxi.model.utils.Marker_Arrow;
 /**
  * Main Activity.
  * 
- * @author
+ * @author naama
  */
 public class MapActivity extends ActionBarActivity implements OnMarkerClickListener{
 	
+	// constants:
 	private static final String TAG = MapActivity.class.getSimpleName();
-	private static final String FILENAME = "polylines.data";
 	private static final boolean DEBUG = false;
-	private GoogleMap map;
+	
+	// fields:
 	public static Context context;
 	LocationsUpdateThread updater;
 	public MapManager mapManager;
@@ -118,8 +111,6 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 	@Override
 	protected void onStart() {
 		super.onStart();
-		// restore data
-		// Maps.polylineOptionsMap = (new Persist()).restore(this, FILENAME);
 	}
 
 	@Override
@@ -142,15 +133,15 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 		if(DEBUG) Log.i(TAG,"hidePolylines will start now");
 		mapManager.HidePolylines(linesToHide);
 		// draw route
-		if (mapManager.polylineOptionsMap == null
-				|| mapManager.polylineOptionsMap.isEmpty()) {
+		if (MapManager.polylineOptionsMap == null
+				|| MapManager.polylineOptionsMap.isEmpty()) {
 			// no line data - request data from server
 			LinesWorker lw = new LinesWorker(this, mapManager, LINES.LINE4_WAYPOINTS, LINES.LINE4A_WAYPOINTS, LINES.LINE5_WAYPOINTS) {
 				@Override
 				public void onLineWorkerComplete() {
 					if(!isFinishing() && mapManager!=null) {
 						// NOT onDestroy AND got MapManager
-						for(final String line : mapManager.polylineOptionsMap.keySet()){
+						for(final String line : MapManager.polylineOptionsMap.keySet()){
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
@@ -295,9 +286,6 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 	}
 	
 	private void updateLinesToHide() {
-		
-		List<String> tempCars = new ArrayList<String>();
-		List<String> tempLines = new ArrayList<String>();
 		
 		if (!SettingsActivity.b1_isChecked) {
 //			tempCars.add(LINES.LINE4_N);

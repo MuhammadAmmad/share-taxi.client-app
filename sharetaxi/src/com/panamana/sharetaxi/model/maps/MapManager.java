@@ -120,10 +120,14 @@ public class MapManager {
 								direction.split("Direction: ")[1])) == true)) {
 			// if car has no updated direction or should not be hided
 			if (DEBUG) Log.i(TAG,"title="+title+" direction="+direction);
+			String timeEstimationPart = "";
+			String freeSeatsPart = "Free Seats: "+ freeSeats;
+			if (freeSeats.equals("2")) freeSeatsPart = "Free Seats: 2 or more";
+			if (timeEstimation!= null) timeEstimationPart = ", Estimated time: " +timeEstimation; 
 				marker = map.addMarker(
 						new MarkerOptions()
 						.title(title)
-						.snippet("Free Seats: "+ freeSeats + ", Estimated time: " +timeEstimation)
+						.snippet(freeSeatsPart + timeEstimationPart)
 						.position(position)
 						.icon(icon));
 				arrow = map.addMarker(

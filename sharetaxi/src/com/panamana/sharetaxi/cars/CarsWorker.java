@@ -61,6 +61,7 @@ public class CarsWorker extends Thread {
 
 	/**
 	 * adds car markers to map.
+	 * @author naama
 	 * @param cars
 	 * @return
 	 */
@@ -74,12 +75,6 @@ public class CarsWorker extends Thread {
 						
 						@Override
 						public void run() {
-							
-//						Car.latLng2Location(car.getPrevLatLng()).distanceTo(
-//								Car.latLng2Location(car.getLatLng()));
-//							if (car.getMarker() != null) {
-//								car.getMarker().remove();
-//							}
 							if (!car.getPrevLatLng().equals(car.getLatLng())) {
 								if (DEBUG) Log.i(TAG,"prevLatLng: "+car.getPrevLatLng()+ "LatLng: "+car.getLatLng());
 								Marker marker = maps.addMarker(
@@ -112,6 +107,7 @@ public class CarsWorker extends Thread {
 
 	/**
 	 * parse location response JSON.
+	 * @author naama
 	 * @param response
 	 */
 	private void parseLocations(String response) {
@@ -128,6 +124,7 @@ public class CarsWorker extends Thread {
 	
 	/**
 	 * get locations response
+	 * @author naama
 	 * @return
 	 */
 

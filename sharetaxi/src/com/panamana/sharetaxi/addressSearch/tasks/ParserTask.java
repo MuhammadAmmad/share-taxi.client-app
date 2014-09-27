@@ -52,10 +52,6 @@ public class ParserTask extends AsyncTask<String, Integer, List<HashMap<String,S
     @Override
     protected void onPostExecute(List<HashMap<String,String>> list){
 
-        // Clears all the existing markers
-    	// TODO
-//        mMap.clear();
-
         for(int i=0;i<list.size();i++){
 
             // Creating a marker
@@ -82,13 +78,9 @@ public class ParserTask extends AsyncTask<String, Integer, List<HashMap<String,S
             markerOptions.title(name);
 
             // Placing a marker on the touched position
-            // TODO
             maps.addAddress(markerOptions);
             maps.positionMap(latLng);
 
-            // Locate the first location
-//            if(i==0)
-//                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         }
     }
 }

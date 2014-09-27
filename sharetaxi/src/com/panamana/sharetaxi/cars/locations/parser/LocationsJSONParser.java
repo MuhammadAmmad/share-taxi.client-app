@@ -12,7 +12,7 @@ import com.panamana.sharetaxi.cars.CarsWorker;
 import com.panamana.sharetaxi.cars.objects.Car;
 
 /**
- * handle Locatio¯n response -> Car object.
+ * handle Location response -> Car object.
  * @author naama
  */
 public class LocationsJSONParser {
@@ -39,6 +39,7 @@ public class LocationsJSONParser {
 	 * create cars from location JSON response.
 	 * @param jObject
 	 * @return
+	 * @author naama
 	 */
 	public Map<String, Car> parse(JSONObject jObject) {
 		JSONArray jPoints = null;

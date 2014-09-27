@@ -32,6 +32,7 @@ import com.panamana.sharetaxi.model.utils.Position;
  */
 public class Car {
 
+	// constants:
 	private static final String TAG = Car.class.getSimpleName();
 	private static final boolean DEBUG = false;
 	private static final int FIND_CLOSEST_SEGMENT_FILTER = 3;
@@ -83,6 +84,7 @@ public class Car {
 		this.mLocalDirection = -1;
 		this.mIsActive = true;
 	}
+	
 	public Car (JSONObject jo) throws JSONException {
 		this(
 			jo.getString(LocationsJsonTags.ANDROIDID),           
@@ -94,10 +96,16 @@ public class Car {
 			);
 	}
 	
+	// Methods:
+	
 	public String getDirection() {
 		return mDirection;
 	}
 	
+	/**
+	 * updates the direction in the cars data-structure
+	 * @author naama
+	 */
 	public void updateCarDirection() {
 		// the prev object of the same car in CarsWorker.cars
 		Car carByID = CarsWorker.cars.get(mID);
@@ -113,6 +121,11 @@ public class Car {
 		CarsWorker.cars.put(mID, this);
 	}
 	
+	/**
+	 * updates the car direction using the prev location of this car from the car's data-structure
+	 * @author naama
+	 * @param carByID
+	 */
 	public void updateCarDirection2(Car carByID) {
 
 		// I root location - the I'th segment of the route
@@ -140,10 +153,6 @@ public class Car {
 					mDirection = LINES.getLine("line"+mLineName).getEndStations().getStartStation();
 				}
 			}
-//			if (direction changed and prevDirection is not "") {
-//				check 3 times if mDirection = newDirection
-//			if it is, change to newDirection 
-//			}
 			if(DEBUG) Log.i("1"+TAG,"car "+mID+" i="+mIterator);
 			if(mIterator==0) {
 				if (!"".equals(mPrevDirection) ) {
@@ -195,8 +204,6 @@ public class Car {
 		this.mDistanceFromI = mDistanceFromI;
 	}
 
-	// Methods:
-	
 	public Marker getMarker() {
 		return mMarker;
 	}
@@ -246,23 +253,24 @@ public class Car {
 	
 	
 	/**
-	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
+	 * updates the location of the car on the line's route (the segment of the route) and the distance from the last polyline vertex
+	 * @author naama
 	 */
 	public void calcIRouteLocationAndDistance() {
 		PolylineOptions linePolylineOptions = MapManager.polylineOptionsMap.get("line"+mLineName);
 		
 		if (linePolylineOptions != null) {
-			// valid poly line
+			// valid polyline
 			int iTHLocation = 0;
-			Position carXYZPoint = LatLng2XYZ(mLatLng);
+			Position carXYZPoint = Position.LatLng2XYZ(mLatLng);
 			List<LatLng> linePoints = linePolylineOptions.getPoints(); 
 			float distanceFromLine = 10000;
 			for (int i = 0; i<linePoints.size()-1; i++) {
 				float distanceFromThisLine = 
 						Position.distancePfromVectorAB(
 								carXYZPoint,
-								LatLng2XYZ(linePoints.get(i)),
-								LatLng2XYZ(linePoints.get(i+1)));
+								Position.LatLng2XYZ(linePoints.get(i)),
+								Position.LatLng2XYZ(linePoints.get(i+1)));
 				if (distanceFromLine < distanceFromLine) {
 					// car is closer to this line than to the last one
 					distanceFromLine = distanceFromThisLine;
@@ -279,7 +287,7 @@ public class Car {
 			mIRouteLocation=iTHLocation;
 			if (linePoints.size()>0) {
 				mDistanceFromI=DirectionalVector.calcDirection(
-						LatLng2XYZ(linePoints.get(iTHLocation)),
+						Position.LatLng2XYZ(linePoints.get(iTHLocation)),
 						carXYZPoint).getVectorSize();
 			}
 			if(DEBUG) {
@@ -288,14 +296,9 @@ public class Car {
 		}
 	}
 	
-
-	
-	
-	
-	
-	
 	/**
 	 * updates the location of the car on the lines' route and the distance from the last polyline vertex
+	 * @author naama
 	 */
 	public void calcIRouteLocationAndDistance2() {
 		
@@ -303,36 +306,23 @@ public class Car {
 		
 		if (linePolylineOptions != null) {
 			// valid poly line
-			Position carXYZPoint = LatLng2XYZ(mLatLng);
+			Position carXYZPoint = Position.LatLng2XYZ(mLatLng);
 			List<LatLng> linePoints = linePolylineOptions.getPoints(); 
 
 			mIRouteLocation = getClosestSegmentIndex(carXYZPoint, linePoints);
-//
-//			if(DEBUG) Log.i(TAG,"mIRouteLocation= "+ mIRouteLocation);
-//			
-//			if (linePoints.get(mIRouteLocation) != null && linePoints.get(mIRouteLocation+5) != null){
-//				// got previous and current lines
-//				Position prevPos = LatLng2XYZ(linePoints.get(mIRouteLocation)) ;
-//				Position curPos = LatLng2XYZ(linePoints.get(mIRouteLocation+1));
-//				
-//				if(DEBUG) Log.i(TAG,"prevPos="+prevPos+ " curPos= "+curPos);
-//				
-//				if (DirectionalVector.calcDirection(prevPos,curPos) != null) {
-//					// got a valid vector between prev and cur positions
-//					mLocalDirection = 
-//							(float) Math.atan( (curPos.getY()-prevPos.getY())/(curPos.getX()-prevPos.getX()) );
-//							
-//							//DirectionalVector.calcDirection(prevPos,curPos).getAngleFromNorth();
-//					if(DEBUG) Log.i(TAG,"mLocalDirection= "+mLocalDirection);
-//				}
 				mDistanceFromI=DirectionalVector.calcDirection(
-						LatLng2XYZ(linePoints.get(mIRouteLocation)),
+						Position.LatLng2XYZ(linePoints.get(mIRouteLocation)),
 						carXYZPoint).getVectorSize();
-//			}
 		}
 	}
 	
-	
+	/**
+	 * get the closest to the car route's segment
+	 * @author naama
+	 * @param carXYZPoint
+	 * @param linePoints
+	 * @return
+	 */
 	private int getClosestSegmentIndex(Position carXYZPoint,
 			List<LatLng> linePoints) {
 		int minIthSegment = 0;
@@ -342,8 +332,8 @@ public class Car {
 		for (int i=0; i<linePoints.size()-1; i++) {
 			// iterates over all points in taxi line  
 			
-			Position prevPos = LatLng2XYZ(linePoints.get(i)) ;
-			Position curPos = LatLng2XYZ(linePoints.get(i+1));
+			Position prevPos = Position.LatLng2XYZ(linePoints.get(i)) ;
+			Position curPos = Position.LatLng2XYZ(linePoints.get(i+1));
 			
 			float distanceFromThisLine = 
 					Position.distancePfromVectorAB(
@@ -355,38 +345,17 @@ public class Car {
 				// segment got closer to the car
 				minDistanceFromLine = distanceFromThisLine;
 				minIthSegment =i;
-//			} else {
-//				// segment got further away from the car
-//				growingDistanceFilter ++;
-//				if (growingDistanceFilter == FIND_CLOSEST_SEGMENT_FILTER) break;
 			}
 		}
 		
 		return minIthSegment;
 	}
 	
-	
-
-	
 	private String getNewDirection() {
 		return mNewDirection;
 	}
 	private int getIterator() {
 		return mIterator;
-	}
-	private Position LatLng2XYZ(LatLng latlng) {
-		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);
-		float yPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.sin(latlng.longitude);
-		float zPos = (float) 6371000 * (float)Math.sin(latlng.latitude);
-		Position position = new Position(xPos, yPos, zPos);
-		return position;
-	}
-	
-	private Position LatLng2XY (LatLng latlng) {
-		float xPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.cos(latlng.longitude);
-		float yPos = (float) 6371000 * (float)Math.cos(latlng.latitude) * (float)Math.sin(latlng.longitude);
-		Position position = new Position(xPos, yPos, 0);
-		return position;
 	}
 
 	public int getIcon() {
@@ -409,8 +378,6 @@ public class Car {
 		if (mLineName.equals("5") && mDirection.equals("South")) {
 			mIcon = R.drawable.l5north;
 		}
-
-		
 		return mIcon;
 	}
 	public float getLocalDirection() {

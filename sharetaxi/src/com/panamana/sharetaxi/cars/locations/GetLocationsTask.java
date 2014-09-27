@@ -21,6 +21,7 @@ public class GetLocationsTask extends AsyncTask<String, Void, String> {
 	
 	/**
 	 * Background
+	 * @author naama
 	 */
 	@Override
 	protected String doInBackground(String...params) {
