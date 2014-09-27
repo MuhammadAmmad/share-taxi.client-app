@@ -2,6 +2,11 @@ package com.panamana.sharetaxi.model.utils;
 
 import com.google.android.gms.maps.model.Marker;
 
+/**
+ * the taxi marker and arrow pair
+ * @author naama
+ *
+ */
 public class Marker_Arrow {
 
 	public Marker marker;

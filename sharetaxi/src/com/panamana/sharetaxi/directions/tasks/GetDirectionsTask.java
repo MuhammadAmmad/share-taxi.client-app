@@ -20,10 +20,12 @@ import android.util.Log;
  */
 public class GetDirectionsTask extends AsyncTask<String, Void, String> {
 	
+	// constants:
 	private static final String TAG = GetDirectionsTask.class.getSimpleName();
 	private final boolean DEBUG = false;
 	/**
 	 * Background
+	 * @author naama
 	 */
 	@Override
 	protected String doInBackground(String... params) {

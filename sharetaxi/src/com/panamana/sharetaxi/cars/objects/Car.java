@@ -35,8 +35,6 @@ public class Car {
 	// constants:
 	private static final String TAG = Car.class.getSimpleName();
 	private static final boolean DEBUG = false;
-	private static final int FIND_CLOSEST_SEGMENT_FILTER = 3;
-
 
 	// Fields:
 	private String mID;
@@ -281,18 +279,14 @@ public class Car {
 					break;
 				}
 			}
-			if(DEBUG) {
-				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
-			}
+			if(DEBUG) Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
 			mIRouteLocation=iTHLocation;
 			if (linePoints.size()>0) {
 				mDistanceFromI=DirectionalVector.calcDirection(
 						Position.LatLng2XYZ(linePoints.get(iTHLocation)),
 						carXYZPoint).getVectorSize();
 			}
-			if(DEBUG) {
-				Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
-			}
+			if(DEBUG) Log.i(TAG,"routeLocation"+Integer.toString(this.getIRouteLocation()));
 		}
 	}
 	
@@ -326,7 +320,6 @@ public class Car {
 	private int getClosestSegmentIndex(Position carXYZPoint,
 			List<LatLng> linePoints) {
 		int minIthSegment = 0;
-		int growingDistanceFilter = 0;
 		float minDistanceFromLine = Float.MAX_VALUE;
 		
 		for (int i=0; i<linePoints.size()-1; i++) {
@@ -404,12 +397,10 @@ public class Car {
 	public void updateEstimatedTime() {
 		LatLng myLocation = LocationUtils.location2LatLng(MapManager.getMyLocation());
 		LatLng endPoint = getClosestRouteLocation(myLocation);
-		Log.i(TAG,"startPoint= " + mLatLng.toString() + "endPoint= " + endPoint.toString());
 		GetDirectionsTask gdt = new GetDirectionsTask();
 		String response = "";
 		try {
 			// wait get result from task
-//			Log.i(TAG,"buildedReques: ");
 			response = gdt.execute(DirectionsManager.buildDirectionRequestForTimeEstimation(
 					LocationUtils.latlng2String(mLatLng),
 					LocationUtils.latlng2String(endPoint)
@@ -418,13 +409,11 @@ public class Car {
 		} catch (Exception e) {
 			Log.e(TAG,e.toString());
 		}
-//		Log.i(TAG,"response= "+ response);
 		try {
 			JSONObject jo = new JSONObject(response);
 			// Parse
 			new DirectionsJSONParser().parse(jo);
 			mEstimatedTime = DirectionsJSONParser.time; 
-			Log.i(TAG,"estimatedTime="+ mEstimatedTime);
 		} catch (JSONException joe){
 			joe.printStackTrace();
 		} catch (NullPointerException npe) {

@@ -2,15 +2,12 @@ package com.panamana.sharetaxi.controller.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.panamana.sharetaxi.R;
 

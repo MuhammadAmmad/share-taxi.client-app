@@ -2,6 +2,11 @@ package com.panamana.sharetaxi.lines.objects;
 
 import com.panamana.sharetaxi.lines.LINES;
 
+/**
+ * this is the object that holds the line and the direction of the line
+ * @author naama
+ *
+ */
 public class LineDirectionPair {
 	public String line;
 	public String direction;

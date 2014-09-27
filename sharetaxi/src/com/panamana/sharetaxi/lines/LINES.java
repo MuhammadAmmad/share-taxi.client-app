@@ -15,22 +15,16 @@ import com.panamana.sharetaxi.lines.objects.Line;
  */
 public class LINES {
 
-//	static {
-//		initLinesMap();
-//	}
+	// fields
 	public static final Map<String,Line> linesMap = new HashMap<String,Line>();
-
-	
 	
 	// Line names
-	
 	public static final String LINE4 = "line4";
 	public static final String LINE4a = "line4a";
 	public static final String LINE5 = "line5";
 	
 	
 	// Line way points
-	
 	public static Line LINE4_WAYPOINTS = new Line(
 			LINES.LINE4, new EndStations("South","North"),
 			Color.rgb(180,159,217),// purple
@@ -79,7 +73,6 @@ public class LINES {
 				}
 			);
 	
-
 	public static Line getLine(String lineName) {
 		return linesMap.get(lineName);
 	}

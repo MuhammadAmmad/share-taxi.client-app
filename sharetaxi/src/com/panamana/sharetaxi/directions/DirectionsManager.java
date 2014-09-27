@@ -1,8 +1,5 @@
 package com.panamana.sharetaxi.directions;
 
-import android.text.format.Time;
-
-import com.google.android.gms.maps.model.LatLng;
 import com.panamana.sharetaxi.directions.parser.DirectionJSONParserTask;
 import com.panamana.sharetaxi.directions.tasks.GetDirectionsTask;
 import com.panamana.sharetaxi.lines.objects.Line;
@@ -10,7 +7,7 @@ import com.panamana.sharetaxi.model.utils.LocationUtils;
 
 /**
  * Google Directions API manager class.
- * @author 
+ * @author naama
  */
 public class DirectionsManager {
 
@@ -32,7 +29,7 @@ public class DirectionsManager {
 	}
 	
 	/**
-	 * 
+	 * @author naama
 	 * @param src
 	 * @param dst
 	 */
@@ -43,12 +40,23 @@ public class DirectionsManager {
 				LocationUtils.latlng2String(line.getWaypoints())));
 	}
 
+	/**
+	 * @author naama
+	 * @param json
+	 */
 	static public void parseJson(String json){
 		DirectionJSONParserTask parserTask = new DirectionJSONParserTask();
         // Invokes the thread for parsing the JSON data
         parserTask.execute(json);
 	}
 	
+	/**
+	 * @author naama
+	 * @param origin
+	 * @param destination
+	 * @param waypoints
+	 * @return
+	 */
 	public static String buildDirectionRequest(String origin, String destination, String[]waypoints){
 
 		String result = "https://maps.googleapis.com/maps/api/directions/json?" +
@@ -68,6 +76,12 @@ public class DirectionsManager {
 		return result;
 	}
 
+	/**
+	 * @author naama
+	 * @param origin
+	 * @param destination
+	 * @return
+	 */
 	public static String buildDirectionRequestForTimeEstimation(String origin, String destination) {
 		String result = "https://maps.googleapis.com/maps/api/directions/json?" +
 		"origin=" + origin + 
@@ -80,15 +94,5 @@ public class DirectionsManager {
 		"departure_time=" + System.currentTimeMillis();
 		return result;
 	}
-
-//	
-//	/**
-//	 * 
-//	 * @param json
-//	 */
-//	public static void handleDirectionReponse(String json) {
-//		parseJson(json);
-//	}
-
 
 }

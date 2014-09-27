@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,7 +28,7 @@ import com.panamana.sharetaxi.model.utils.ResourceUtils;
  * Google Maps API manager class.
  * Maps API Help:
  * https://developers.google.com/maps/documentation/android/start
- * @author
+ * @author naama
  */
 public class MapManager {
 
@@ -59,6 +58,7 @@ public class MapManager {
 	// map //
 	/**
 	 * create map
+	 * @author naama
 	 * @param context
 	 */
 	private GoogleMap createGoogleMap(Context context) {
@@ -71,7 +71,7 @@ public class MapManager {
 	}
 
 	/**
-	 * 
+	 * @author naama
 	 * @param position
 	 */
 	public void positionMap(LatLng position) {
@@ -81,6 +81,7 @@ public class MapManager {
 
 	/**
 	 * position on my location
+	 * @author naama
 	 */
 	public void positionMap() {
 
@@ -91,10 +92,10 @@ public class MapManager {
 		}
 	}
 
-	// markers //
-
+	// markers 
 	/**
 	 * adds cars markers to map
+	 * @author naama
 	 * @param position
 	 * @param title
 	 * @param snippet
@@ -142,7 +143,6 @@ public class MapManager {
 				
 				// add marker to map
 				markersMap.put(carId, new Marker_Arrow(marker,arrow) );
-//				markersMap.put(carId, marker);
 				if (prevMarker != null) {
 					// got previous marker
 					prevMarker.remove();
@@ -151,8 +151,12 @@ public class MapManager {
 		return marker;
 	}
 
-	// polyline - routes //
-
+	// polyline - routes
+	/**
+	 * @author naama
+	 * @param line
+	 * @param linesToHide
+	 */
 	public void addPolyline(String line,Map<LineDirectionPair,Boolean> linesToHide) {
 		// add polyline to map
 		// if both directions are in linesToHide then hide
@@ -185,17 +189,20 @@ public class MapManager {
 	public Marker drawCars(Context context) {
 		new CarsWorker(context,this).start();
 		return null;
-
 	}
 
 	public static void removeCars() {
-		// TODO Auto-generated method stub
 		for (Marker_Arrow marker : markersMap.values()) {
 			marker.remove();
 		}
 		markersMap.clear();
 	}
 
+	/**
+	 * hide requested lines from settings
+	 * @author naama
+	 * @param linesToHide
+	 */
 	public void HidePolylines(Map<LineDirectionPair,Boolean> linesToHide) {
 		if(DEBUG) Log.i(TAG,linesToHide.toString()); 
 		for (LineDirectionPair lineDirection : linesToHide.keySet()) {
@@ -214,12 +221,10 @@ public class MapManager {
 	}
 
 	public void addAddress(MarkerOptions markerOptions) {
-		Marker marker = map.addMarker(markerOptions);
-		
+		map.addMarker(markerOptions);
 	}
 
 	public static Location getMyLocation() {
-		// TODO Auto-generated method stub
 		return map.getMyLocation();
 	}
 

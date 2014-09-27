@@ -1,5 +1,10 @@
 package com.panamana.sharetaxi.model.utils;
 
+/**
+ * Vector class
+ * @author naama
+ *
+ */
 public class DirectionalVector {
 
 	private float x_direction;

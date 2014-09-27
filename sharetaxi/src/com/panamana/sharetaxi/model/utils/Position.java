@@ -2,6 +2,11 @@ package com.panamana.sharetaxi.model.utils;
 
 import com.google.android.gms.maps.model.LatLng;
 
+/**
+ * Position utils
+ * @author naama
+ *
+ */
 public class Position {
 
 	private float x_pos;

@@ -49,9 +49,9 @@ public abstract class LinesWorker extends Thread {
 				e.printStackTrace();
 			}
 		}
-		if (maps.polylineOptionsMap.get(LINES.LINE4) != null && maps.polylineOptionsMap.get(LINES.LINE4a) != null) {
-			List<LatLng> line4 = maps.polylineOptionsMap.get(LINES.LINE4).getPoints();
-			List<LatLng> line4a = maps.polylineOptionsMap.get(LINES.LINE4a).getPoints();
+		if (MapManager.polylineOptionsMap.get(LINES.LINE4) != null && MapManager.polylineOptionsMap.get(LINES.LINE4a) != null) {
+			List<LatLng> line4 = MapManager.polylineOptionsMap.get(LINES.LINE4).getPoints();
+			List<LatLng> line4a = MapManager.polylineOptionsMap.get(LINES.LINE4a).getPoints();
 			line4 = shiftPolylineOptions	(line4,	LINE_OFFSET);
 			line4a = shiftPolylineOptions	(line4a,LINE_OFFSET);
 			PolylineOptions line4aPolyline = new PolylineOptions();

@@ -12,11 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import android.R;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
-import android.os.Environment;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -36,9 +31,11 @@ import com.panamana.sharetaxi.model.utils.LocationUtils;
  */
 class LineWorker extends Thread {
 
-	// Fields:
+	// constants
 	private static final String TAG = LineWorker.class.getSimpleName();
 	private final boolean DEBUG = false;
+
+	// Fields:
 	private Line line;
 	private String response = "";
 	List<List<LatLng>> routes = null;
@@ -54,8 +51,7 @@ class LineWorker extends Thread {
 	// thread:
 
 	public void run() {
-		if (DEBUG)
-			Log.i(TAG, "lineWorker started");
+		if (DEBUG) Log.i(TAG, "lineWorker started");
 		// 1. get Directions API response from line waypoints
 		getDirections();
 		// 2. parse Directions API response to List<List<LatLng>> "routes"
@@ -64,15 +60,20 @@ class LineWorker extends Thread {
 		// 3. createPolylines
 		PolylineOptions polyline = createPolylines();
 		// 4. add polyline to list
-		if (maps.polylineOptionsMap == null) {
-			maps.polylineOptionsMap = new HashMap<String, PolylineOptions>();
+		if (MapManager.polylineOptionsMap == null) {
+			MapManager.polylineOptionsMap = new HashMap<String, PolylineOptions>();
 		}
-		maps.polylineOptionsMap.put(line.getName(), polyline);
-		if (DEBUG) {
-			Log.i(TAG, "polyline:" + polyline.toString());
-		}
+		MapManager.polylineOptionsMap.put(line.getName(), polyline);
+		if (DEBUG) Log.i(TAG, "polyline:" + polyline.toString());
 	}
 
+	
+	// methods:
+	
+	/**
+	 * @author naama
+	 * @return
+	 */
 	private PolylineOptions createPolylines() {
 		final PolylineOptions lineOptions = new PolylineOptions();
 		if (routes != null) {
@@ -89,141 +90,121 @@ class LineWorker extends Thread {
 			}
 			// set color and width
 			lineOptions.width(line.getWidth()).color(line.getColor());
-			if (DEBUG) {
-				Log.i(TAG, "lineOptions:" + lineOptions.toString());
-			}
+			if (DEBUG) Log.i(TAG, "lineOptions:" + lineOptions.toString());
 		}
 		return lineOptions;
 	}
 
+	/**
+	 * @author naama
+	 */
 	private void parseDirections() {
 		DirectionJSONParserTask parserTask = new DirectionJSONParserTask();
 		// Invokes the thread for parsing the JSON data
 		try {
 			// wait get result from task
 			routes = parserTask.execute(response).get(10, TimeUnit.SECONDS);
-			if (DEBUG)
-				Log.i(TAG, "routes:" + routes.toString());
+			if (DEBUG) Log.i(TAG, "routes:" + routes.toString());
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
 		}
 	}
 
+	/**
+	 * @author naama
+	 */
 	private void getDirections() {
 
 		boolean hasFile = checkIfFileExist();
 		if (hasFile) {
 			// has file
-			Log.i(TAG, "has file");
 			response = readFiles();
 		} else {
 			// no file
-			Log.i(TAG, "no file");
 			GetDirectionsTask gdt = new GetDirectionsTask();
 			String request = DirectionsManager.buildDirectionRequest(
 					LocationUtils.latlng2String(line.getStart()),
 					LocationUtils.latlng2String(line.getEnd()),
 					LocationUtils.latlng2String(line.getWaypoints()));
-			if (DEBUG)
-				Log.i(TAG, "request:" + request);
-			if (DEBUG)
-				Log.i(TAG, "GetDirectionsTask started");
+			if (DEBUG) Log.i(TAG, "request:" + request);
+			if (DEBUG) Log.i(TAG, "GetDirectionsTask started");
 			try {
 				// files doesn't exist - download from server
 				// wait get result from task
 				response = gdt.execute(request).get(10, TimeUnit.SECONDS);
 				// save response to file
 				saveToLocalStorage(response);
-				if (DEBUG)
-					Log.i(TAG, "response: " + response.toString());
+				if (DEBUG) Log.i(TAG, "response: " + response.toString());
 			} catch (Exception e) {
-				Log.e(TAG, e.toString());
 			}
-			if (DEBUG)
-				Log.i(TAG, "response: " + response);
+			if (DEBUG) Log.i(TAG, "response: " + response);
 		}
 
 	}
 
+	/**
+	 * @author naama
+	 * @return
+	 */
 	private boolean checkIfFileExist() {
-		
-		Log.i(TAG, "checkIfFileExist");
-
 		String path = MapActivity.context.getFilesDir().getAbsolutePath();
 		String fileName = line.getName() + ".txt";
-
-		Log.i(TAG, "path: " + path + "\nfileName: " + fileName);
-
 		File file = new File(path + File.separator + fileName);
-		
 		return file.exists();
 	}
 
+	/**
+	 * @author naama
+	 * @return
+	 */
 	private String readFiles() {
-	
-		Log.i(TAG,"readFiles");
-		
 		InputStream is = null;
 		String fileName = line.getName() + ".txt";
-		Log.i(TAG,"fileName: "+fileName);
-		
 		try {
 			is = MapActivity.context.openFileInput(fileName);
 		} catch(FileNotFoundException e) {
 			// no file
-			Log.i(TAG, e.toString());
 		}
-		
 		try {
 			// read
 			InputStreamReader inputStreamReader = new InputStreamReader(is);
 			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 			response = bufferedReader.readLine();
-			Log.i(TAG, "responseFromFile" + response);
 			
 		} catch (IOException e) {
 			// read failed
-			Log.i(TAG, e.toString());
 		}
 
 		return response;
 	}
 
+	/**
+	 * @author naama
+	 * @param response2
+	 */
 	private void saveToLocalStorage(String response2) {
 		/*
 		 * creates a new file
 		 */
-		Log.i(TAG, "saveToLocalStorage");
-
 		String path = MapActivity.context.getFilesDir().getAbsolutePath();
 		String fileName = line.getName() + ".txt";
-
-		Log.i(TAG, "path: " + path + "\nfileName: " + fileName);
-
 		File file = new File(path + File.separator + fileName);
-
 		boolean isFile = file.exists();
 		if (!isFile) {
 			// no file - create
 			try {
 				boolean created = file.createNewFile();
-				Log.i(TAG, "file "
-						+ (created ? "has been created" : "already exists"));
 				isFile = true;
 			} catch (IOException e) {
 				// failed
-				Log.i(TAG, e.toString());
 			}
 		}
 		if (isFile) {
 			// write file
-			Log.i(TAG, "file exist");
 			try {
 				FileWriter fileWriter = new FileWriter(file);
 				fileWriter.append(response);
 				fileWriter.close();
-				Log.i(TAG, "file written");
-
 			} catch (IOException IOE) {
 				IOE.printStackTrace();
 			}
@@ -232,7 +213,7 @@ class LineWorker extends Thread {
 
 	/**
 	 * Fetch points in route i
-	 * 
+	 * @author naama
 	 * @param path
 	 * @return
 	 */

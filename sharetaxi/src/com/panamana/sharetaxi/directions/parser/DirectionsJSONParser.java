@@ -13,11 +13,13 @@ import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Parse JSON response from Google Direction API
- * @author 
+ * @author naama 
  */
 public class DirectionsJSONParser {
 
+	// fields:
 	public static String time;
+	private static final String TAG = DirectionsJSONParser.class.getSimpleName();
 	// JSON parameters
 	private static final String ROUTES = "routes";
 	private static final String LEGS = "legs";
@@ -25,11 +27,12 @@ public class DirectionsJSONParser {
 	private static final String POLYLINE = "polyline";
 	private static final String POINTS = "points";
 	private static final String DURATION = "duration";
-	private static final String TAG = DirectionsJSONParser.class.getSimpleName();
 
+	// methods:
+	
 	/**
-	 * Receives a JSONObject and returns a list of lists containing latitude and
-	 * longitude
+	 * Receives a JSONObject and returns a list of lists containing latitude and longitude
+	 * @author naama
 	 */
 	public List<List<LatLng>> parse(JSONObject jObject) {
 		List<List<LatLng>> routes = new ArrayList<List<LatLng>>();
@@ -47,7 +50,6 @@ public class DirectionsJSONParser {
 				path = new ArrayList<LatLng>();
 				jDuration =  ((JSONObject) jLegs.getJSONObject(i)).getJSONObject(DURATION);
 				time = getDuration(jDuration);
-				Log.i(TAG,time);
 				/** Traversing all legs */
 				for (int j = 0; j < jLegs.length(); j++) {
 					jSteps = getSteps(jLegs, j);
@@ -74,6 +76,7 @@ public class DirectionsJSONParser {
 	 * Method to decode PolyLine points Courtesy :
 	 * jeffreysambells.com/2010/05/27
 	 * decoding-PolyLines-from-google-maps-direction-API
+	 * @author naama
 	 */
 	private List<LatLng> decodePoly(String encoded) {
 		List<LatLng> poly = new ArrayList<LatLng>();
@@ -107,7 +110,7 @@ public class DirectionsJSONParser {
 	}
 	
 	/**
-	 * 
+	 * @author naama
 	 * @param jObject
 	 * @return
 	 * @throws JSONException
@@ -117,7 +120,7 @@ public class DirectionsJSONParser {
 	}
 
 	/**
-	 * 
+	 * @author naama
 	 * @param jLegs
 	 * @param j
 	 * @return
@@ -128,7 +131,7 @@ public class DirectionsJSONParser {
 	}
 
 	/**
-	 * 
+	 * @author naama
 	 * @param jRoutes
 	 * @param i
 	 * @return
@@ -139,7 +142,7 @@ public class DirectionsJSONParser {
 	}
 
 	/**
-	 * 
+	 * @author naama
 	 * @param jSteps
 	 * @param k
 	 * @return
@@ -149,6 +152,12 @@ public class DirectionsJSONParser {
 		return (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get(POLYLINE)).get(POINTS);
 	}
 	
+	/**
+	 * @author naama
+	 * @param jDuration
+	 * @return
+	 * @throws JSONException
+	 */
 	private String getDuration(JSONObject jDuration) throws JSONException {
 		return (String)(jDuration.get("text"));
 	}

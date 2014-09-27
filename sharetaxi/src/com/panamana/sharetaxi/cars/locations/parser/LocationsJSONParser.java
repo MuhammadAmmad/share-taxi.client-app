@@ -43,9 +43,7 @@ public class LocationsJSONParser {
 	 */
 	public Map<String, Car> parse(JSONObject jObject) {
 		JSONArray jPoints = null;
-		if(DEBUG) {
-			Log.i(TAG, "started parsing");
-		}
+		if(DEBUG) Log.i(TAG, "started parsing");
 		try {
 			// cars locations from server
 			jPoints = getPoints(jObject);
@@ -56,7 +54,6 @@ public class LocationsJSONParser {
 				car.updateCarDirection();
 				if(DEBUG) Log.i(TAG,"2routeLocation"+Integer.toString(car.getIRouteLocation()));
 				if (car.getDirection() != "") {
-					String direction = car.getDirection();
 					if(DEBUG) Log.i(TAG,car.getDirection());
 				}
 					if(DEBUG) Log.i(TAG,"3routeLocation"+Integer.toString(car.getIRouteLocation()));

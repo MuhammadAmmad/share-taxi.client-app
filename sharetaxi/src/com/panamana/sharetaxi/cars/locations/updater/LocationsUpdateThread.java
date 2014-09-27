@@ -35,24 +35,18 @@ public class LocationsUpdateThread extends Thread {
 	 * @author naama
 	 */
 	public void run() {
-		if(DEBUG) {
-			Log.i(TAG,"start thread");
-		}
+		if(DEBUG)  Log.i(TAG,"start thread");
 		while(isRunning ){
 			// do
 			backgroundTask();
 			// wait
 			try {Thread.sleep(INTERVAL);} catch (InterruptedException e) {}
 		}
-		if(DEBUG) {
-			Log.i(TAG,"stop thread");
-		}
+		if(DEBUG) Log.i(TAG,"stop thread");
 	}
 	
 	private void backgroundTask() {
-		if(DEBUG) {
-			Log.i(TAG,"tik");
-		}
+		if(DEBUG) Log.i(TAG,"tik");
 		maps.drawCars(context);
 	}
 

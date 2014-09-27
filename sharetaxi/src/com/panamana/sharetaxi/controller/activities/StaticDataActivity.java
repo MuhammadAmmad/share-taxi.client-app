@@ -1,7 +1,5 @@
 package com.panamana.sharetaxi.controller.activities;
 
-import java.util.Locale;
-
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -156,7 +154,6 @@ public class StaticDataActivity extends ActionBarActivity implements
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
 				return getString(R.string.KAV4);

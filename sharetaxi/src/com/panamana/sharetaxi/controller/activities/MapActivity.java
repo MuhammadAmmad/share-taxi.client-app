@@ -116,9 +116,7 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(DEBUG) {
-			Log.i(TAG, "onResume");
-		}
+		if(DEBUG) Log.i(TAG, "onResume");
 		// Check if update needed
 		if(DEBUG) Log.i(TAG,String.valueOf(SettingsActivity.settingVisited));
 		if (SettingsActivity.settingVisited) {
@@ -171,9 +169,7 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if(DEBUG) {
-			Log.i(TAG, "onPause");
-		}
+		if(DEBUG) Log.i(TAG, "onPause");
 		if (updater != null) {
 			updater.pause();
 		}
@@ -252,16 +248,11 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 	}
 	@ Override
 	public boolean onMarkerClick(Marker marker) {
-		Log.i(TAG,"clicked");
-		Log.i(TAG,"marker= "+ marker.toString());
 	
 		try {
 			Object [] markersArray = MapManager.markersMap.values().toArray();
 			int i = 0;
 			while (i<CarsWorker.cars.size() && i<markersArray.length) {
-//			Log.i(TAG,"cars.size="+CarsWorker.cars.size());
-//			Log.i(TAG,"from markeres array: "+((Marker_Arrow)(markersArray[i])).getMarker().toString());
-//				if (i < markersArray.length) {
 					// valid index
 					if(marker.equals(((Marker_Arrow) (markersArray[i])).getMarker())) {
 						// found the marker
@@ -269,17 +260,12 @@ public class MapActivity extends ActionBarActivity implements OnMarkerClickListe
 						Car carById = CarsWorker.cars.get(carID);
 						carById.updateEstimatedTime();
 						break;
-//					}
 					// marker not found yet
-//				} else {
-//					Log.w(TAG,"out of bounds of markerArray");
-//				}
 				}
 					
 					i++;
 			}
 		} catch (Exception e) {
-			Log.i(TAG,"new exception, markerArray");
 			e.printStackTrace();
 		}
 		return false;

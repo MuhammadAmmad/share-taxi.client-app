@@ -11,13 +11,12 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
-import android.location.Location;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.Marker;
 import com.panamana.sharetaxi.cars.locations.GetLocationsTask;
-import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParserTask;
 import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParser.LocationsJsonTags;
+import com.panamana.sharetaxi.cars.locations.parser.LocationsJSONParserTask;
 import com.panamana.sharetaxi.cars.objects.Car;
 import com.panamana.sharetaxi.controller.activities.MapActivity;
 import com.panamana.sharetaxi.model.maps.MapManager;
@@ -32,7 +31,7 @@ public class CarsWorker extends Thread {
 	// Constant:
 	private static final String TAG = CarsWorker.class.getSimpleName();
 	protected static final String MARKER_TITLE_PREFIX = "line";
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 //	public static final String [] linesToHide = {};
 
 	// Fields:

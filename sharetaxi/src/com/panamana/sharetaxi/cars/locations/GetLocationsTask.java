@@ -27,9 +27,7 @@ public class GetLocationsTask extends AsyncTask<String, Void, String> {
 	protected String doInBackground(String...params) {
 		URI uri = null;
 		String url= "http://sharetaxi6.appspot.com/getLocations";
-		if(DEBUG) {
-			Log.i(TAG ,"URL: "+url);
-		}
+		if(DEBUG) Log.i(TAG ,"URL: "+url);
 		try {
 			uri = new URI(url);
 		} catch (URISyntaxException use) {
@@ -38,9 +36,7 @@ public class GetLocationsTask extends AsyncTask<String, Void, String> {
 		} catch (RuntimeException rte) {
 			rte.printStackTrace();
 		}
-		if(DEBUG) {
-			Log.i(TAG ,"URI: "+uri);
-		}
+		if(DEBUG) Log.i(TAG ,"URI: "+uri);
 		HttpClient client = new DefaultHttpClient();
 		HttpGet getRequest = new HttpGet(uri);
 		HttpResponse httpResponse = null;
@@ -65,9 +61,7 @@ public class GetLocationsTask extends AsyncTask<String, Void, String> {
 		} catch (Exception e) {
 			Log.e("get locations - doInBackground", e.toString());
 		}
-		if(DEBUG) {
-			Log.i(TAG ,"response: "+response);
-		}
+		if(DEBUG) Log.i(TAG ,"response: "+response);
 		return response;
 	}
 

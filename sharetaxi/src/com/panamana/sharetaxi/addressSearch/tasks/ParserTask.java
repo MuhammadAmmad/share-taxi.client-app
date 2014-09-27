@@ -5,15 +5,14 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.panamana.sharetaxi.addressSearch.GeocodeJSONParser;
-import com.panamana.sharetaxi.lines.LINES;
-import com.panamana.sharetaxi.model.maps.MapManager;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.panamana.sharetaxi.addressSearch.GeocodeJSONParser;
+import com.panamana.sharetaxi.model.maps.MapManager;
 
 /** A class to parse the Geocoding Places in non-ui thread */
 public class ParserTask extends AsyncTask<String, Integer, List<HashMap<String,String>>>{

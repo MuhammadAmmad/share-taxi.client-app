@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Google Direction API response JSON parse AsyncTask
- * @author 
+ * @author naama 
  */
 public class DirectionJSONParserTask extends AsyncTask<String, Integer, List<List<LatLng>>> {
 
