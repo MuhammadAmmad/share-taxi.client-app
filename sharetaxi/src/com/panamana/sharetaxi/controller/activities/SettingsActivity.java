@@ -103,6 +103,8 @@ public class SettingsActivity extends ActionBarActivity {
 	}
 
 	private void clickOpenMap() {
+		startActivity(new Intent(this, MapActivity.class));
+
 		Toast.makeText(getApplicationContext(), getString(R.string.mapToastline), Toast.LENGTH_LONG).show();
 	}
 
