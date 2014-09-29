@@ -2,6 +2,7 @@ package com.panamana.sharetaxi.controller.activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -13,8 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.panamana.sharetaxi.R;
+import com.panamana.sharetaxi.controller.dialogs.DialogAbout;
 
 public class SettingsActivity extends ActionBarActivity {
 	
@@ -76,58 +79,49 @@ public class SettingsActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.action_map:
+			clickOpenMap();
 			return true;
+		case R.id.action_info:
+			clickOpenInfo();
+			return true;
+		case R.id.action_settings:
+			clickOpenSettings();
+			return true;
+			
+		case R.id.action_about:
+			clickAbout();
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
-	/*
-	@Override
-    protected void onResume() {
-      super.onResume();
-      // update checkboxes values
-      b1.setChecked(booleans[0]);
-      b2.setChecked(booleans[1]);
-      b3.setChecked(booleans[2]);
-      b4.setChecked(booleans[3]);
-      b5.setChecked(booleans[4]);
-      b6.setChecked(booleans[5]);
-    }
-	
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		
-		super.onSaveInstanceState(savedInstanceState);
-		
-		boolean[] checkBoxesValues = {b1.isChecked(),b2.isChecked(),b3.isChecked(),
-										b4.isChecked(),b5.isChecked(),b6.isChecked()};
-		//save checkboxes values
-		savedInstanceState.putBooleanArray("checkBoxesVals", checkBoxesValues);
+
+	private void clickAbout() {
+		new DialogAbout(this).show();
 	}
-	
-	@Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		
-		// restore checkboxes values
-		booleans = savedInstanceState.getBooleanArray("checkBoxesVals");
-        super.onRestoreInstanceState(savedInstanceState);
-    }*/
+
+	private void clickOpenMap() {
+		Toast.makeText(getApplicationContext(), getString(R.string.mapToastline), Toast.LENGTH_LONG).show();
+	}
+
+	private void clickOpenInfo() {
+		startActivity(new Intent(this, StaticDataActivity.class));
+		Toast.makeText(getApplicationContext(), getString(R.string.infoToastline), Toast.LENGTH_LONG).show();
+
+	}
+
+	private void clickOpenSettings() {
+		startActivity(new Intent(this, SettingsActivity.class));
+		Toast.makeText(getApplicationContext(), getString(R.string.settingToastline), Toast.LENGTH_LONG).show();
+
+	}
+
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
-	/*	booleans[0] = b1.isChecked();
-		booleans[1] = b2.isChecked();
-		booleans[2] = b3.isChecked();
-		booleans[3] = b4.isChecked();
-		booleans[4] = b5.isChecked();
-		booleans[5] = b6.isChecked();*/
-		
 		settingVisited = true;
 	}
 				
