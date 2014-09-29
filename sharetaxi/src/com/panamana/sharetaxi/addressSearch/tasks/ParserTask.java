@@ -14,7 +14,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.panamana.sharetaxi.addressSearch.GeocodeJSONParser;
 import com.panamana.sharetaxi.model.maps.MapManager;
 
-/** A class to parse the Geocoding Places in non-ui thread */
+/** A class to parse the Geocoding Places in non-ui thread
+ * @author naama 
+ *  
+ */
 public class ParserTask extends AsyncTask<String, Integer, List<HashMap<String,String>>>{
 
     JSONObject jObject;

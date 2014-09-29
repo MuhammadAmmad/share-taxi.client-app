@@ -10,7 +10,10 @@ import org.json.JSONObject;
  
 public class GeocodeJSONParser {
  
-    /** Receives a JSONObject and returns a list */
+    /** Receives a JSONObject and returns a list
+     * @author naama 
+     *  
+     */
     public List<HashMap<String,String>> parse(JSONObject jObject){
  
         JSONArray jPlaces = null;

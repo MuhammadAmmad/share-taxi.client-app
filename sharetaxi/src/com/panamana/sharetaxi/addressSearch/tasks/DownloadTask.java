@@ -13,7 +13,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-/** A class, to download Places from Geocoding webservice */
+/** A class, to download Places from Geocoding webservice 
+ * @author naama
+ *  
+ */
 public class DownloadTask extends AsyncTask<String, Integer, String>{
 
     String data = null;
